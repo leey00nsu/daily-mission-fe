@@ -1,0 +1,4 @@
+next-env.d.ts
+next.config.mjs
+postcss.config.mjs
+tailwind.config.ts
