@@ -3,5 +3,6 @@ next.config.mjs
 postcss.config.mjs
 tailwind.config.ts
 
+src/providers
 src/shared/ui
 
