@@ -1,9 +1,9 @@
 'use client';
 
-import cn from '@/lib/cn';
+import cn from '@/shared/lib/cn';
+import { Button } from '@/shared/ui/button';
 import { useRouter } from 'next/navigation';
 import { LuArrowLeft } from 'react-icons/lu';
-import { Button } from './button';
 
 type HeaderIcon = 'leftArrow';
 
