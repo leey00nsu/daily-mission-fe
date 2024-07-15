@@ -34,7 +34,7 @@ const Icon = (icon: HeaderIcon) => {
 
 const Header = ({ leftIcon, title, rightIcon }: HeaderProps) => {
   return (
-    <header className="sticky top-0 flex h-16 items-center justify-between bg-background">
+    <header className="fixed top-0 z-10 flex h-16 w-full max-w-2xl items-center justify-between bg-background p-4">
       <Button
         asChild
         variant="ghost"

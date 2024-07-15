@@ -1,7 +1,7 @@
 'use client';
 
 import { useSignUp } from '@/features/auth/api/use-auth-service';
-import ProfileImage from '@/features/user/ui/profile-image';
+import ProfileImage from '@/entities/user/ui/profile-image';
 import { Button } from '@/shared/ui/button';
 import {
   Form,

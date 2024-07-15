@@ -8,6 +8,15 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
