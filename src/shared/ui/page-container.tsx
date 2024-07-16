@@ -1,12 +1,6 @@
 import cn from '@/shared/lib/cn';
-import Header, { HeaderIcon } from '@/widgets/header/ui/header';
+import Header, { HeaderProps } from '@/widgets/header/ui/header';
 import Navigation from '@/widgets/navigation/ui/navigation';
-
-interface HeaderOptions {
-  leftIcon?: HeaderIcon;
-  title: string;
-  rightIcon?: HeaderIcon;
-}
 
 interface PageContainerPropsBase {
   navigationShown?: boolean;
@@ -16,7 +10,7 @@ interface PageContainerPropsBase {
 
 interface PageContainerPropsWithHeader extends PageContainerPropsBase {
   headerShown: true;
-  headerOptions: HeaderOptions;
+  headerOptions: HeaderProps;
 }
 
 interface PageContainerPropsWithoutHeader extends PageContainerPropsBase {
@@ -35,14 +29,15 @@ const PageContainer = ({
   className,
   children,
 }: PageContainerProps) => {
+  const headerFixed = headerOptions?.fixed ?? true;
   return (
-    <main className="flex min-h-screen justify-center">
+    <main className="flex min-h-screen flex-col items-center justify-center">
       {headerShown && headerOptions && <Header {...headerOptions} />}
       <div
         className={cn(
-          headerShown && 'mt-16',
+          headerShown && headerFixed && 'mt-16',
           navigationShown && 'mb-16',
-          'relative flex max-w-2xl grow flex-col p-4',
+          'relative flex w-full max-w-2xl grow flex-col p-4',
           className,
         )}
       >
