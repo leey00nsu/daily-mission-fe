@@ -4,25 +4,20 @@ import {
   CardDescription,
   CardHeader,
 } from '@/shared/ui/card';
+import { Mission } from '@/types/mission';
 import Image from 'next/image';
 
 interface MissionCardProps {
-  date: string;
-  title: string;
-  description: string;
-  imageUrl: string;
+  mission: Mission;
 }
 
-const MissionCard = ({
-  date,
-  title,
-  description,
-  imageUrl,
-}: MissionCardProps) => {
+const MissionCard = ({ mission }: MissionCardProps) => {
+  const { title, description, date, imageUrl } = mission;
+
   return (
     <Card>
       <CardHeader>
-        <CardDescription>{date}</CardDescription>
+        <CardDescription>{date.from}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">

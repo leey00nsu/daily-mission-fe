@@ -5,31 +5,79 @@ const MissionListTab = () => {
   const allMissions = [
     {
       id: '1',
-      date: '2024-09-01',
+      date: {
+        from: '2024-09-01',
+        to: '2024-09-02',
+      },
       imageUrl: 'https://placehold.co/600?text=Mission1',
       title: '미션 1 제목',
       description: '미션1 설명',
+      rules: {
+        mon: true,
+        tue: false,
+        wed: true,
+        thu: false,
+        fri: true,
+        sat: false,
+        sun: true,
+      },
     },
     {
       id: '2',
-      date: '2024-09-02',
+      date: {
+        from: '2024-09-01',
+        to: '2024-09-02',
+      },
       imageUrl: 'https://placehold.co/600?text=Mission2',
       title: '미션 2 제목',
       description: '미션2 설명',
+      rules: {
+        mon: true,
+        tue: false,
+        wed: true,
+        thu: false,
+        fri: true,
+        sat: false,
+        sun: true,
+      },
     },
     {
       id: '3',
-      date: '2024-09-03',
+      date: {
+        from: '2024-09-01',
+        to: '2024-09-02',
+      },
       imageUrl: 'https://placehold.co/600?text=Mission3',
       title: '미션 3 제목',
       description: '미션3 설명',
+      rules: {
+        mon: true,
+        tue: false,
+        wed: true,
+        thu: false,
+        fri: true,
+        sat: false,
+        sun: true,
+      },
     },
     {
       id: '4',
-      date: '2024-09-04',
+      date: {
+        from: '2024-09-01',
+        to: '2024-09-02',
+      },
       imageUrl: 'https://placehold.co/600?text=Mission4',
       title: '미션 4 제목',
       description: '미션4 설명',
+      rules: {
+        mon: true,
+        tue: false,
+        wed: true,
+        thu: false,
+        fri: true,
+        sat: false,
+        sun: true,
+      },
     },
   ];
 
