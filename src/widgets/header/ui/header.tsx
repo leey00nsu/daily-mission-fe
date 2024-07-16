@@ -9,7 +9,7 @@ export type HeaderIcon = 'leftArrow';
 
 export interface HeaderProps {
   leftIcon?: HeaderIcon;
-  title: string;
+  title: string | React.ReactNode;
   rightIcon?: HeaderIcon;
   fixed?: boolean;
 }
@@ -39,6 +39,16 @@ const Properties = (icon?: HeaderIcon) => {
   }
 };
 
+const Title = (title: string | React.ReactNode) => {
+  switch (typeof title) {
+    case 'string':
+      return <h1 className="text-2xl font-bold">{title}</h1>;
+
+    default:
+      return title;
+  }
+};
+
 const Header = ({ leftIcon, title, rightIcon, fixed = true }: HeaderProps) => {
   return (
     <header
@@ -55,9 +65,7 @@ const Header = ({ leftIcon, title, rightIcon, fixed = true }: HeaderProps) => {
       >
         {Icon(leftIcon)}
       </Button>
-      <div>
-        <h1 className="text-2xl font-bold">{title}</h1>
-      </div>
+      <div>{Title(title)}</div>
       <Button
         variant="ghost"
         type="button"
