@@ -1,11 +1,29 @@
+'use client';
+
 import cn from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
 import { Week } from '@/types/mission';
 
-interface WeekCheckboxGroupProps {
-  value: Week;
-  onChange: (value: Week) => void;
+interface WeekCheckboxGroupBaseProps {
+  week: Week;
+  readonly?: boolean;
 }
+
+interface WeekCheckboxGroupWithOnChangeProps
+  extends WeekCheckboxGroupBaseProps {
+  readonly?: false;
+  onChange: (week: Week) => void;
+}
+
+interface WeekCheckboxGroupWithoutOnChangeProps
+  extends WeekCheckboxGroupBaseProps {
+  readonly: true;
+  onChange?: never;
+}
+
+type WeekCheckboxGroupProps =
+  | WeekCheckboxGroupWithOnChangeProps
+  | WeekCheckboxGroupWithoutOnChangeProps;
 
 const KR_DAYS: {
   [key: string]: string;
@@ -19,24 +37,30 @@ const KR_DAYS: {
   sun: '일',
 };
 
-const WeekCheckboxGroup = ({ value, onChange }: WeekCheckboxGroupProps) => {
+const WeekCheckboxGroup = ({ week, onChange }: WeekCheckboxGroupProps) => {
+  const changeHandler = (day: string) => {
+    if (onChange) {
+      onChange({ ...week, [day]: !week[day] });
+    }
+  };
+
   return (
     <div className="flex justify-between gap-1">
-      {Object.keys(value).map((day) => (
+      {Object.keys(week).map((day) => (
         <Button
           type="button"
           variant="ghost"
           key={day}
-          onClick={() => onChange({ ...value, [day]: !value[day] })}
+          onClick={() => changeHandler(day)}
           className={cn(
             'flex grow flex-col items-center justify-center rounded-md px-4 py-2',
-            value[day] ? 'bg-muted' : 'bg-transparent',
+            week[day] ? 'bg-muted' : 'bg-transparent',
           )}
         >
           <p
             className={cn(
               'text-sm',
-              value[day] ? 'text-foreground' : 'text-muted-foreground',
+              week[day] ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             {KR_DAYS[day]}

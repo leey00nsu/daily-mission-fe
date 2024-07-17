@@ -200,7 +200,7 @@ const NewMissionForm = () => {
                 미션을 수행할 요일을 선택해주세요.
               </FormDescription>
               <FormControl>
-                <WeekCheckboxGroup value={value} onChange={onChange} />
+                <WeekCheckboxGroup week={value} onChange={onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
