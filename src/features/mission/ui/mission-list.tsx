@@ -1,8 +1,8 @@
 import MissionCard from '@/entities/mission/ui/mission-card';
-import { Mission } from '@/types/mission';
+import { MissionCard as MissionCardType } from '@/types/mission';
 
 interface MissionListProps {
-  missions: Mission[];
+  missions: MissionCardType[];
 }
 
 const MissionList = ({ missions }: MissionListProps) => {

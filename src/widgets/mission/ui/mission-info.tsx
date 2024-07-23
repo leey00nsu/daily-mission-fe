@@ -12,7 +12,7 @@ interface MissionInfoProps {
 }
 
 const MissionInfo = ({ mission }: MissionInfoProps) => {
-  const { imageUrl, title, description, date, rules } = mission;
+  const { imgUrl, title, content, startDate, endDate, week } = mission;
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-4">
@@ -20,7 +20,7 @@ const MissionInfo = ({ mission }: MissionInfoProps) => {
         <Image
           fill
           alt="mission image"
-          src={imageUrl}
+          src={imgUrl}
           className="object-cover"
           unoptimized
         />
@@ -33,20 +33,20 @@ const MissionInfo = ({ mission }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 설명</h3>
-        <p>{description}</p>
+        <p>{content}</p>
       </div>
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 규칙</h3>
-        <WeekCheckboxGroup week={rules} readonly />
+        <WeekCheckboxGroup week={week} readonly />
       </div>
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 날짜</h3>
         <div className="flex w-full items-center gap-2">
-          <Input readOnly type="date" value={date.from} />
+          <Input readOnly type="date" value={startDate} />
           <LuChevronRight className="h-8 w-8" />
-          <Input readOnly type="date" value={date.to} />
+          <Input readOnly type="date" value={endDate} />
         </div>
       </div>
 

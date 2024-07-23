@@ -31,9 +31,9 @@ const PageContainer = ({
 }: PageContainerProps) => {
   const headerFixed = headerOptions?.fixed ?? true;
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center">
       {headerShown && headerOptions && <Header {...headerOptions} />}
-      <div
+      <main
         className={cn(
           headerShown && headerFixed && 'mt-16',
           navigationShown && 'mb-16',
@@ -42,9 +42,9 @@ const PageContainer = ({
         )}
       >
         {children}
-      </div>
+      </main>
       {navigationShown && <Navigation />}
-    </main>
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import { AutosizeTextarea } from '@/shared/ui/autosize-textarea';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 
+import MissionCreateModal from '@/features/mission/ui/mission-create-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import {
@@ -16,12 +17,10 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import {
-  NewMissionSchema,
-  NewMissionForm as NewMissonFormType,
-} from '@/types/mission';
+import { CreateMissionRequest, CreateMissionSchema } from '@/types/mission';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
+import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
@@ -29,16 +28,16 @@ import { LuChevronRight } from 'react-icons/lu';
 const NewMissionForm = () => {
   const [imageSrc, setImageSrc] = useState('');
 
-  const form = useForm<NewMissonFormType>({
-    resolver: zodResolver(NewMissionSchema),
+  const form = useForm<CreateMissionRequest>({
+    resolver: zodResolver(CreateMissionSchema),
     defaultValues: {
       date: {
-        from: undefined,
-        to: undefined,
+        startDate: undefined,
+        endDate: undefined,
       },
       title: '',
-      description: '',
-      rules: {
+      content: '',
+      week: {
         mon: false,
         tue: false,
         wed: false,
@@ -50,8 +49,12 @@ const NewMissionForm = () => {
     },
   });
 
-  const onSubmit = (data: NewMissonFormType) => {
-    console.log(data);
+  const onSubmit = (data: CreateMissionRequest) => {
+    overlay.open(({ isOpen, close }) => {
+      return (
+        <MissionCreateModal formData={data} isOpen={isOpen} onClose={close} />
+      );
+    });
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,13 +121,13 @@ const NewMissionForm = () => {
 
         <FormField
           control={form.control}
-          name="description"
+          name="content"
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>미션 설명</FormLabel>
               <FormControl>
                 <AutosizeTextarea
-                  id="description"
+                  id="content"
                   placeholder="미션 설명을 입력해주세요."
                   className="resize-none"
                   {...field}
@@ -148,10 +151,15 @@ const NewMissionForm = () => {
                     before: new Date(),
                   }}
                   selected={{
-                    from: value.from!,
-                    to: value.to!,
+                    from: value.startDate,
+                    to: value.endDate,
                   }}
-                  onSelect={onChange}
+                  onSelect={(date) => {
+                    onChange({
+                      startDate: date?.from,
+                      endDate: date?.to,
+                    });
+                  }}
                   className="justify-center rounded-md border"
                 />
               </FormControl>
@@ -170,8 +178,8 @@ const NewMissionForm = () => {
                     readOnly
                     type="date"
                     value={
-                      value && value.from
-                        ? format(value.from, 'yyyy-MM-dd')
+                      value && value.startDate
+                        ? format(value.startDate, 'yyyy-MM-dd')
                         : ''
                     }
                   />
@@ -180,7 +188,9 @@ const NewMissionForm = () => {
                     readOnly
                     type="date"
                     value={
-                      value && value.to ? format(value.to, 'yyyy-MM-dd') : ''
+                      value && value.endDate
+                        ? format(value.endDate, 'yyyy-MM-dd')
+                        : ''
                     }
                   />
                 </div>
@@ -192,7 +202,7 @@ const NewMissionForm = () => {
 
         <FormField
           control={form.control}
-          name="rules"
+          name="week"
           render={({ field: { value, onChange } }) => (
             <FormItem className="w-full">
               <FormLabel>미션 규칙</FormLabel>
