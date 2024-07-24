@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+export interface Participant {
+  id: number;
+  userName: string;
+  imgUrl: string;
+  banned: boolean;
+}
+
 export const SignUpSchema = z.object({
   email: z.string().email({
     message: '이메일 형식이 올바르지 않습니다.',

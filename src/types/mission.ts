@@ -1,3 +1,4 @@
+import { Participant } from '@/types/user';
 import { z } from 'zod';
 
 export interface Week {
@@ -12,18 +13,21 @@ export interface Week {
 }
 
 export interface Mission {
-  id: string;
+  userName: string;
+  id: number;
   title: string;
-  description: string;
-  imageUrl: string;
-  date: {
-    from: string;
-    to: string;
-  };
-  rules: Week;
+  content: string;
+  imgUrl: string;
+  startDate: string;
+  endDate: string;
+  week: Week;
+  participants: Participant[];
 }
 
-export const NewMissionSchema = z.object({
+export interface MissionCard
+  extends Pick<Mission, 'id' | 'title' | 'content' | 'endDate' | 'imgUrl'> {}
+
+export const CreateMissionSchema = z.object({
   title: z
     .string()
     .min(2, {
@@ -32,7 +36,7 @@ export const NewMissionSchema = z.object({
     .max(20, {
       message: '미션 제목은 2글자 이상 20글자 이하여야 합니다.',
     }),
-  description: z.string().min(2, {
+  content: z.string().min(2, {
     message: '미션 설명은 2글자 이상이여야 합니다.',
   }),
   image: z.instanceof(File, {
@@ -41,17 +45,17 @@ export const NewMissionSchema = z.object({
   date: z
     .object(
       {
-        from: z.date().optional(),
-        to: z.date().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
       },
       {
         message: '시작일과 종료일을 모두 입력해주세요',
       },
     )
-    .refine((data) => data.from && data.to, {
+    .refine((data) => data.startDate && data.endDate, {
       message: '시작일과 종료일을 모두 입력해주세요',
     }),
-  rules: z
+  week: z
     .object({
       mon: z.boolean(),
       tue: z.boolean(),
@@ -71,4 +75,25 @@ export const NewMissionSchema = z.object({
     ),
 });
 
-export type NewMissionForm = z.infer<typeof NewMissionSchema>;
+export type CreateMissionRequest = z.infer<typeof CreateMissionSchema>;
+
+export interface CreateMissionResponse {
+  credential: string;
+}
+
+export interface GetMissionRequest {
+  id: number;
+}
+export interface GetMissionResponse extends Mission {}
+
+export const JoinMissionSchema = z.object({
+  credential: z.string({
+    message: '참여 코드를 입력해주세요',
+  }),
+});
+
+export type JoinMissionRequest = z.infer<typeof JoinMissionSchema>;
+
+export interface JoinMissionResponse {
+  ok: boolean;
+}
