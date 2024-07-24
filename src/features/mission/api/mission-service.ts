@@ -1,3 +1,4 @@
+import { ALL_MISSIONS } from '@/entities/mission/constants/mock-mission';
 import { CreateMissionRequest } from '@/types/mission';
 import { format } from 'date-fns';
 import { delay } from 'es-toolkit';
@@ -25,4 +26,19 @@ export const createMission = async (request: CreateMissionRequest) => {
   return {
     credential: 'test-credential',
   };
+};
+
+export const getMission = async (id: number) => {
+  // const response = await fetch(`/api/mission/${id}`);
+  // const data = await response.json();
+
+  await delay(1000);
+
+  const selectedMission = ALL_MISSIONS.find((mission) => mission.id === id);
+
+  if (!selectedMission) {
+    throw new Error('Failed to get mission');
+  }
+
+  return selectedMission;
 };

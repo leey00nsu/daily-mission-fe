@@ -9,13 +9,14 @@ import Image from 'next/image';
 
 interface MissionCardProps {
   mission: MissionCardType;
+  onClick?: () => void;
 }
 
-const MissionCard = ({ mission }: MissionCardProps) => {
+const MissionCard = ({ mission, onClick }: MissionCardProps) => {
   const { title, content, endDate, imgUrl } = mission;
 
   return (
-    <Card>
+    <Card onClick={onClick}>
       <CardHeader>
         <CardDescription>{endDate}</CardDescription>
       </CardHeader>

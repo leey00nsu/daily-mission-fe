@@ -14,7 +14,7 @@ export interface Week {
 
 export interface Mission {
   userName: string;
-  id: string;
+  id: number;
   title: string;
   content: string;
   imgUrl: string;
@@ -80,3 +80,8 @@ export type CreateMissionRequest = z.infer<typeof CreateMissionSchema>;
 export interface CreateMissionResponse {
   credential: string;
 }
+
+export interface GetMissionRequest {
+  id: number;
+}
+export interface GetMissionResponse extends Mission {}

@@ -1,6 +1,6 @@
 export const ALL_MISSIONS = [
   {
-    id: '1',
+    id: 1,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
     imgUrl: 'https://placehold.co/600?text=Mission1',
@@ -15,9 +15,18 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
+    userName: 'John Doe',
+    participants: [
+      {
+        id: 1,
+        userName: 'John Doe',
+        imgUrl: 'https://example.com/user1.jpg',
+        banned: false,
+      },
+    ],
   },
   {
-    id: '2',
+    id: 2,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
     imgUrl: 'https://placehold.co/600?text=Mission2',
@@ -32,9 +41,18 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
+    userName: 'John Doe',
+    participants: [
+      {
+        id: 1,
+        userName: 'John Doe',
+        imgUrl: 'https://example.com/user1.jpg',
+        banned: false,
+      },
+    ],
   },
   {
-    id: '3',
+    id: 3,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
     imgUrl: 'https://placehold.co/600?text=Mission3',
@@ -49,9 +67,18 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
+    userName: 'John Doe',
+    participants: [
+      {
+        id: 1,
+        userName: 'John Doe',
+        imgUrl: 'https://example.com/user1.jpg',
+        banned: false,
+      },
+    ],
   },
   {
-    id: '4',
+    id: 4,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
     imgUrl: 'https://placehold.co/600?text=Mission4',
@@ -66,5 +93,14 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
+    userName: 'John Doe',
+    participants: [
+      {
+        id: 1,
+        userName: 'John Doe',
+        imgUrl: 'https://example.com/user1.jpg',
+        banned: false,
+      },
+    ],
   },
 ];

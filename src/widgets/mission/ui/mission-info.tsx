@@ -3,12 +3,12 @@ import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Input } from '@/shared/ui/input';
-import { Mission } from '@/types/mission';
+import { GetMissionResponse } from '@/types/mission';
 import Image from 'next/image';
 import { LuChevronRight } from 'react-icons/lu';
 
 interface MissionInfoProps {
-  mission: Mission;
+  mission: GetMissionResponse;
 }
 
 const MissionInfo = ({ mission }: MissionInfoProps) => {
