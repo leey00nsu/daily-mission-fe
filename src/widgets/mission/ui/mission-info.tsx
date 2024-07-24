@@ -2,9 +2,11 @@ import { POSTS } from '@/entities/mission/constants/mock-post';
 import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import AvatarGroup from '@/shared/ui/avatar-group';
+import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { GetMissionResponse } from '@/types/mission';
 import Image from 'next/image';
+import Link from 'next/link';
 import { LuChevronRight } from 'react-icons/lu';
 
 interface MissionInfoProps {
@@ -12,10 +14,10 @@ interface MissionInfoProps {
 }
 
 const MissionInfo = ({ mission }: MissionInfoProps) => {
-  const { imgUrl, title, content, startDate, endDate, week } = mission;
+  const { id, imgUrl, title, content, startDate, endDate, week } = mission;
 
   return (
-    <section className="flex w-full flex-col items-center justify-center gap-4">
+    <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
       <div className="relative h-64 w-full">
         <Image
           fill
@@ -58,6 +60,12 @@ const MissionInfo = ({ mission }: MissionInfoProps) => {
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 포스트</h3>
         <MissionPostList posts={POSTS} />
+      </div>
+
+      <div className="fixed bottom-0 w-full max-w-2xl p-4">
+        <Button asChild className="w-full">
+          <Link href={`/mission/join?id=${id}`}>미션 참여하기</Link>
+        </Button>
       </div>
     </section>
   );

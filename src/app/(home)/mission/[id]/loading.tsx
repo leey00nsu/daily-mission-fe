@@ -2,7 +2,6 @@ import PageContainer from '@/shared/ui/page-container';
 import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
 
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
   return (
     <PageContainer
       headerShown

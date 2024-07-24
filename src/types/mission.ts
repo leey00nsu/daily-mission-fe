@@ -85,3 +85,15 @@ export interface GetMissionRequest {
   id: number;
 }
 export interface GetMissionResponse extends Mission {}
+
+export const JoinMissionSchema = z.object({
+  credential: z.string({
+    message: '참여 코드를 입력해주세요',
+  }),
+});
+
+export type JoinMissionRequest = z.infer<typeof JoinMissionSchema>;
+
+export interface JoinMissionResponse {
+  ok: boolean;
+}

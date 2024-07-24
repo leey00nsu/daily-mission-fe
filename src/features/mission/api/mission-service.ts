@@ -1,5 +1,5 @@
 import { ALL_MISSIONS } from '@/entities/mission/constants/mock-mission';
-import { CreateMissionRequest } from '@/types/mission';
+import { CreateMissionRequest, JoinMissionRequest } from '@/types/mission';
 import { format } from 'date-fns';
 import { delay } from 'es-toolkit';
 
@@ -41,4 +41,22 @@ export const getMission = async (id: number) => {
   }
 
   return selectedMission;
+};
+
+export const joinMission = async (request: JoinMissionRequest) => {
+  // const response = await fetch('/api/participant/join', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(request),
+  // });
+
+  console.log(request);
+
+  await delay(1000);
+
+  return {
+    ok: true,
+  };
 };

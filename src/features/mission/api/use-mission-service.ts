@@ -1,12 +1,15 @@
 import {
   createMission,
   getMission,
+  joinMission,
 } from '@/features/mission/api/mission-service';
 import {
   CreateMissionRequest,
   CreateMissionResponse,
   GetMissionRequest,
   GetMissionResponse,
+  JoinMissionRequest,
+  JoinMissionResponse,
 } from '@/types/mission';
 
 import {
@@ -48,6 +51,20 @@ export const useGetMission = (
   return useQuery({
     queryKey: queryKeys.mission(id),
     queryFn: () => getMission(id),
+    ...props,
+  });
+};
+
+export const useJoinMission = (
+  props?: UseMutationOptions<
+    JoinMissionResponse,
+    unknown,
+    JoinMissionRequest,
+    unknown
+  >,
+) => {
+  return useMutation({
+    mutationFn: joinMission,
     ...props,
   });
 };
