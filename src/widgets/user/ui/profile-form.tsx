@@ -1,6 +1,5 @@
 'use client';
 
-import { useSignUp } from '@/features/auth/api/use-auth-service';
 import ProfileImage from '@/entities/user/ui/profile-image';
 import { Button } from '@/shared/ui/button';
 import {
@@ -14,20 +13,12 @@ import {
 import { Input } from '@/shared/ui/input';
 import { SignUpForm, SignUpSchema } from '@/types/user';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuLoader2 } from 'react-icons/lu';
 
 const ProfileForm = () => {
   const [imageSrc, setImageSrc] = useState('');
-  const router = useRouter();
-
-  const { mutate: signUp, isPending } = useSignUp({
-    onSuccess: () => {
-      router.push('/');
-    },
-  });
 
   const form = useForm<SignUpForm>({
     resolver: zodResolver(SignUpSchema),
@@ -37,8 +28,10 @@ const ProfileForm = () => {
     },
   });
 
+  const a;
+
   const onSubmit = (data: SignUpForm) => {
-    signUp(data);
+    console.log(data);
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +115,7 @@ const ProfileForm = () => {
         />
 
         <Button className="w-full">
-          {isPending ? <LuLoader2 className="animate-spin" /> : '회원가입'}
+          {a ? <LuLoader2 className="animate-spin" /> : '회원가입'}
         </Button>
       </form>
     </Form>

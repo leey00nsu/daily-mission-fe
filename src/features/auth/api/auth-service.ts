@@ -1,14 +1,7 @@
+import { MOCK_USER } from '@/entities/user/constants/mock-user';
 import { mockSignIn } from '@/features/auth/api/mock-sign-in';
-import { SignUpForm } from '@/types/user';
 
-export const signUp = async (data: SignUpForm) => {
-  const formData = new FormData();
-
-  formData.append('email', data.email);
-  formData.append('nickname', data.nickname);
-  if (data.image) {
-    formData.append('image', data.image);
-  }
+export const signUp = async () => {
   // const response = await fetch('/api/auth/sign-up', {
   //   method: 'POST',
   //   headers: {
@@ -21,7 +14,7 @@ export const signUp = async (data: SignUpForm) => {
   //   throw new Error('Failed to sign up');
   // }
 
-  const response = await mockSignIn(formData);
+  await mockSignIn();
 
-  return JSON.parse(response);
+  return MOCK_USER;
 };

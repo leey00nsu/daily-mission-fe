@@ -1,9 +1,12 @@
 import { z } from 'zod';
 
-export interface Participant {
+export interface User {
   id: number;
   userName: string;
   imgUrl: string;
+}
+
+export interface Participant extends User {
   banned: boolean;
 }
 
