@@ -1,13 +1,16 @@
 import { z } from 'zod';
 
-export interface Participant {
+export interface User {
   id: number;
   userName: string;
   imgUrl: string;
+}
+
+export interface Participant extends User {
   banned: boolean;
 }
 
-export const SignUpSchema = z.object({
+export const UpdateProfileSchema = z.object({
   email: z.string().email({
     message: '이메일 형식이 올바르지 않습니다.',
   }),
@@ -22,4 +25,5 @@ export const SignUpSchema = z.object({
   image: z.instanceof(File).optional(),
 });
 
-export type SignUpForm = z.infer<typeof SignUpSchema>;
+export type UpdateProfileRequest = z.infer<typeof UpdateProfileSchema>;
+export interface UpdateProfileResponse extends User {}

@@ -1,7 +1,7 @@
 'use client';
 
-import { useSignUp } from '@/features/auth/api/use-auth-service';
 import ProfileImage from '@/entities/user/ui/profile-image';
+import { useUpdateProfile } from '@/features/user/api/use-user-service';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -12,33 +12,28 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { SignUpForm, SignUpSchema } from '@/types/user';
+import { UpdateProfileRequest, UpdateProfileSchema } from '@/types/user';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuLoader2 } from 'react-icons/lu';
 
 const ProfileForm = () => {
   const [imageSrc, setImageSrc] = useState('');
-  const router = useRouter();
 
-  const { mutate: signUp, isPending } = useSignUp({
-    onSuccess: () => {
-      router.push('/');
-    },
-  });
+  const { mutate: updateProfile, isPending } = useUpdateProfile();
 
-  const form = useForm<SignUpForm>({
-    resolver: zodResolver(SignUpSchema),
+  const form = useForm<UpdateProfileRequest>({
+    resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
       email: '',
       nickname: '',
     },
   });
 
-  const onSubmit = (data: SignUpForm) => {
-    signUp(data);
+  const onSubmit = (data: UpdateProfileRequest) => {
+    updateProfile(data);
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
