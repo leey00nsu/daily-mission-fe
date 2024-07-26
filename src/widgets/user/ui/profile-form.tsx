@@ -1,6 +1,7 @@
 'use client';
 
 import ProfileImage from '@/entities/user/ui/profile-image';
+import { useUpdateProfile } from '@/features/user/api/use-user-service';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -11,7 +12,8 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { SignUpForm, SignUpSchema } from '@/types/user';
+import { UpdateProfileRequest, UpdateProfileSchema } from '@/types/user';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,18 +22,18 @@ import { LuLoader2 } from 'react-icons/lu';
 const ProfileForm = () => {
   const [imageSrc, setImageSrc] = useState('');
 
-  const form = useForm<SignUpForm>({
-    resolver: zodResolver(SignUpSchema),
+  const { mutate: updateProfile, isPending } = useUpdateProfile();
+
+  const form = useForm<UpdateProfileRequest>({
+    resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
       email: '',
       nickname: '',
     },
   });
 
-  const a;
-
-  const onSubmit = (data: SignUpForm) => {
-    console.log(data);
+  const onSubmit = (data: UpdateProfileRequest) => {
+    updateProfile(data);
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +117,7 @@ const ProfileForm = () => {
         />
 
         <Button className="w-full">
-          {a ? <LuLoader2 className="animate-spin" /> : '회원가입'}
+          {isPending ? <LuLoader2 className="animate-spin" /> : '회원가입'}
         </Button>
       </form>
     </Form>
