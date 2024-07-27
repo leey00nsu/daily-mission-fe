@@ -2,6 +2,7 @@
 
 import ProfileImage from '@/entities/user/ui/profile-image';
 import { useUpdateProfile } from '@/features/user/api/use-user-service';
+import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -18,6 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuLoader2 } from 'react-icons/lu';
+import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ProfileForm = () => {
   const [imageSrc, setImageSrc] = useState('');
@@ -59,7 +61,13 @@ const ProfileForm = () => {
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem>
               <FormLabel htmlFor="profile-image">
-                <ProfileImage imageSrc={imageSrc} />
+                <Badge
+                  variant="outline"
+                  content={<MdAddPhotoAlternate />}
+                  position="bottomRight"
+                >
+                  <ProfileImage imageSrc={imageSrc} />
+                </Badge>
               </FormLabel>
               <FormControl>
                 <Input
