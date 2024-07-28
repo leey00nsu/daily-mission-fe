@@ -32,7 +32,7 @@ const Navigation = () => {
         </Link>
       </Button>
       <Button asChild variant="ghost" className="h-10 w-10 p-2">
-        <Link href="/">
+        <Link href="/profile">
           <LuUser className="h-full w-full" />
         </Link>
       </Button>

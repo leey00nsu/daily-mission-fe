@@ -1,7 +1,11 @@
 'use client';
 
 import ProfileImage from '@/entities/user/ui/profile-image';
-import { useUpdateProfile } from '@/features/user/api/use-user-service';
+import {
+  useGetProfile,
+  useUpdateProfile,
+} from '@/features/user/api/use-user-service';
+import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import {
   Form,
@@ -18,17 +22,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuLoader2 } from 'react-icons/lu';
+import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ProfileForm = () => {
-  const [imageSrc, setImageSrc] = useState('');
+  const { data: user } = useGetProfile();
+
+  const [imageSrc, setImageSrc] = useState(user?.imageUrl || '');
 
   const { mutate: updateProfile, isPending } = useUpdateProfile();
 
   const form = useForm<UpdateProfileRequest>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
-      email: '',
-      nickname: '',
+      email: user?.email,
+      name: user?.name,
     },
   });
 
@@ -59,7 +66,13 @@ const ProfileForm = () => {
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem>
               <FormLabel htmlFor="profile-image">
-                <ProfileImage imageSrc={imageSrc} />
+                <Badge
+                  variant="outline"
+                  content={<MdAddPhotoAlternate />}
+                  position="bottomRight"
+                >
+                  <ProfileImage imageSrc={imageSrc} />
+                </Badge>
               </FormLabel>
               <FormControl>
                 <Input
@@ -99,14 +112,14 @@ const ProfileForm = () => {
 
         <FormField
           control={form.control}
-          name="nickname"
+          name="name"
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>닉네임</FormLabel>
               <FormControl>
                 <Input
                   type="text"
-                  id="nickname"
+                  id="name"
                   placeholder="닉네임을 입력해주세요."
                   {...field}
                 />
@@ -117,7 +130,7 @@ const ProfileForm = () => {
         />
 
         <Button className="w-full">
-          {isPending ? <LuLoader2 className="animate-spin" /> : '회원가입'}
+          {isPending ? <LuLoader2 className="animate-spin" /> : '저장'}
         </Button>
       </form>
     </Form>

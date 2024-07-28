@@ -1,5 +1,6 @@
 export const MOCK_USER = {
   id: 1,
-  userName: 'mock',
-  imgUrl: 'https://example.com/mock.jpg',
+  email: 'mock@mock.com',
+  name: 'mock',
+  imageUrl: 'https://placehold.co/600x400?text=Mock',
 };
