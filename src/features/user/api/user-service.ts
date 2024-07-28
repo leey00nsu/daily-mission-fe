@@ -6,7 +6,7 @@ export const updateProfile = async (request: UpdateProfileRequest) => {
   const formData = new FormData();
 
   formData.append('email', request.email);
-  formData.append('nickname', request.nickname);
+  formData.append('name', request.name);
 
   if (request.image) {
     formData.append('file', request.image);
@@ -23,6 +23,15 @@ export const updateProfile = async (request: UpdateProfileRequest) => {
   // if (!response.ok) {
   //   throw new Error('Failed to sign up');
   // }
+
+  await delay(1000);
+
+  return MOCK_USER;
+};
+
+export const getProfile = async () => {
+  // const response = await fetch('/api/user');
+  // const data = await response.json();
 
   await delay(1000);
 

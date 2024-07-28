@@ -18,9 +18,9 @@ export const ALL_MISSIONS = [
     userName: 'John Doe',
     participants: [
       {
-        id: 1,
-        userName: 'John Doe',
-        imgUrl: 'https://example.com/user1.jpg',
+        name: 'John Doe',
+        email: 'John@doe.com',
+        imageUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
@@ -44,9 +44,9 @@ export const ALL_MISSIONS = [
     userName: 'John Doe',
     participants: [
       {
-        id: 1,
-        userName: 'John Doe',
-        imgUrl: 'https://example.com/user1.jpg',
+        name: 'John Doe',
+        email: 'John@doe.com',
+        imageUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
@@ -70,9 +70,9 @@ export const ALL_MISSIONS = [
     userName: 'John Doe',
     participants: [
       {
-        id: 1,
-        userName: 'John Doe',
-        imgUrl: 'https://example.com/user1.jpg',
+        name: 'John Doe',
+        email: 'John@doe.com',
+        imageUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
@@ -96,9 +96,9 @@ export const ALL_MISSIONS = [
     userName: 'John Doe',
     participants: [
       {
-        id: 1,
-        userName: 'John Doe',
-        imgUrl: 'https://example.com/user1.jpg',
+        name: 'John Doe',
+        email: 'John@doe.com',
+        imageUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
