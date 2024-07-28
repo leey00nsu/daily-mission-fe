@@ -31,7 +31,7 @@ const MissionDetail = async ({ pageId }: MissionDetailProps) => {
             leftIcon: 'leftArrow',
           }}
         >
-          <MissionInfo mission={mission} />
+          <MissionInfo pageId={pageId} />
         </PageContainer>
       </HydrationBoundary>
     );

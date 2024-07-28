@@ -1,8 +1,7 @@
 import { queryOptions } from '@/features/user/api/use-user-service';
-import UserProfile from '@/features/user/ui/user-profile';
 import PageContainer from '@/shared/ui/page-container';
-import ProfileMenu from '@/widgets/user/ui/profile-menu';
 
+import ProfileDashboard from '@/widgets/user/ui/profile-dashboard';
 import {
   dehydrate,
   HydrationBoundary,
@@ -29,8 +28,7 @@ const Profile = async () => {
           }}
           navigationShown
         >
-          <UserProfile user={user} />
-          <ProfileMenu />
+          <ProfileDashboard />
         </PageContainer>
       </HydrationBoundary>
     );

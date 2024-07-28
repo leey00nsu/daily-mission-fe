@@ -82,7 +82,7 @@ export interface CreateMissionResponse {
 }
 
 export interface GetMissionRequest {
-  id: number;
+  id: Mission['id'];
 }
 export interface GetMissionResponse extends Mission {}
 
