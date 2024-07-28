@@ -1,5 +1,5 @@
-import ProfileImage from '@/entities/user/ui/profile-image';
-import { User } from '@/types/user';
+import { User } from '@/entities/user/model/type';
+import ProfileImage from '@/features/user/ui/profile-image';
 
 interface UserProfileProps {
   user: User;
@@ -7,6 +7,7 @@ interface UserProfileProps {
 
 const UserProfile = ({ user }: UserProfileProps) => {
   const { name, imageUrl } = user;
+
   return (
     <div className="flex flex-col items-center">
       <ProfileImage imageSrc={imageUrl} />

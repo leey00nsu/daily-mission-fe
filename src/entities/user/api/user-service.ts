@@ -1,5 +1,6 @@
-import { MOCK_USER } from '@/entities/user/constants/mock-user';
-import { UpdateProfileRequest } from '@/types/user';
+import { MOCK_USER } from '@/entities/user/model/mock-user';
+import { UpdateProfileRequest } from '@/entities/user/model/type';
+
 import { delay } from 'es-toolkit';
 
 export const updateProfile = async (request: UpdateProfileRequest) => {

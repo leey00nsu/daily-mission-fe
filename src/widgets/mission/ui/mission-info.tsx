@@ -1,10 +1,10 @@
-import { POSTS } from '@/entities/mission/constants/mock-post';
+import { GetMissionResponse } from '@/entities/mission/model/type';
+import { POSTS } from '@/entities/post/model/mock-post';
 import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { GetMissionResponse } from '@/types/mission';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LuChevronRight } from 'react-icons/lu';

@@ -1,4 +1,4 @@
-import { ALL_MISSIONS } from '@/entities/mission/constants/mock-mission';
+import { ALL_MISSIONS } from '@/entities/mission/model/mock-mission';
 import MissionList from '@/features/mission/ui/mission-list';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 

@@ -2,6 +2,10 @@
 
 import { Button } from '@/shared/ui/button';
 
+import {
+  JoinMissionRequest,
+  JoinMissionSchema,
+} from '@/entities/mission/model/type';
 import MissionJoinModal from '@/features/mission/ui/mission-join-modal';
 import {
   Form,
@@ -12,7 +16,6 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { JoinMissionRequest, JoinMissionSchema } from '@/types/mission';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { overlay } from 'overlay-kit';
 import { useForm } from 'react-hook-form';

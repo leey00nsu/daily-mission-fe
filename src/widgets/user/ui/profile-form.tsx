@@ -1,10 +1,14 @@
 'use client';
 
-import ProfileImage from '@/entities/user/ui/profile-image';
+import {
+  UpdateProfileRequest,
+  UpdateProfileSchema,
+} from '@/entities/user/model/type';
 import {
   useGetProfile,
   useUpdateProfile,
 } from '@/features/user/api/use-user-service';
+import ProfileImage from '@/features/user/ui/profile-image';
 import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import {
@@ -16,7 +20,6 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { UpdateProfileRequest, UpdateProfileSchema } from '@/types/user';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';

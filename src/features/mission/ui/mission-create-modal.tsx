@@ -1,3 +1,4 @@
+import { CreateMissionRequest } from '@/entities/mission/model/type';
 import { useCreateMission } from '@/features/mission/api/use-mission-service';
 import { Button } from '@/shared/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
-import { CreateMissionRequest } from '@/types/mission';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { LuLoader2 } from 'react-icons/lu';

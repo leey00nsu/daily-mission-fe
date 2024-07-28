@@ -1,8 +1,8 @@
 'use client';
 
+import { Week } from '@/entities/mission/model/type';
 import cn from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
-import { Week } from '@/types/mission';
 
 interface WeekCheckboxGroupBaseProps {
   week: Week;

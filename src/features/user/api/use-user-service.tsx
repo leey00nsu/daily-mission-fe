@@ -1,5 +1,9 @@
-import { getProfile, updateProfile } from '@/features/user/api/user-service';
-import { UpdateProfileRequest, UpdateProfileResponse } from '@/types/user';
+import { getProfile, updateProfile } from '@/entities/user/api/user-service';
+import {
+  UpdateProfileRequest,
+  UpdateProfileResponse,
+} from '@/entities/user/model/type';
+
 import {
   UseMutationOptions,
   useMutation,

@@ -1,7 +1,7 @@
 'use client';
 
-import MissionCard from '@/entities/mission/ui/mission-card';
-import { MissionCard as MissionCardType } from '@/types/mission';
+import { MissionCard as MissionCardType } from '@/entities/mission/model/type';
+import MissionCard from '@/features/mission/ui/mission-card';
 import { useRouter } from 'next/navigation';
 
 interface MissionListProps {

@@ -1,5 +1,8 @@
-import { ALL_MISSIONS } from '@/entities/mission/constants/mock-mission';
-import { CreateMissionRequest, JoinMissionRequest } from '@/types/mission';
+import { ALL_MISSIONS } from '@/entities/mission/model/mock-mission';
+import {
+  CreateMissionRequest,
+  JoinMissionRequest,
+} from '@/entities/mission/model/type';
 import { format } from 'date-fns';
 import { delay } from 'es-toolkit';
 

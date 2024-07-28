@@ -1,4 +1,4 @@
-import { Participant } from '@/types/user';
+import { Participant } from '@/entities/user/model/type';
 import { z } from 'zod';
 
 export interface Week {

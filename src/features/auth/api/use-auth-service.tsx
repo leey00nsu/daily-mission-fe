@@ -1,4 +1,4 @@
-import { signUp } from '@/features/auth/api/auth-service';
+import { signUp } from '@/entities/auth/api/auth-service';
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 export const useSignUp = (
