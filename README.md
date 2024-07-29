@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 아키텍처
 
-## Getting Started
+이 프로젝트는 [Feature-Sliced Design](https://feature-sliced.design/) 아키텍처 패턴을 따릅니다.
 
-First, run the development server:
+### 주요 레이어
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. `entities/`: 비즈니스 엔티티 관련 로직과 타입
+2. `features/`: 사용자 시나리오와 관련된 기능
+3. `widgets/`: 여러 기능을 조합한 큰 단위의 UI 블록
+4. `views/`: 최종 사용자에게 보여지는 페이지 (FSD 패턴에서의 pages)
+5. `shared/`: 공통으로 사용되는 유틸리티, UI 컴포넌트 등
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 주요 원칙
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. 레이어 간 의존성: 상위 레이어는 하위 레이어에만 의존할 수 있습니다. (예: widgets는 features에 의존할 수 있지만, 그 반대는 불가)
+2. 공통 컴포넌트: 여러 기능에서 사용되는 공통 컴포넌트는 `shared` 레이어에 위치시킵니다.
+3. 기능 중심 구조: 각 기능은 자체적인 UI, 모델, API 로직을 포함합니다.
+4. 재사용성: 각 레이어의 컴포넌트는 가능한 재사용 가능하도록 설계합니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 가이드라인
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. View 레벨에서는 주로 widget을 임포트하여 사용합니다.
+2. Widget은 여러 feature UI 컴포넌트를 조합하여 구성합니다.
+3. Widget에서 feature의 커스텀 훅을 사용합니다.
+4. Feature 내에서 같은 도메인 간 UI 컴포넌트 임포트가 가능합니다.
+5. Feature 내에서 (use-\*) 형태의 커스텀 훅을 정의합니다.
+6. Entity는 주로 타입 정의와 핵심 비즈니스 로직(api 호출)을 포함합니다.
+7. Shared 레이어의 컴포넌트는 특정 비즈니스 로직에 의존하지 않아야 합니다.
