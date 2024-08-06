@@ -2,7 +2,7 @@ import {
   createMission,
   getMission,
   joinMission,
-} from '@/features/mission/api/mission-service';
+} from '@/entities/mission/api/mission-service';
 import {
   CreateMissionRequest,
   CreateMissionResponse,
@@ -10,7 +10,7 @@ import {
   GetMissionResponse,
   JoinMissionRequest,
   JoinMissionResponse,
-} from '@/types/mission';
+} from '@/entities/mission/model/type';
 
 import {
   UseMutationOptions,

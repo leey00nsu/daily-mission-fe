@@ -1,10 +1,10 @@
+import { MissionCard as MissionCardType } from '@/entities/mission/model/type';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
 } from '@/shared/ui/card';
-import { MissionCard as MissionCardType } from '@/types/mission';
 import Image from 'next/image';
 
 interface MissionCardProps {

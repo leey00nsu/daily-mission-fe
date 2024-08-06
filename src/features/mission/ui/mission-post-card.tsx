@@ -1,6 +1,7 @@
+import { Post } from '@/entities/post/model/type';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
-import { Post } from '@/types/post';
+
 import { LuUser2 } from 'react-icons/lu';
 
 interface MissionPostCardProps {

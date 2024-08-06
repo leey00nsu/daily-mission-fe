@@ -1,19 +1,27 @@
-import { POSTS } from '@/entities/mission/constants/mock-post';
+'use client';
+
+import { Mission } from '@/entities/mission/model/type';
+import { POSTS } from '@/entities/post/model/mock-post';
+import { useGetMission } from '@/features/mission/api/use-mission-service';
 import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { GetMissionResponse } from '@/types/mission';
+import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LuChevronRight } from 'react-icons/lu';
 
 interface MissionInfoProps {
-  mission: GetMissionResponse;
+  pageId: Mission['id'];
 }
 
-const MissionInfo = ({ mission }: MissionInfoProps) => {
+const MissionInfo = ({ pageId }: MissionInfoProps) => {
+  const { data: mission } = useGetMission({ id: pageId });
+
+  if (!mission) return <MissionInfoSkeleton />;
+
   const { id, imgUrl, title, content, startDate, endDate, week } = mission;
 
   return (

@@ -4,6 +4,10 @@ import { AutosizeTextarea } from '@/shared/ui/autosize-textarea';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 
+import {
+  CreateMissionRequest,
+  CreateMissionSchema,
+} from '@/entities/mission/model/type';
 import MissionCreateModal from '@/features/mission/ui/mission-create-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
@@ -17,7 +21,6 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import { CreateMissionRequest, CreateMissionSchema } from '@/types/mission';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { overlay } from 'overlay-kit';

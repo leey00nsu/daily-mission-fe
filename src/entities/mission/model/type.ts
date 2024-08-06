@@ -1,4 +1,4 @@
-import { Participant } from '@/types/user';
+import { Participant } from '@/entities/user/model/type';
 import { z } from 'zod';
 
 export interface Week {
@@ -82,7 +82,7 @@ export interface CreateMissionResponse {
 }
 
 export interface GetMissionRequest {
-  id: number;
+  id: Mission['id'];
 }
 export interface GetMissionResponse extends Mission {}
 

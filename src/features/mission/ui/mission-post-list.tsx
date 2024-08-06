@@ -1,5 +1,5 @@
-import MissionPostCard from '@/entities/mission/ui/mission-post-card';
-import { Post } from '@/types/post';
+import { Post } from '@/entities/post/model/type';
+import MissionPostCard from '@/features/mission/ui/mission-post-card';
 
 interface MissionPostListProps {
   posts: Post[];

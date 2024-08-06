@@ -1,5 +1,5 @@
-import { MOCK_USER } from '@/entities/user/constants/mock-user';
-import { mockSignIn } from '@/features/auth/api/mock-sign-in';
+import { MOCK_USER } from '@/entities/user/model/mock-user';
+import { mockSignIn } from '@/entities/auth/api/mock-sign-in';
 
 export const signUp = async () => {
   // const response = await fetch('/api/auth/sign-up', {
