@@ -22,7 +22,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
   if (!mission) return <MissionInfoSkeleton />;
 
-  const { id, imgUrl, title, content, startDate, endDate, week } = mission;
+  const { id, imageUrl, title, content, startDate, endDate, week } = mission;
 
   return (
     <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
@@ -30,7 +30,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <Image
           fill
           alt="mission image"
-          src={imgUrl}
+          src={imageUrl}
           className="object-cover"
           unoptimized
         />

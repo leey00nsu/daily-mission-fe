@@ -1,5 +1,5 @@
-import UpdateProfile from '@/views/user/update-profile';
+import AuthCallback from '@/features/auth/ui/auth-callback';
 
 export default function Page() {
-  return <UpdateProfile />;
+  return <AuthCallback />;
 }

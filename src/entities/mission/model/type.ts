@@ -13,11 +13,11 @@ export interface Week {
 }
 
 export interface Mission {
-  userName: string;
   id: number;
+  name: string;
   title: string;
   content: string;
-  imgUrl: string;
+  imageUrl: string;
   startDate: string;
   endDate: string;
   week: Week;
@@ -25,7 +25,7 @@ export interface Mission {
 }
 
 export interface MissionCard
-  extends Pick<Mission, 'id' | 'title' | 'content' | 'endDate' | 'imgUrl'> {}
+  extends Pick<Mission, 'id' | 'title' | 'content' | 'endDate' | 'imageUrl'> {}
 
 export const CreateMissionSchema = z.object({
   title: z

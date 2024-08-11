@@ -3,7 +3,7 @@ import { z } from 'zod';
 export interface User {
   name: string;
   email: string;
-  imageUrl: string;
+  imgUrl: string;
 }
 
 export interface Participant extends User {

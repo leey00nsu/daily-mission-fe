@@ -1,20 +1,21 @@
+import { SignUpRequest } from '@/entities/auth/api/model/type';
 import { MOCK_USER } from '@/entities/user/model/mock-user';
-import { mockSignIn } from '@/entities/auth/api/mock-sign-in';
 
-export const signUp = async () => {
-  // const response = await fetch('/api/auth/sign-up', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data),
-  // });
+export const signUp = async (request: SignUpRequest) => {
+  const { provider } = request;
 
-  // if (!response.ok) {
-  //   throw new Error('Failed to sign up');
-  // }
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_AUTH_HOST}/${provider}`,
+    {
+      method: 'GET',
+    },
+  );
 
-  await mockSignIn();
+  if (!response.ok) {
+    throw new Error('Failed to sign up');
+  }
+
+  // await mockSignIn();
 
   return MOCK_USER;
 };

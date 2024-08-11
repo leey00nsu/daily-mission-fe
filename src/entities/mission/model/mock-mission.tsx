@@ -1,9 +1,11 @@
-export const ALL_MISSIONS = [
+import { Mission } from '@/entities/mission/model/type';
+
+export const ALL_MISSIONS: Mission[] = [
   {
     id: 1,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
-    imgUrl: 'https://placehold.co/600?text=Mission1',
+    imageUrl: 'https://placehold.co/600?text=Mission1',
     title: '미션 1 제목',
     content: '미션1 설명',
     week: {
@@ -15,12 +17,12 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
-    userName: 'John Doe',
+    name: 'John Doe',
     participants: [
       {
         name: 'John Doe',
         email: 'John@doe.com',
-        imageUrl: 'https://example.com/user1.jpg',
+        imgUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
@@ -29,7 +31,7 @@ export const ALL_MISSIONS = [
     id: 2,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
-    imgUrl: 'https://placehold.co/600?text=Mission2',
+    imageUrl: 'https://placehold.co/600?text=Mission2',
     title: '미션 2 제목',
     content: '미션2 설명',
     week: {
@@ -41,12 +43,12 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
-    userName: 'John Doe',
+    name: 'John Doe',
     participants: [
       {
         name: 'John Doe',
         email: 'John@doe.com',
-        imageUrl: 'https://example.com/user1.jpg',
+        imgUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
@@ -55,7 +57,7 @@ export const ALL_MISSIONS = [
     id: 3,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
-    imgUrl: 'https://placehold.co/600?text=Mission3',
+    imageUrl: 'https://placehold.co/600?text=Mission3',
     title: '미션 3 제목',
     content: '미션3 설명',
     week: {
@@ -67,12 +69,12 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
-    userName: 'John Doe',
+    name: 'John Doe',
     participants: [
       {
         name: 'John Doe',
         email: 'John@doe.com',
-        imageUrl: 'https://example.com/user1.jpg',
+        imgUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],
@@ -81,7 +83,7 @@ export const ALL_MISSIONS = [
     id: 4,
     startDate: '2024-09-01',
     endDate: '2024-09-02',
-    imgUrl: 'https://placehold.co/600?text=Mission4',
+    imageUrl: 'https://placehold.co/600?text=Mission4',
     title: '미션 4 제목',
     content: '미션4 설명',
     week: {
@@ -93,12 +95,12 @@ export const ALL_MISSIONS = [
       sat: false,
       sun: true,
     },
-    userName: 'John Doe',
+    name: 'John Doe',
     participants: [
       {
         name: 'John Doe',
         email: 'John@doe.com',
-        imageUrl: 'https://example.com/user1.jpg',
+        imgUrl: 'https://example.com/user1.jpg',
         banned: false,
       },
     ],

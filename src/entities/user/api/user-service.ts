@@ -31,10 +31,15 @@ export const updateProfile = async (request: UpdateProfileRequest) => {
 };
 
 export const getProfile = async () => {
-  // const response = await fetch('/api/user');
-  // const data = await response.json();
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/user/detail`,
+  );
 
-  await delay(1000);
+  const data = await response.json();
 
-  return MOCK_USER;
+  if (!response.ok) {
+    throw new Error('Failed to get profile');
+  }
+
+  return data.data;
 };
