@@ -1,4 +1,4 @@
-import { SignUpRequest } from '@/entities/auth/api/model/type';
+import { SignUpRequest } from '@/entities/auth/model/type';
 import { MOCK_USER } from '@/entities/user/model/mock-user';
 
 export const signUp = async (request: SignUpRequest) => {

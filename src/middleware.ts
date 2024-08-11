@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const currentUser = request.cookies.get('session')?.value;
+  const currentUser = request.cookies.get('Auth')?.value;
 
   if (currentUser && request.nextUrl.pathname.startsWith('/sign-in')) {
     return Response.redirect(new URL('/', request.url));

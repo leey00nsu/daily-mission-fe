@@ -1,3 +1,4 @@
+import { SignOut } from '@/entities/auth/api/auth-action';
 import { MOCK_USER } from '@/entities/user/model/mock-user';
 import { UpdateProfileRequest } from '@/entities/user/model/type';
 
@@ -33,12 +34,15 @@ export const updateProfile = async (request: UpdateProfileRequest) => {
 export const getProfile = async () => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/user/detail`,
+    {
+      credentials: 'include',
+    },
   );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error('Failed to get profile');
+    SignOut();
   }
 
   return data.data;
