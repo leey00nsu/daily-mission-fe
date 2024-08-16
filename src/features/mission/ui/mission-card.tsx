@@ -13,12 +13,14 @@ interface MissionCardProps {
 }
 
 const MissionCard = ({ mission, onClick }: MissionCardProps) => {
-  const { title, content, endDate, imageUrl } = mission;
+  const { title, content, startDate, endDate, imageUrl } = mission;
 
   return (
     <Card onClick={onClick}>
       <CardHeader>
-        <CardDescription>{endDate}</CardDescription>
+        <CardDescription>
+          {startDate} ~ {endDate}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">

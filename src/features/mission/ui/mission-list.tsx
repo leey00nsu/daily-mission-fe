@@ -5,7 +5,7 @@ import MissionCard from '@/features/mission/ui/mission-card';
 import { useRouter } from 'next/navigation';
 
 interface MissionListProps {
-  missions: MissionCardType[];
+  missions?: MissionCardType[];
 }
 
 const MissionList = ({ missions }: MissionListProps) => {
@@ -17,7 +17,7 @@ const MissionList = ({ missions }: MissionListProps) => {
 
   return (
     <section className="flex flex-col gap-2">
-      {missions.map((mission) => (
+      {missions?.map((mission) => (
         <MissionCard
           key={mission.id}
           mission={mission}

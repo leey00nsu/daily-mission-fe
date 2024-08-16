@@ -1,8 +1,12 @@
+import { SignOut } from '@/entities/auth/api/auth-action';
 import { ALL_MISSIONS } from '@/entities/mission/model/mock-mission';
 import {
   CreateMissionRequest,
+  GetMissionsRequest,
+  GetMissionsResponse,
   JoinMissionRequest,
 } from '@/entities/mission/model/type';
+import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
 import { delay } from 'es-toolkit';
 
@@ -44,6 +48,25 @@ export const getMission = async (id: number) => {
   }
 
   return selectedMission;
+};
+
+export const getMissions = async (
+  request: GetMissionsRequest,
+): Promise<GetMissionsResponse> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.type}?page=${request.page}&size=${request.size}&sort=${request.sort}`,
+    {
+      credentials: 'include',
+    },
+  );
+
+  const data: GlobalResponse<GetMissionsResponse> = await response.json();
+
+  if (!response.ok) {
+    SignOut();
+  }
+
+  return data.data;
 };
 
 export const joinMission = async (request: JoinMissionRequest) => {

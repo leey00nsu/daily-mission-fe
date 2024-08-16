@@ -22,10 +22,14 @@ export interface Mission {
   endDate: string;
   week: Week;
   participants: Participant[];
+  credential: string;
 }
 
 export interface MissionCard
-  extends Pick<Mission, 'id' | 'title' | 'content' | 'endDate' | 'imageUrl'> {}
+  extends Pick<
+    Mission,
+    'id' | 'title' | 'content' | 'startDate' | 'endDate' | 'imageUrl'
+  > {}
 
 export const CreateMissionSchema = z.object({
   title: z
@@ -85,6 +89,19 @@ export interface GetMissionRequest {
   id: Mission['id'];
 }
 export interface GetMissionResponse extends Mission {}
+
+export type MissionType = 'all' | 'hot' | 'new';
+export type MissionSort = 'asc' | 'desc';
+
+export interface GetMissionsRequest {
+  type: MissionType;
+  page: number;
+  size: number;
+  sort: MissionSort;
+}
+export interface GetMissionsResponse {
+  missions: Mission[];
+}
 
 export const JoinMissionSchema = z.object({
   credential: z.string({

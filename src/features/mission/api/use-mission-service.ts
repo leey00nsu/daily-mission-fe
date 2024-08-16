@@ -1,6 +1,7 @@
 import {
   createMission,
   getMission,
+  getMissions,
   joinMission,
 } from '@/entities/mission/api/mission-service';
 import {
@@ -8,8 +9,12 @@ import {
   CreateMissionResponse,
   GetMissionRequest,
   GetMissionResponse,
+  GetMissionsRequest,
+  GetMissionsResponse,
   JoinMissionRequest,
   JoinMissionResponse,
+  MissionSort,
+  MissionType,
 } from '@/entities/mission/model/type';
 
 import {
@@ -21,12 +26,27 @@ import {
 
 export const queryKeys = {
   mission: (id: number) => ['mission', id],
+  missions: (
+    type: MissionType,
+    page: number,
+    size: number,
+    sort: MissionSort,
+  ) => ['missions', type, page, size, sort],
 };
 
 export const queryOptions = {
   mission: (id: number) => ({
     queryKey: queryKeys.mission(id),
     queryFn: () => getMission(id),
+  }),
+  missions: (
+    type: MissionType,
+    page: number,
+    size: number,
+    sort: MissionSort,
+  ) => ({
+    queryKey: queryKeys.missions(type, page, size, sort),
+    queryFn: () => getMissions({ type, page, size, sort }),
   }),
 };
 
@@ -51,6 +71,17 @@ export const useGetMission = (
   return useQuery({
     queryKey: queryKeys.mission(id),
     queryFn: () => getMission(id),
+    ...props,
+  });
+};
+
+export const useGetMissions = (
+  { type, page, size, sort }: GetMissionsRequest,
+  props?: UseQueryOptions<unknown, unknown, GetMissionsResponse>,
+) => {
+  return useQuery({
+    queryKey: queryKeys.missions(type, page, size, sort),
+    queryFn: queryOptions.missions(type, page, size, sort).queryFn,
     ...props,
   });
 };

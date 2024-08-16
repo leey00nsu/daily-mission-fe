@@ -26,6 +26,7 @@ export const ALL_MISSIONS: Mission[] = [
         banned: false,
       },
     ],
+    credential: 'test-credential',
   },
   {
     id: 2,
@@ -52,6 +53,7 @@ export const ALL_MISSIONS: Mission[] = [
         banned: false,
       },
     ],
+    credential: 'test-credential',
   },
   {
     id: 3,
@@ -78,6 +80,7 @@ export const ALL_MISSIONS: Mission[] = [
         banned: false,
       },
     ],
+    credential: 'test-credential',
   },
   {
     id: 4,
@@ -104,5 +107,6 @@ export const ALL_MISSIONS: Mission[] = [
         banned: false,
       },
     ],
+    credential: 'test-credential',
   },
 ];

@@ -1,8 +1,17 @@
-import { ALL_MISSIONS } from '@/entities/mission/model/mock-mission';
+'use client';
+
+import { useGetMissions } from '@/features/mission/api/use-mission-service';
 import MissionList from '@/features/mission/ui/mission-list';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
 const MissionListTab = () => {
+  const { data: missions } = useGetMissions({
+    type: 'all',
+    page: 1,
+    size: 10,
+    sort: 'asc',
+  });
+
   return (
     <Tabs defaultValue="all" className="relative h-full w-full">
       <div className="sticky top-0 z-10 flex h-14 items-center justify-center bg-background">
@@ -13,13 +22,13 @@ const MissionListTab = () => {
         </TabsList>
       </div>
       <TabsContent value="all">
-        <MissionList missions={ALL_MISSIONS} />
+        <MissionList missions={missions?.missions} />
       </TabsContent>
       <TabsContent value="hot">
-        <MissionList missions={ALL_MISSIONS} />
+        <MissionList missions={missions?.missions} />
       </TabsContent>
       <TabsContent value="new">
-        <MissionList missions={ALL_MISSIONS} />
+        <MissionList missions={missions?.missions} />
       </TabsContent>
     </Tabs>
   );
