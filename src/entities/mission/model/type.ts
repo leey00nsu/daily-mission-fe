@@ -99,9 +99,7 @@ export interface GetMissionsRequest {
   size: number;
   sort: MissionSort;
 }
-export interface GetMissionsResponse {
-  missions: Mission[];
-}
+export type GetMissionsResponse = Mission[];
 
 export const JoinMissionSchema = z.object({
   credential: z.string({

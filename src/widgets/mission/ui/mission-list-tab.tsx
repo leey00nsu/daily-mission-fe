@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 const MissionListTab = () => {
   const { data: missions } = useGetMissions({
     type: 'all',
-    page: 1,
+    page: 0,
     size: 10,
     sort: 'asc',
   });
@@ -22,13 +22,13 @@ const MissionListTab = () => {
         </TabsList>
       </div>
       <TabsContent value="all">
-        <MissionList missions={missions?.missions} />
+        <MissionList missions={missions} />
       </TabsContent>
       <TabsContent value="hot">
-        <MissionList missions={missions?.missions} />
+        <MissionList missions={missions} />
       </TabsContent>
       <TabsContent value="new">
-        <MissionList missions={missions?.missions} />
+        <MissionList missions={missions} />
       </TabsContent>
     </Tabs>
   );
