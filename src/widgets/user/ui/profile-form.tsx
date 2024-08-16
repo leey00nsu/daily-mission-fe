@@ -30,7 +30,7 @@ import { MdAddPhotoAlternate } from 'react-icons/md';
 const ProfileForm = () => {
   const { data: user } = useGetProfile();
 
-  const [imageSrc, setImageSrc] = useState(user?.imageUrl || '');
+  const [imageSrc, setImageSrc] = useState(user?.imgUrl || '');
 
   const { mutate: updateProfile, isPending } = useUpdateProfile();
 

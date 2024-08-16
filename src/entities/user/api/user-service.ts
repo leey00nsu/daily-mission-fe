@@ -1,6 +1,7 @@
 import { SignOut } from '@/entities/auth/api/auth-action';
 import { MOCK_USER } from '@/entities/user/model/mock-user';
-import { UpdateProfileRequest } from '@/entities/user/model/type';
+import { UpdateProfileRequest, User } from '@/entities/user/model/type';
+import { GlobalResponse } from '@/shared/model/type';
 
 import { delay } from 'es-toolkit';
 
@@ -31,7 +32,7 @@ export const updateProfile = async (request: UpdateProfileRequest) => {
   return MOCK_USER;
 };
 
-export const getProfile = async () => {
+export const getProfile = async (): Promise<User> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/user/detail`,
     {
@@ -39,7 +40,7 @@ export const getProfile = async () => {
     },
   );
 
-  const data = await response.json();
+  const data: GlobalResponse<User> = await response.json();
 
   if (!response.ok) {
     SignOut();
