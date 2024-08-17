@@ -1,6 +1,8 @@
 import { SignOut } from '@/entities/auth/api/auth-action';
 import {
   CreateMissionRequest,
+  CreateMissionResponse,
+  DeleteMissionRequest,
   GetMissionRequest,
   GetMissionResponse,
   GetMissionsRequest,
@@ -11,29 +13,43 @@ import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
 import { delay } from 'es-toolkit';
 
-export const createMission = async (request: CreateMissionRequest) => {
+export const createMission = async (
+  request: CreateMissionRequest,
+): Promise<CreateMissionResponse> => {
   const formData = new FormData();
 
-  formData.append('week', JSON.stringify(request.week));
-  formData.append('title', request.title);
-  formData.append('content', request.content);
-  formData.append('startDate', format(request.date.startDate!, 'yyyy-MM-dd'));
-  formData.append('endDate', format(request.date.endDate!, 'yyyy-MM-dd'));
+  const missionReqDto = {
+    week: request.week,
+    title: request.title,
+    content: request.content,
+    startDate: format(request.date.startDate!, 'yyyy-MM-dd'),
+    endDate: format(request.date.endDate!, 'yyyy-MM-dd'),
+  };
+
+  formData.append('missionReqDto', JSON.stringify(missionReqDto));
   formData.append('file', request.image);
 
-  // const response = await fetch('/api/mission', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(mission),
-  // });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/save`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+      credentials: 'include',
+    },
+  );
 
-  await delay(1000);
+  if (!response.ok) {
+    SignOut();
 
-  return {
-    credential: 'test-credential',
-  };
+    throw new Error('Failed to create mission');
+  }
+
+  const data: GlobalResponse<CreateMissionResponse> = await response.json();
+
+  return data.data;
 };
 
 export const getMission = async (
@@ -79,6 +95,8 @@ export const getMissions = async (
 };
 
 export const joinMission = async (request: JoinMissionRequest) => {
+  // 수정 필요
+
   // const response = await fetch('/api/participant/join', {
   //   method: 'POST',
   //   headers: {
@@ -94,4 +112,29 @@ export const joinMission = async (request: JoinMissionRequest) => {
   return {
     ok: true,
   };
+};
+
+export const deleteMission = async (
+  request: DeleteMissionRequest,
+): Promise<void> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    },
+  );
+
+  if (!response.ok) {
+    SignOut();
+
+    throw new Error('Failed to delete mission');
+  }
+
+  const data: GlobalResponse<void> = await response.json();
+
+  return data.data;
 };

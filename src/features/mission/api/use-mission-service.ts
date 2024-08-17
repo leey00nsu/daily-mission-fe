@@ -1,5 +1,6 @@
 import {
   createMission,
+  deleteMission,
   getMission,
   getMissions,
   joinMission,
@@ -7,6 +8,7 @@ import {
 import {
   CreateMissionRequest,
   CreateMissionResponse,
+  DeleteMissionRequest,
   GetMissionRequest,
   GetMissionResponse,
   GetMissionsRequest,
@@ -96,6 +98,15 @@ export const useJoinMission = (
 ) => {
   return useMutation({
     mutationFn: joinMission,
+    ...props,
+  });
+};
+
+export const useDeleteMission = (
+  props?: UseMutationOptions<void, unknown, DeleteMissionRequest, unknown>,
+) => {
+  return useMutation({
+    mutationFn: deleteMission,
     ...props,
   });
 };

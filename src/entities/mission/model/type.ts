@@ -112,3 +112,7 @@ export type JoinMissionRequest = z.infer<typeof JoinMissionSchema>;
 export interface JoinMissionResponse {
   ok: boolean;
 }
+
+export interface DeleteMissionRequest {
+  id: Mission['id'];
+}

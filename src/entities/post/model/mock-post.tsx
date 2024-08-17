@@ -2,7 +2,7 @@ import { Post } from '@/entities/post/model/type';
 
 export const POSTS: Post[] = [
   {
-    postId: 1,
+    id: 1,
     missionId: 1,
     missionTitle: 'Mission 1',
     userName: 'John Doe',
@@ -14,7 +14,7 @@ export const POSTS: Post[] = [
     modifiedDate: '2022-01-02',
   },
   {
-    postId: 2,
+    id: 2,
     missionId: 2,
     missionTitle: 'Mission 2',
     userName: 'Jane Smith',
