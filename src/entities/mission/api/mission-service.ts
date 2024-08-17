@@ -26,17 +26,18 @@ export const createMission = async (
     endDate: format(request.date.endDate!, 'yyyy-MM-dd'),
   };
 
-  formData.append('missionReqDto', JSON.stringify(missionReqDto));
+  const missionReqDtoBlob = new Blob([JSON.stringify(missionReqDto)], {
+    type: 'application/json',
+  });
+
+  formData.append('missionReqDto', missionReqDtoBlob);
   formData.append('file', request.image);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/save`,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      body: formData,
       credentials: 'include',
     },
   );
