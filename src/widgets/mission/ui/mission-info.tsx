@@ -11,6 +11,7 @@ import { Input } from '@/shared/ui/input';
 import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { LuChevronRight } from 'react-icons/lu';
 
 interface MissionInfoProps {
@@ -18,11 +19,22 @@ interface MissionInfoProps {
 }
 
 const MissionInfo = ({ pageId }: MissionInfoProps) => {
-  const { data: mission } = useGetMission({ id: pageId });
+  const router = useRouter();
+  const { data: mission, isLoading } = useGetMission({ id: pageId });
 
-  if (!mission) return <MissionInfoSkeleton />;
+  if (!mission && !isLoading) return <MissionInfoSkeleton />;
 
-  const { id, imageUrl, title, content, startDate, endDate, week } = mission;
+  if (!mission) {
+    router.push('/');
+    return null;
+  }
+
+  const { id, imageUrl, title, content, startDate, endDate, participants } =
+    mission;
+
+  const participantAvatars = participants.map(
+    (participant) => participant.imgUrl,
+  );
 
   return (
     <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
@@ -48,7 +60,18 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 규칙</h3>
-        <WeekCheckboxGroup week={week} readonly />
+        <WeekCheckboxGroup
+          week={{
+            mon: true,
+            tue: false,
+            wed: true,
+            thu: false,
+            fri: true,
+            sat: false,
+            sun: true,
+          }}
+          readonly
+        />
       </div>
 
       <div className="w-full">
@@ -62,7 +85,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 참여자</h3>
-        <AvatarGroup avatars={['a', 'b', 'c']} />
+        <AvatarGroup avatars={participantAvatars} />
       </div>
 
       <div className="w-full">

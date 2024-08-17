@@ -37,7 +37,7 @@ export const queryKeys = {
 export const queryOptions = {
   mission: (id: number) => ({
     queryKey: queryKeys.mission(id),
-    queryFn: () => getMission(id),
+    queryFn: () => getMission({ id }),
   }),
   missions: (
     type: MissionType,
@@ -66,11 +66,11 @@ export const useCreateMission = (
 
 export const useGetMission = (
   { id }: GetMissionRequest,
-  props?: UseQueryOptions<GetMissionRequest, unknown, GetMissionResponse>,
+  props?: UseQueryOptions<unknown, unknown, GetMissionResponse>,
 ) => {
   return useQuery({
     queryKey: queryKeys.mission(id),
-    queryFn: () => getMission(id),
+    queryFn: queryOptions.mission(id).queryFn,
     ...props,
   });
 };

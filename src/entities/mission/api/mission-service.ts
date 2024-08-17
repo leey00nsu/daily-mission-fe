@@ -1,7 +1,8 @@
 import { SignOut } from '@/entities/auth/api/auth-action';
-import { ALL_MISSIONS } from '@/entities/mission/model/mock-mission';
 import {
   CreateMissionRequest,
+  GetMissionRequest,
+  GetMissionResponse,
   GetMissionsRequest,
   GetMissionsResponse,
   JoinMissionRequest,
@@ -35,19 +36,23 @@ export const createMission = async (request: CreateMissionRequest) => {
   };
 };
 
-export const getMission = async (id: number) => {
-  // const response = await fetch(`/api/mission/${id}`);
-  // const data = await response.json();
+export const getMission = async (
+  request: GetMissionRequest,
+): Promise<GetMissionResponse> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
+    {
+      credentials: 'include',
+    },
+  );
 
-  await delay(1000);
+  const data: GlobalResponse<GetMissionResponse> = await response.json();
 
-  const selectedMission = ALL_MISSIONS.find((mission) => mission.id === id);
-
-  if (!selectedMission) {
-    throw new Error('Failed to get mission');
+  if (!response.ok) {
+    SignOut();
   }
 
-  return selectedMission;
+  return data.data;
 };
 
 export const getMissions = async (
