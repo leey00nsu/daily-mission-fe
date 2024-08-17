@@ -122,9 +122,6 @@ export const deleteMission = async (
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
     {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       credentials: 'include',
     },
   );

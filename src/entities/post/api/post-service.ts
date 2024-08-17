@@ -19,17 +19,18 @@ export const createPost = async (request: CreatePostRequest): Promise<void> => {
     content: request.content,
   };
 
-  formData.append('postSaveReqDto', JSON.stringify(postSaveReqDto));
+  const postSaveReqDtoBlob = new Blob([JSON.stringify(postSaveReqDto)], {
+    type: 'application/json',
+  });
+
+  formData.append('postSaveReqDto', postSaveReqDtoBlob);
   formData.append('file', request.image);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/post/save`,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      body: formData,
       credentials: 'include',
     },
   );
@@ -114,17 +115,18 @@ export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
     content: request.content,
   };
 
-  formData.append('postUpdateReqDto', JSON.stringify(postUpdateReqDto));
+  const postUpdateReqDtoBlob = new Blob([JSON.stringify(postUpdateReqDto)], {
+    type: 'application/json',
+  });
+
+  formData.append('postUpdateReqDto', postUpdateReqDtoBlob);
   formData.append('file', request.image);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/post/${request.id}`,
     {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      body: formData,
       credentials: 'include',
     },
   );
