@@ -40,11 +40,13 @@ export const getProfile = async (): Promise<User> => {
     },
   );
 
-  const data: GlobalResponse<User> = await response.json();
-
   if (!response.ok) {
     SignOut();
+
+    throw new Error('Failed to get profile');
   }
+
+  const data: GlobalResponse<User> = await response.json();
 
   return data.data;
 };

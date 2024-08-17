@@ -20,12 +20,13 @@ interface MissionInfoProps {
 
 const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const router = useRouter();
-  const { data: mission, isLoading } = useGetMission({ id: pageId });
+  const { data: mission, isLoading, error } = useGetMission({ id: pageId });
 
-  if (!mission && !isLoading) return <MissionInfoSkeleton />;
+  if (isLoading) return <MissionInfoSkeleton />;
 
-  if (!mission) {
+  if (error || !mission) {
     router.push('/');
+
     return null;
   }
 

@@ -46,11 +46,13 @@ export const getMission = async (
     },
   );
 
-  const data: GlobalResponse<GetMissionResponse> = await response.json();
-
   if (!response.ok) {
     SignOut();
+
+    throw new Error('Failed to get mission');
   }
+
+  const data: GlobalResponse<GetMissionResponse> = await response.json();
 
   return data.data;
 };
@@ -65,11 +67,13 @@ export const getMissions = async (
     },
   );
 
-  const data: GlobalResponse<GetMissionsResponse> = await response.json();
-
   if (!response.ok) {
     SignOut();
+
+    throw new Error('Failed to get missions');
   }
+
+  const data: GlobalResponse<GetMissionsResponse> = await response.json();
 
   return data.data;
 };
