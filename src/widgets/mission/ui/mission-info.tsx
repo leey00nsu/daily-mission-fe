@@ -30,8 +30,16 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     return null;
   }
 
-  const { id, imgUrl, title, content, startDate, endDate, participantDto } =
-    mission;
+  const {
+    id,
+    imgUrl,
+    title,
+    content,
+    startDate,
+    endDate,
+    participantDto,
+    missionRuleResponseDto,
+  } = mission;
 
   const participantAvatars = participantDto.map(
     (participant) => participant.imgUrl,
@@ -61,18 +69,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 규칙</h3>
-        <WeekCheckboxGroup
-          week={{
-            mon: true,
-            tue: false,
-            wed: true,
-            thu: false,
-            fri: true,
-            sat: false,
-            sun: true,
-          }}
-          readonly
-        />
+        <WeekCheckboxGroup week={missionRuleResponseDto.week} readonly />
       </div>
 
       <div className="w-full">
