@@ -30,10 +30,10 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     return null;
   }
 
-  const { id, imageUrl, title, content, startDate, endDate, participants } =
+  const { id, imgUrl, title, content, startDate, endDate, participantDto } =
     mission;
 
-  const participantAvatars = participants.map(
+  const participantAvatars = participantDto.map(
     (participant) => participant.imgUrl,
   );
 
@@ -43,7 +43,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <Image
           fill
           alt="mission image"
-          src={imageUrl}
+          src={imgUrl || ''}
           className="object-cover"
           unoptimized
         />

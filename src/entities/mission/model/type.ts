@@ -17,18 +17,22 @@ export interface Mission {
   name: string;
   title: string;
   content: string;
-  imageUrl: string;
+  imgUrl: string;
   startDate: string;
   endDate: string;
-  week: Week;
-  participants: Participant[];
+  ended: boolean;
+  missionRuleResponseDto: {
+    week: Week;
+    deleted: boolean;
+  };
+  participantDto: Participant[];
   credential: string;
 }
 
 export interface MissionCard
   extends Pick<
     Mission,
-    'id' | 'title' | 'content' | 'startDate' | 'endDate' | 'imageUrl'
+    'id' | 'title' | 'content' | 'startDate' | 'endDate' | 'imgUrl' | 'ended'
   > {}
 
 export const CreateMissionSchema = z.object({

@@ -6,7 +6,10 @@ export interface User {
   imgUrl: string;
 }
 
-export interface Participant extends User {
+export interface Participant {
+  id: number;
+  userName: string;
+  imgUrl: string;
   banned: boolean;
 }
 
