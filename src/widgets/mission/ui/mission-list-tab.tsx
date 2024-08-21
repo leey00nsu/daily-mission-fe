@@ -1,19 +1,30 @@
 'use client';
 
+import { MissionType } from '@/entities/mission/model/type';
 import { useGetMissions } from '@/features/mission/api/use-mission-service';
 import MissionList from '@/features/mission/ui/mission-list';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { useState } from 'react';
 
 const MissionListTab = () => {
+  const [tab, setTab] = useState<MissionType>('all');
   const { data: missions } = useGetMissions({
-    type: 'all',
+    type: tab,
     page: 0,
     size: 10,
     sort: 'asc',
   });
 
+  const handleTabChange = (value: string) => {
+    setTab(value as MissionType);
+  };
+
   return (
-    <Tabs defaultValue="all" className="relative h-full w-full">
+    <Tabs
+      onValueChange={handleTabChange}
+      defaultValue="all"
+      className="relative h-full w-full"
+    >
       <div className="sticky top-0 z-10 flex h-14 items-center justify-center bg-background">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="all">전체</TabsTrigger>
