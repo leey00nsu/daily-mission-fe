@@ -2,6 +2,7 @@
 
 import { Mission } from '@/entities/mission/model/type';
 import { POSTS } from '@/entities/post/model/mock-post';
+import { useUserStore } from '@/entities/user/model/store';
 import { useGetMission } from '@/features/mission/api/use-mission-service';
 import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
@@ -21,6 +22,7 @@ interface MissionInfoProps {
 const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const router = useRouter();
   const { data: mission, isLoading, error } = useGetMission({ id: pageId });
+  const user = useUserStore((state) => state.user);
 
   if (isLoading) return <MissionInfoSkeleton />;
 
@@ -42,12 +44,14 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   } = mission;
 
   const participantAvatars = participantDto.map(
-    (participant) => participant.imgUrl,
+    (participant) => participant.imageUrl,
   );
+
+  console.log(user);
 
   return (
     <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
-      <div className="relative h-64 w-full">
+      <div className="relative h-64 w-full overflow-hidden rounded-2xl">
         <Image
           fill
           alt="mission image"

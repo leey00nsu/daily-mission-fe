@@ -3,13 +3,13 @@ import { z } from 'zod';
 export interface User {
   name: string;
   email: string;
-  imgUrl: string;
+  imageUrl: string;
 }
 
 export interface Participant {
   id: number;
   userName: string;
-  imgUrl: string;
+  imageUrl: string;
   banned: boolean;
 }
 
