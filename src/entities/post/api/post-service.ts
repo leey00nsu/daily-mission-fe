@@ -67,11 +67,11 @@ export const getPost = async (
   return data.data;
 };
 
-export const getPosts = async (
+export const getMissionPosts = async (
   request: GetPostsRequest,
 ): Promise<GetPostsResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/${request.missionId}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/mission/${request.missionId}`,
     {
       credentials: 'include',
     },
@@ -80,7 +80,7 @@ export const getPosts = async (
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to get posts');
+    throw new Error('Failed to get mission posts');
   }
 
   const data: GlobalResponse<GetPostsResponse> = await response.json();

@@ -99,7 +99,7 @@ export interface CreateMissionResponse {
 export interface GetMissionRequest {
   id: Mission['id'];
 }
-export interface GetMissionResponse extends Mission {}
+export type GetMissionResponse = Mission;
 
 export type MissionType = 'all' | 'hot' | 'new';
 export type MissionSort = 'asc' | 'desc';

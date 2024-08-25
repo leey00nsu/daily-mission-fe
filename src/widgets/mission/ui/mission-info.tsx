@@ -1,11 +1,11 @@
 'use client';
 
 import { Mission } from '@/entities/mission/model/type';
-import { POSTS } from '@/entities/post/model/mock-post';
 import { useUserStore } from '@/entities/user/model/store';
 import { useGetMission } from '@/features/mission/api/use-mission-service';
 import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
+import { useGetMissionPosts } from '@/features/post/api/use-post-service';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -21,12 +21,19 @@ interface MissionInfoProps {
 
 const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const router = useRouter();
-  const { data: mission, isLoading, error } = useGetMission({ id: pageId });
+  const {
+    data: mission,
+    isLoading: isMissonLoading,
+    error: isMissionError,
+  } = useGetMission({ id: pageId });
+  const { data: posts, isLoading: isPostsLoading } = useGetMissionPosts({
+    missionId: pageId,
+  });
   const user = useUserStore((state) => state.user);
 
-  if (isLoading) return <MissionInfoSkeleton />;
+  if (isMissonLoading || isPostsLoading) return <MissionInfoSkeleton />;
 
-  if (error || !mission) {
+  if (isMissionError || !mission) {
     router.push('/');
 
     return null;
@@ -92,7 +99,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 포스트</h3>
-        <MissionPostList posts={POSTS} />
+        <MissionPostList posts={posts} />
       </div>
 
       {!isOwner && (

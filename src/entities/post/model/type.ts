@@ -2,11 +2,11 @@ export interface Post {
   id: number;
   missionId: number;
   missionTitle: string;
-  userName: string;
-  userImgUrl: string;
+  username: string;
+  userImageUrl: string;
   title: string;
   content: string;
-  imgUrl: string;
+  imageUrl: string;
   createdDate: string;
   modifiedDate: string;
 }
@@ -14,12 +14,12 @@ export interface Post {
 export interface GetPostRequest {
   id: number;
 }
-export interface GetPostResponse extends Post {}
+export type GetPostResponse = Post;
 
 export interface GetPostsRequest {
   missionId: number;
 }
-export interface GetPostsResponse extends Post {}
+export type GetPostsResponse = Post[];
 
 export interface CreatePostRequest {
   missionId: number;

@@ -1,8 +1,8 @@
 import {
   createPost,
   deletePost,
+  getMissionPosts,
   getPost,
-  getPosts,
   getUserPosts,
   updatePost,
 } from '@/entities/post/api/post-service';
@@ -25,7 +25,7 @@ import {
 
 export const queryKeys = {
   post: (id: number) => ['post', id],
-  posts: (missionId: number) => ['posts', missionId],
+  missionPosts: (missionId: number) => ['posts', missionId],
   userPosts: () => ['userPosts'],
 };
 
@@ -34,9 +34,9 @@ export const queryOptions = {
     queryKey: queryKeys.post(id),
     queryFn: () => getPost({ id }),
   }),
-  posts: (missionId: number) => ({
-    queryKey: queryKeys.posts(missionId),
-    queryFn: () => getPosts({ missionId }),
+  missionPosts: (missionId: number) => ({
+    queryKey: queryKeys.missionPosts(missionId),
+    queryFn: () => getMissionPosts({ missionId }),
   }),
   userPosts: () => ({
     queryKey: queryKeys.userPosts(),
@@ -55,13 +55,13 @@ export const useGetPost = (
   });
 };
 
-export const useGetPosts = (
+export const useGetMissionPosts = (
   { missionId }: GetPostsRequest,
   props?: UseQueryOptions<unknown, unknown, GetPostsResponse>,
 ) => {
   return useQuery({
-    queryKey: queryKeys.posts(missionId),
-    queryFn: queryOptions.posts(missionId).queryFn,
+    queryKey: queryKeys.missionPosts(missionId),
+    queryFn: queryOptions.missionPosts(missionId).queryFn,
     ...props,
   });
 };
