@@ -47,7 +47,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     (participant) => participant.imageUrl,
   );
 
-  console.log(user);
+  const isOwner = user.name === mission.username;
 
   return (
     <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
@@ -95,11 +95,18 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <MissionPostList posts={POSTS} />
       </div>
 
-      <div className="fixed bottom-0 w-full max-w-2xl p-4">
-        <Button asChild className="w-full">
-          <Link href={`/mission/join?id=${id}`}>미션 참여하기</Link>
-        </Button>
-      </div>
+      {!isOwner && (
+        <div className="fixed bottom-0 w-full max-w-2xl p-4">
+          <Button asChild className="w-full">
+            <Link href={`/mission/join?id=${id}`}>미션 참여하기</Link>
+          </Button>
+        </div>
+      )}
+      {isOwner && (
+        <div className="fixed bottom-0 w-full max-w-2xl p-4">
+          <Button className="w-full">미션 수정하기</Button>
+        </div>
+      )}
     </section>
   );
 };
