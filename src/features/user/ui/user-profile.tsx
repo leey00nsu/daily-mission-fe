@@ -6,11 +6,11 @@ interface UserProfileProps {
 }
 
 const UserProfile = ({ user }: UserProfileProps) => {
-  const { email, imgUrl } = user;
+  const { email, imageUrl } = user;
 
   return (
     <div className="flex flex-col items-center">
-      <ProfileImage imageSrc={imgUrl} />
+      <ProfileImage imageSrc={imageUrl} />
       <p>{email}</p>
     </div>
   );

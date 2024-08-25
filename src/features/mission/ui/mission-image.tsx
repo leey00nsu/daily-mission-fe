@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
-import { LuScrollText } from 'react-icons/lu';
-import { MdAddPhotoAlternate } from 'react-icons/md';
+import { LuImagePlus } from 'react-icons/lu';
 
 interface MissionImageProps {
   imageSrc: string;
@@ -8,16 +7,13 @@ interface MissionImageProps {
 
 const MissionImage = ({ imageSrc }: MissionImageProps) => {
   return (
-    <div className="relative h-32 w-32">
-      <Avatar className="h-full w-full">
-        <AvatarImage src={imageSrc} />
-        <AvatarFallback>
-          <LuScrollText className="h-1/2 w-1/2" />
+    <div className="h-64 w-full overflow-hidden rounded-2xl">
+      <Avatar className="h-full w-full rounded-none">
+        <AvatarImage src={imageSrc} className="w-full" />
+        <AvatarFallback className="rounded-none">
+          <LuImagePlus className="h-1/2 w-1/2" />
         </AvatarFallback>
       </Avatar>
-      <div className="absolute bottom-3 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200">
-        <MdAddPhotoAlternate />
-      </div>
     </div>
   );
 };

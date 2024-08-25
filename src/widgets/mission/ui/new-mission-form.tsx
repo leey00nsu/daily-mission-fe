@@ -11,6 +11,7 @@ import {
 import MissionCreateModal from '@/features/mission/ui/mission-create-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
+import Badge from '@/shared/ui/badge';
 import {
   Form,
   FormControl,
@@ -27,6 +28,7 @@ import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
+import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const NewMissionForm = () => {
   const [imageSrc, setImageSrc] = useState('');
@@ -82,8 +84,15 @@ const NewMissionForm = () => {
           name="image"
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem className="flex w-full flex-col items-center justify-center">
-              <FormLabel htmlFor="mission-image">
-                <MissionImage imageSrc={imageSrc} />
+              <FormLabel htmlFor="mission-image" className="w-full">
+                <Badge
+                  variant="outline"
+                  content={<MdAddPhotoAlternate />}
+                  position="bottomRight"
+                  className="bottom-1 right-3"
+                >
+                  <MissionImage imageSrc={imageSrc} />
+                </Badge>
               </FormLabel>
               <FormControl>
                 <Input
