@@ -3,5 +3,14 @@ export interface GlobalResponse<T> {
   code: number;
   data: T;
   errors: object;
-  meta: object;
+  meta: {
+    isNext: boolean;
+  };
+}
+
+export interface Page<T> {
+  data: T[];
+  meta: {
+    isNext: boolean;
+  };
 }

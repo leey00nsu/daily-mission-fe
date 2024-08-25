@@ -53,6 +53,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const participantAvatars = participantDto.map(
     (participant) => participant.imageUrl,
   );
+  const participantCount = participantDto.length;
 
   const isOwner = user.name === mission.username;
 
@@ -94,7 +95,10 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 참여자</h3>
-        <AvatarGroup avatars={participantAvatars} />
+        <div className="flex items-center gap-2">
+          <AvatarGroup avatars={participantAvatars} />
+          <p>{participantCount} 명이 참여중</p>
+        </div>
       </div>
 
       <div className="w-full">

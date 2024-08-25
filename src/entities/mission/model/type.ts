@@ -1,4 +1,5 @@
 import { Participant } from '@/entities/user/model/type';
+import { Page } from '@/shared/model/type';
 import { z } from 'zod';
 
 export interface Week {
@@ -110,7 +111,7 @@ export interface GetMissionsRequest {
   size: number;
   sort: MissionSort;
 }
-export type GetMissionsResponse = MissionCard[];
+export type GetMissionsResponse = Page<Mission>;
 
 export const JoinMissionSchema = z.object({
   credential: z.string({

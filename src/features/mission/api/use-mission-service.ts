@@ -12,7 +12,6 @@ import {
   GetMissionRequest,
   GetMissionResponse,
   GetMissionsRequest,
-  GetMissionsResponse,
   JoinMissionRequest,
   JoinMissionResponse,
   MissionSort,
@@ -22,6 +21,7 @@ import {
 import {
   UseMutationOptions,
   UseQueryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
@@ -77,14 +77,20 @@ export const useGetMission = (
   });
 };
 
-export const useGetMissions = (
-  { type, page, size, sort }: GetMissionsRequest,
-  props?: UseQueryOptions<unknown, unknown, GetMissionsResponse>,
-) => {
-  return useQuery({
+export const useGetMissions = ({
+  type,
+  page,
+  size,
+  sort,
+}: GetMissionsRequest) => {
+  return useInfiniteQuery({
+    initialPageParam: page,
     queryKey: queryKeys.missions(type, page, size, sort),
-    queryFn: queryOptions.missions(type, page, size, sort).queryFn,
-    ...props,
+    queryFn: ({ pageParam }) =>
+      queryOptions.missions(type, pageParam as number, size, sort).queryFn(),
+    getNextPageParam: (lastPage, allPages, pageParam) => {
+      return lastPage.meta.isNext ? (pageParam as number) + 1 : undefined;
+    },
   });
 };
 

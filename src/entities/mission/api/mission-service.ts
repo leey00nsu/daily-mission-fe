@@ -8,6 +8,7 @@ import {
   GetMissionsRequest,
   GetMissionsResponse,
   JoinMissionRequest,
+  Mission,
 } from '@/entities/mission/model/type';
 import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
@@ -90,9 +91,16 @@ export const getMissions = async (
     throw new Error('Failed to get missions');
   }
 
-  const data: GlobalResponse<GetMissionsResponse> = await response.json();
+  const data: GlobalResponse<Mission[]> = await response.json();
 
-  return data.data;
+  console.log(data);
+
+  return {
+    data: data.data,
+    meta: {
+      isNext: data.meta.isNext,
+    },
+  };
 };
 
 export const joinMission = async (request: JoinMissionRequest) => {
