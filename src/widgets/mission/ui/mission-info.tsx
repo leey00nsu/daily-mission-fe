@@ -32,7 +32,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
   const {
     id,
-    imgUrl,
+    imageUrl,
     title,
     content,
     startDate,
@@ -51,7 +51,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <Image
           fill
           alt="mission image"
-          src={imgUrl || ''}
+          src={imageUrl || ''}
           className="object-cover"
           unoptimized
         />

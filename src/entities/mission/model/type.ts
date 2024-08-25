@@ -14,10 +14,10 @@ export interface Week {
 
 export interface Mission {
   id: number;
-  name: string;
+  username: string;
   title: string;
   content: string;
-  imgUrl: string;
+  imageUrl: string;
   startDate: string;
   endDate: string;
   ended: boolean;
@@ -32,7 +32,14 @@ export interface Mission {
 export interface MissionCard
   extends Pick<
     Mission,
-    'id' | 'title' | 'content' | 'startDate' | 'endDate' | 'imgUrl' | 'ended'
+    | 'id'
+    | 'username'
+    | 'title'
+    | 'content'
+    | 'startDate'
+    | 'endDate'
+    | 'imageUrl'
+    | 'ended'
   > {}
 
 export const CreateMissionSchema = z.object({
@@ -103,7 +110,7 @@ export interface GetMissionsRequest {
   size: number;
   sort: MissionSort;
 }
-export type GetMissionsResponse = Mission[];
+export type GetMissionsResponse = MissionCard[];
 
 export const JoinMissionSchema = z.object({
   credential: z.string({

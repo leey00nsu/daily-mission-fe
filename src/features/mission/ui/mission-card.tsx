@@ -13,7 +13,7 @@ interface MissionCardProps {
 }
 
 const MissionCard = ({ mission, onClick }: MissionCardProps) => {
-  const { title, content, startDate, endDate, imgUrl } = mission;
+  const { username, title, content, startDate, endDate, imageUrl } = mission;
 
   return (
     <Card onClick={onClick}>
@@ -28,13 +28,14 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
             <Image
               fill
               alt="mission image"
-              src={imgUrl || ''}
+              src={imageUrl || ''}
               className="object-cover"
               unoptimized
             />
           </div>
           <div className="w-1/2">
-            <h3 className="text-2xl font-semibold">{title}</h3>
+            <h3 className="truncate font-semibold">{username}</h3>
+            <h3 className="truncate text-2xl font-semibold">{title}</h3>
             <p className="truncate">{content}</p>
           </div>
         </div>
