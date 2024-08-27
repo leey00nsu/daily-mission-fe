@@ -39,4 +39,6 @@ export async function SignIn(user: User) {
 
 export async function SignOut() {
   cookies().delete('Auth');
+  cookies().delete('Authorization');
+  cookies().delete('SESSION');
 }

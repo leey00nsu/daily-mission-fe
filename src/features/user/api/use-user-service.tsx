@@ -18,6 +18,7 @@ export const queryOptions = {
   user: () => ({
     queryKey: queryKeys.user(),
     queryFn: () => getProfile(),
+    retry: 0,
   }),
 };
 
