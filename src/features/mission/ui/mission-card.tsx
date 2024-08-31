@@ -35,7 +35,7 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
               fill
               alt="mission image"
               src={imageUrl || ''}
-              className="object-cover"
+              className="object-contain"
               unoptimized
             />
           </div>

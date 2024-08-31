@@ -3,9 +3,9 @@
 import { Mission } from '@/entities/mission/model/type';
 import { useUserStore } from '@/entities/user/model/store';
 import { useGetMission } from '@/features/mission/api/use-mission-service';
-import MissionPostList from '@/features/mission/ui/mission-post-list';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import { useGetMissionPosts } from '@/features/post/api/use-post-service';
+import PostList from '@/features/post/ui/post-list';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -64,7 +64,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
           fill
           alt="mission image"
           src={imageUrl || ''}
-          className="object-cover"
+          className="object-contain"
           unoptimized
         />
       </div>
@@ -103,7 +103,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 포스트</h3>
-        <MissionPostList posts={posts} />
+        <PostList posts={posts} />
       </div>
 
       {!isOwner && (
