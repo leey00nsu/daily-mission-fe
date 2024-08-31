@@ -13,10 +13,16 @@ interface MissionCardProps {
 }
 
 const MissionCard = ({ mission, onClick }: MissionCardProps) => {
-  const { username, title, content, startDate, endDate, imageUrl } = mission;
+  const { username, title, content, startDate, endDate, imageUrl, ended } =
+    mission;
 
   return (
-    <Card onClick={onClick}>
+    <Card onClick={onClick} className="relative">
+      {ended && (
+        <div className="absolute z-[1] flex h-full w-full items-center justify-center bg-gray-100/50 backdrop-blur-sm">
+          <p className="font-semibold">종료된 미션입니다.</p>
+        </div>
+      )}
       <CardHeader>
         <CardDescription>
           {startDate} ~ {endDate}

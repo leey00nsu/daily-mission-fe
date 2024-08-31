@@ -93,8 +93,6 @@ export const getMissions = async (
 
   const data: GlobalResponse<Mission[]> = await response.json();
 
-  console.log(data);
-
   return {
     data: data.data,
     meta: {
