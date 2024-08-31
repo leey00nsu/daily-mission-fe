@@ -3,6 +3,7 @@
 import { SignOut } from '@/entities/auth/api/auth-action';
 import { useUserStore } from '@/entities/user/model/store';
 import { useGetProfile } from '@/features/user/api/use-user-service';
+import { Spinner } from '@/shared/ui/spinner';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useLayoutEffect } from 'react';
 
@@ -30,7 +31,11 @@ const AuthCallback = () => {
     }
   }, [isFetched]);
 
-  return null;
+  return (
+    <div className="flex h-dvh w-dvw items-center justify-center">
+      <Spinner />
+    </div>
+  );
 };
 
 export default AuthCallback;
