@@ -28,7 +28,6 @@ export async function MockSignIn({
 }
 
 export async function SignOut() {
-  cookies().delete('Auth');
   cookies().delete('Authorization');
   cookies().delete('SESSION');
 }

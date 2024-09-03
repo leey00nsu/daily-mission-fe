@@ -2,7 +2,7 @@ export interface Post {
   id: number;
   missionId: number;
   missionTitle: string;
-  username: string;
+  nickname: string;
   userImageUrl: string;
   title: string;
   content: string;

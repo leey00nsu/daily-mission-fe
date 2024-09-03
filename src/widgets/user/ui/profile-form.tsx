@@ -38,7 +38,7 @@ const ProfileForm = () => {
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
       email: user?.email,
-      name: user?.name,
+      nickname: user?.nickname,
     },
   });
 
@@ -102,6 +102,7 @@ const ProfileForm = () => {
               <FormLabel>이메일</FormLabel>
               <FormControl>
                 <Input
+                  readOnly
                   type="email"
                   id="email"
                   placeholder="Email@mail.com"
@@ -115,7 +116,7 @@ const ProfileForm = () => {
 
         <FormField
           control={form.control}
-          name="name"
+          name="nickname"
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>닉네임</FormLabel>

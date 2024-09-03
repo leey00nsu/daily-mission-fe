@@ -9,7 +9,8 @@
     "start": "next start",
     "prepare": "husky",
     "format": "prettier --write .",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

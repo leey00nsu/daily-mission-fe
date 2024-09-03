@@ -13,7 +13,7 @@ interface MissionCardProps {
 }
 
 const MissionCard = ({ mission, onClick }: MissionCardProps) => {
-  const { username, title, content, startDate, endDate, imageUrl, ended } =
+  const { nickname, title, content, startDate, endDate, imageUrl, ended } =
     mission;
 
   return (
@@ -40,7 +40,7 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
             />
           </div>
           <div className="w-1/2">
-            <h3 className="truncate font-semibold">{username}</h3>
+            <h3 className="truncate font-semibold">{nickname}</h3>
             <h3 className="truncate text-2xl font-semibold">{title}</h3>
             <p className="truncate">{content}</p>
           </div>

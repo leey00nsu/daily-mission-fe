@@ -41,6 +41,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
   const {
     id,
+    nickname,
     imageUrl,
     title,
     content,
@@ -55,7 +56,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   );
   const participantCount = participantDto.length;
 
-  const isOwner = user.name === mission.username;
+  const isOwner = user.nickname === mission.nickname;
 
   return (
     <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
@@ -97,7 +98,9 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <h3 className="text-lg font-medium">미션 참여자</h3>
         <div className="flex items-center gap-2">
           <AvatarGroup avatars={participantAvatars} />
-          <p>{participantCount} 명이 참여중</p>
+          <p>
+            {nickname}님 외 {participantCount - 1} 명이 참여하고 있습니다.
+          </p>
         </div>
       </div>
 

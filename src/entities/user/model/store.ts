@@ -11,7 +11,7 @@ export interface Action {
 }
 
 const DEFAULT_USER = {
-  name: '',
+  nickname: '',
   email: '',
   imageUrl: '',
 };

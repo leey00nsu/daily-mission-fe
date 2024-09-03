@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export interface User {
-  name: string;
+  nickname: string;
   email: string;
   imageUrl: string;
 }
@@ -17,7 +17,7 @@ export const UpdateProfileSchema = z.object({
   email: z.string().email({
     message: '이메일 형식이 올바르지 않습니다.',
   }),
-  name: z
+  nickname: z
     .string()
     .min(2, {
       message: '닉네임은 2글자 이상 20글자 이하여야 합니다.',

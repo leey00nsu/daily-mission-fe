@@ -9,7 +9,7 @@ export const updateProfile = async (request: UpdateProfileRequest) => {
   const formData = new FormData();
 
   formData.append('email', request.email);
-  formData.append('name', request.name);
+  formData.append('name', request.nickname);
 
   if (request.image) {
     formData.append('file', request.image);

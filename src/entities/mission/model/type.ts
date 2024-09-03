@@ -15,7 +15,7 @@ export interface Week {
 
 export interface Mission {
   id: number;
-  username: string;
+  nickname: string;
   title: string;
   content: string;
   imageUrl: string;
@@ -34,7 +34,7 @@ export interface MissionCard
   extends Pick<
     Mission,
     | 'id'
-    | 'username'
+    | 'nickname'
     | 'title'
     | 'content'
     | 'startDate'

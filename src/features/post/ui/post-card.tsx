@@ -11,7 +11,7 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post }: PostCardProps) => {
-  const { userImageUrl, username, createdDate, content, imageUrl } = post;
+  const { userImageUrl, nickname, createdDate, content, imageUrl } = post;
 
   return (
     <Card className="border-0 shadow-none">
@@ -25,7 +25,7 @@ const PostCard = ({ post }: PostCardProps) => {
           </Avatar>
 
           <div className="w-full overflow-hidden">
-            <h3 className="truncate text-2xl font-semibold">{username}</h3>
+            <h3 className="truncate text-2xl font-semibold">{nickname}</h3>
             <p>{formatDate(createdDate)}</p>
           </div>
         </div>

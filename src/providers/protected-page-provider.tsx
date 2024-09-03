@@ -13,7 +13,7 @@ const ProtectedPageProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
-    if (!user.name || !user.email) {
+    if (!user.nickname || !user.email) {
       router.replace('/sign-in/callback?redirect=' + pathname);
     } else {
       setIsLoading(false);
