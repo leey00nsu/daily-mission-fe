@@ -6,6 +6,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <ProtectedPageProvider needAuthorized>{children}</ProtectedPageProvider>
+    <ProtectedPageProvider needAuthorized={false}>
+      {children}
+    </ProtectedPageProvider>
   );
 }

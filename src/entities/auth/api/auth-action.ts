@@ -30,4 +30,6 @@ export async function MockSignIn({
 export async function SignOut() {
   cookies().delete('Authorization');
   cookies().delete('SESSION');
+
+  redirect('/sign-in');
 }

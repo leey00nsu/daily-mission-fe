@@ -38,7 +38,7 @@ const ProfileMenu = () => {
       <NavigationButton
         leftIcon={<LuLogOut />}
         title="로그아웃"
-        href="/auth/sign-out"
+        href="/sign-out"
       />
     </div>
   );
