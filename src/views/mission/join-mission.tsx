@@ -1,5 +1,5 @@
 import PageContainer from '@/shared/ui/page-container';
-import MissionCredentialForm from '@/widgets/mission/ui/mission-credential-form';
+import JoinMissionForm from '@/widgets/mission/ui/join-mission-form';
 
 const JoinMission = () => {
   return (
@@ -10,7 +10,7 @@ const JoinMission = () => {
         leftIcon: 'leftArrow',
       }}
     >
-      <MissionCredentialForm />
+      <JoinMissionForm />
     </PageContainer>
   );
 };

@@ -2,7 +2,9 @@ export interface GlobalResponse<T> {
   success: boolean;
   code: number;
   data: T;
-  errors: object;
+  errors: {
+    message: string;
+  };
   meta: {
     isNext: boolean;
   };

@@ -40,7 +40,6 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   }
 
   const {
-    id,
     nickname,
     imageUrl,
     title,
@@ -118,7 +117,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
       {!isOwner && (
         <div className="fixed bottom-0 w-full max-w-2xl p-4">
           <Button asChild className="w-full">
-            <Link href={`/mission/join?id=${id}`}>미션 참여하기</Link>
+            <Link href={`/mission/join/${pageId}`}>미션 참여하기</Link>
           </Button>
         </div>
       )}

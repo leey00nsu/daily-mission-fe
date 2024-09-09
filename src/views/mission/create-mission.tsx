@@ -1,7 +1,7 @@
 import PageContainer from '@/shared/ui/page-container';
-import NewMissionForm from '@/widgets/mission/ui/new-mission-form';
+import CreateMissionForm from '@/widgets/mission/ui/create-mission-form';
 
-const NewMission = () => {
+const CreateMission = () => {
   return (
     <PageContainer
       headerShown
@@ -10,9 +10,9 @@ const NewMission = () => {
         leftIcon: 'leftArrow',
       }}
     >
-      <NewMissionForm />
+      <CreateMissionForm />
     </PageContainer>
   );
 };
 
-export default NewMission;
+export default CreateMission;

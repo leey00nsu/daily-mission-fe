@@ -12,7 +12,6 @@ import {
 } from '@/entities/mission/model/type';
 import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
-import { delay } from 'es-toolkit';
 
 export const createMission = async (
   request: CreateMissionRequest,
@@ -103,24 +102,28 @@ export const getMissions = async (
   };
 };
 
-export const joinMission = async (request: JoinMissionRequest) => {
-  // 수정 필요
+export const joinMission = async (
+  request: JoinMissionRequest,
+): Promise<void> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/participant/join`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(request),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
 
-  // const response = await fetch('/api/participant/join', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(request),
-  // });
+  const data: GlobalResponse<void> = await response.json();
 
-  console.log(request);
+  if (!response.ok) {
+    throw new Error(data.errors.message);
+  }
 
-  await delay(1000);
-
-  return {
-    ok: true,
-  };
+  return data.data;
 };
 
 export const deleteMission = async (

@@ -121,6 +121,7 @@ export interface GetMissionsRequest {
 export type GetMissionsResponse = Page<Mission>;
 
 export const JoinMissionSchema = z.object({
+  missionId: z.number(),
   credential: z.string({
     message: '참여 코드를 입력해주세요',
   }),
@@ -128,9 +129,7 @@ export const JoinMissionSchema = z.object({
 
 export type JoinMissionRequest = z.infer<typeof JoinMissionSchema>;
 
-export interface JoinMissionResponse {
-  ok: boolean;
-}
+export interface JoinMissionResponse {}
 
 export interface DeleteMissionRequest {
   id: Mission['id'];

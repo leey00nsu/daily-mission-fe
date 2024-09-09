@@ -13,7 +13,6 @@ import {
   GetMissionResponse,
   GetMissionsRequest,
   JoinMissionRequest,
-  JoinMissionResponse,
   MissionSort,
   MissionType,
 } from '@/entities/mission/model/type';
@@ -95,12 +94,7 @@ export const useGetMissions = ({
 };
 
 export const useJoinMission = (
-  props?: UseMutationOptions<
-    JoinMissionResponse,
-    unknown,
-    JoinMissionRequest,
-    unknown
-  >,
+  props?: UseMutationOptions<void, Error, JoinMissionRequest, unknown>,
 ) => {
   return useMutation({
     mutationFn: joinMission,

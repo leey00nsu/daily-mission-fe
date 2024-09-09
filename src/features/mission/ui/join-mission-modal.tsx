@@ -12,29 +12,35 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
 
-interface MissionJoinModalProps {
+interface JoinMissionModalProps {
   isOpen: boolean;
   onClose: () => void;
   formData: JoinMissionRequest;
 }
 
-const MissionJoinModal = ({
+const JoinMissionModal = ({
   isOpen,
   onClose,
   formData,
-}: MissionJoinModalProps) => {
+}: JoinMissionModalProps) => {
   const router = useRouter();
 
-  const { data: joinMissionResult, mutate: joinMission } = useJoinMission();
+  const {
+    mutate: joinMission,
+    isSuccess,
+    isError,
+    isPending,
+    error,
+  } = useJoinMission();
 
   useEffect(() => {
     joinMission(formData);
-  }, [formData]);
+  }, []);
 
   const closeHandler = () => {
     onClose();
 
-    if (joinMissionResult) {
+    if (isSuccess) {
       router.push('/');
     }
   };
@@ -45,14 +51,23 @@ const MissionJoinModal = ({
         <DialogHeader>
           <DialogTitle>미션 참여</DialogTitle>
         </DialogHeader>
-        {!joinMissionResult && (
+        {isPending && (
           <div className="flex items-center justify-center">
             <LuLoader2 className="h-8 w-8 animate-spin" />
           </div>
         )}
-        {joinMissionResult && (
+        {isSuccess && (
           <div className="flex flex-col gap-2">
             <p>미션 참여가 완료되었습니다.</p>
+
+            <DialogClose asChild>
+              <Button type="button">확인</Button>
+            </DialogClose>
+          </div>
+        )}
+        {isError && (
+          <div className="flex flex-col gap-2">
+            <p>{error.message}</p>
 
             <DialogClose asChild>
               <Button type="button">확인</Button>
@@ -64,4 +79,4 @@ const MissionJoinModal = ({
   );
 };
 
-export default MissionJoinModal;
+export default JoinMissionModal;

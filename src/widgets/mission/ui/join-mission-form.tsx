@@ -6,7 +6,7 @@ import {
   JoinMissionRequest,
   JoinMissionSchema,
 } from '@/entities/mission/model/type';
-import MissionJoinModal from '@/features/mission/ui/mission-join-modal';
+import JoinMissionModal from '@/features/mission/ui/join-mission-modal';
 import {
   Form,
   FormControl,
@@ -17,21 +17,25 @@ import {
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 import { useForm } from 'react-hook-form';
 
-const MissionCredentialForm = () => {
+const JoinMissionForm = () => {
+  const missionId = Number(useParams<{ id: string }>().id);
+
   const form = useForm<JoinMissionRequest>({
     resolver: zodResolver(JoinMissionSchema),
     defaultValues: {
       credential: '',
+      missionId,
     },
   });
 
   const onSubmit = (data: JoinMissionRequest) => {
     overlay.open(({ isOpen, close }) => {
       return (
-        <MissionJoinModal formData={data} isOpen={isOpen} onClose={close} />
+        <JoinMissionModal formData={data} isOpen={isOpen} onClose={close} />
       );
     });
   };
@@ -67,4 +71,4 @@ const MissionCredentialForm = () => {
   );
 };
 
-export default MissionCredentialForm;
+export default JoinMissionForm;

@@ -1,5 +1,5 @@
-import NewMission from '@/views/mission/new-mission';
+import CreateMission from '@/views/mission/create-mission';
 
 export default function Page() {
-  return <NewMission />;
+  return <CreateMission />;
 }

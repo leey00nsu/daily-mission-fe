@@ -30,7 +30,7 @@ import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
-const NewMissionForm = () => {
+const CreateMissionForm = () => {
   const [imageSrc, setImageSrc] = useState('');
 
   const form = useForm<CreateMissionRequest>({
@@ -276,4 +276,4 @@ const NewMissionForm = () => {
   );
 };
 
-export default NewMissionForm;
+export default CreateMissionForm;
