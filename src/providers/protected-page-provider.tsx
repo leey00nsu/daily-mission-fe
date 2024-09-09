@@ -23,7 +23,7 @@ const ProtectedPageProvider = ({
   const isAuthorized = Boolean(user.nickname && user.email);
 
   useLayoutEffect(() => {
-    if (!(isAuthorized === needAuthorized)) {
+    if (isAuthorized !== needAuthorized) {
       if (needAuthorized) {
         router.replace(
           '/sign-in/callback?redirect=' + encodeURIComponent(pathname),

@@ -1,35 +1,45 @@
 import { SignOut } from '@/entities/auth/api/auth-action';
-import { MOCK_USER } from '@/entities/user/model/mock-user';
-import { UpdateProfileRequest, User } from '@/entities/user/model/type';
+import {
+  UpdateProfileRequest,
+  UpdateProfileResponse,
+  User,
+} from '@/entities/user/model/type';
 import { GlobalResponse } from '@/shared/model/type';
 
-import { delay } from 'es-toolkit';
-
-export const updateProfile = async (request: UpdateProfileRequest) => {
+export const updateProfile = async (
+  request: UpdateProfileRequest,
+): Promise<UpdateProfileResponse> => {
   const formData = new FormData();
 
-  formData.append('email', request.email);
-  formData.append('name', request.nickname);
+  const requestDto = {
+    nickname: request.nickname,
+  };
 
-  if (request.image) {
-    formData.append('file', request.image);
+  const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
+    type: 'application/json',
+  });
+
+  formData.append('requestDto', requestDtoBlob);
+  if (request.image) formData.append('file', request.image);
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/user/profile`,
+    {
+      method: 'PUT',
+      body: formData,
+      credentials: 'include',
+    },
+  );
+
+  if (!response.ok) {
+    SignOut();
+
+    throw new Error('Failed to update profile');
   }
 
-  // const response = await fetch('/api/user', {
-  //   method: 'PUT',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data),
-  // });
+  const data: GlobalResponse<UpdateProfileResponse> = await response.json();
 
-  // if (!response.ok) {
-  //   throw new Error('Failed to sign up');
-  // }
-
-  await delay(1000);
-
-  return MOCK_USER;
+  return data.data;
 };
 
 export const getProfile = async (): Promise<User> => {

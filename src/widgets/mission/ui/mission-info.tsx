@@ -45,6 +45,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     imageUrl,
     title,
     content,
+    hint,
     startDate,
     endDate,
     participantDto,
@@ -78,6 +79,11 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 설명</h3>
         <p>{content}</p>
+      </div>
+
+      <div className="w-full">
+        <h3 className="text-lg font-medium">미션 참여코드 힌트</h3>
+        <p>{hint ?? '힌트가 없습니다.'}</p>
       </div>
 
       <div className="w-full">

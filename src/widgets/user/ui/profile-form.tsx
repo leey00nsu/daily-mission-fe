@@ -1,13 +1,11 @@
 'use client';
 
+import { useUserStore } from '@/entities/user/model/store';
 import {
   UpdateProfileRequest,
   UpdateProfileSchema,
 } from '@/entities/user/model/type';
-import {
-  useGetProfile,
-  useUpdateProfile,
-} from '@/features/user/api/use-user-service';
+import { useUpdateProfile } from '@/features/user/api/use-user-service';
 import ProfileImage from '@/features/user/ui/profile-image';
 import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -28,7 +26,7 @@ import { LuLoader2 } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ProfileForm = () => {
-  const { data: user } = useGetProfile();
+  const user = useUserStore((state) => state.user);
 
   const [imageSrc, setImageSrc] = useState(user?.imageUrl || '');
 

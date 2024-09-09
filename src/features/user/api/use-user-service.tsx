@@ -31,7 +31,7 @@ export const useUpdateProfile = (
   >,
 ) => {
   return useMutation({
-    mutationFn: (form: UpdateProfileRequest) => updateProfile(form),
+    mutationFn: updateProfile,
     ...props,
   });
 };

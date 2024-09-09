@@ -22,6 +22,8 @@ export const createMission = async (
   const missionReqDto = {
     week: request.week,
     title: request.title,
+    hint: request.hint,
+    credential: request.credential,
     content: request.content,
     startDate: format(request.date.startDate!, 'yyyy-MM-dd'),
     endDate: format(request.date.endDate!, 'yyyy-MM-dd'),

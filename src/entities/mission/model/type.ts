@@ -15,6 +15,7 @@ export interface Week {
 
 export interface Mission {
   id: number;
+  hint: string;
   nickname: string;
   title: string;
   content: string;
@@ -52,6 +53,12 @@ export const CreateMissionSchema = z.object({
     .max(20, {
       message: '미션 제목은 2글자 이상 20글자 이하여야 합니다.',
     }),
+  hint: z.string().min(2, {
+    message: '힌트는 2글자 이상이여야 합니다.',
+  }),
+  credential: z.string().min(2, {
+    message: '참여 코드는 2글자 이상이여야 합니다.',
+  }),
   content: z.string().min(2, {
     message: '미션 설명은 2글자 이상이여야 합니다.',
   }),

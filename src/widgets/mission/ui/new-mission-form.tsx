@@ -40,6 +40,8 @@ const NewMissionForm = () => {
         startDate: undefined,
         endDate: undefined,
       },
+      hint: '',
+      credential: '',
       title: '',
       content: '',
       week: {
@@ -149,6 +151,45 @@ const NewMissionForm = () => {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="credential"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>미션 참여코드</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  id="title"
+                  placeholder="미션 참여코드를 입력해주세요."
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="hint"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>미션 참여코드 힌트</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  id="title"
+                  placeholder="미션 참여코드 힌트를 입력해주세요."
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="date"
