@@ -27,10 +27,19 @@ import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ProfileForm = () => {
   const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
   const [imageSrc, setImageSrc] = useState(user?.imageUrl || '');
 
-  const { mutate: updateProfile, isPending } = useUpdateProfile();
+  const { mutate: updateProfile, isPending } = useUpdateProfile({
+    onSuccess: (data) => {
+      setUser({
+        ...user,
+        nickname: data.nickname || user?.nickname,
+        imageUrl: data.imageUrl || user?.imageUrl,
+      });
+    },
+  });
 
   const form = useForm<UpdateProfileRequest>({
     resolver: zodResolver(UpdateProfileSchema),
@@ -41,7 +50,19 @@ const ProfileForm = () => {
   });
 
   const onSubmit = (data: UpdateProfileRequest) => {
-    updateProfile(data);
+    if (
+      !form.formState.dirtyFields.image &&
+      !form.formState.dirtyFields.nickname
+    )
+      return;
+
+    const formData = {
+      email: data.email,
+      nickname: form.formState.dirtyFields.nickname ? data.nickname : undefined,
+      image: form.formState.dirtyFields.image ? data.image : undefined,
+    };
+
+    updateProfile(formData);
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

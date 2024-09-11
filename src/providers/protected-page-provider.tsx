@@ -20,7 +20,7 @@ const ProtectedPageProvider = ({
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const isAuthorized = Boolean(user.nickname && user.email);
+  const isAuthorized = Boolean(user.email);
 
   useLayoutEffect(() => {
     if (isAuthorized !== needAuthorized) {

@@ -24,7 +24,8 @@ export const UpdateProfileSchema = z.object({
     })
     .max(20, {
       message: '닉네임은 2글자 이상 20글자 이하여야 합니다.',
-    }),
+    })
+    .optional(),
   image: z.instanceof(File).optional(),
 });
 

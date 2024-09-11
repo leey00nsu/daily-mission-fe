@@ -11,15 +11,18 @@ export const updateProfile = async (
 ): Promise<UpdateProfileResponse> => {
   const formData = new FormData();
 
-  const requestDto = {
-    nickname: request.nickname,
-  };
+  const requestDto: {
+    nickname?: string;
+  } = {};
+
+  if (request.nickname) requestDto.nickname = request.nickname;
 
   const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
     type: 'application/json',
   });
 
   formData.append('requestDto', requestDtoBlob);
+
   if (request.image) formData.append('file', request.image);
 
   const response = await fetch(
@@ -32,8 +35,6 @@ export const updateProfile = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('Failed to update profile');
   }
 
