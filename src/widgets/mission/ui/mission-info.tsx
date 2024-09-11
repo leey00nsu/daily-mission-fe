@@ -51,9 +51,10 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     missionRuleResponseDto,
   } = mission;
 
-  const participantAvatars = participantDto.map(
-    (participant) => participant.imageUrl,
-  );
+  const participantAvatars = participantDto.map((participant) => ({
+    imageUrl: participant.imageUrl,
+    nickname: participant.nickname,
+  }));
   const participantCount = participantDto.length;
 
   const isOwner = user.nickname === mission.nickname;

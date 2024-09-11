@@ -8,7 +8,7 @@ export interface User {
 
 export interface Participant {
   id: number;
-  username: string;
+  nickname: string;
   imageUrl: string;
   banned: boolean;
 }
