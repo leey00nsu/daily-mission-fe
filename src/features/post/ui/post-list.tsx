@@ -2,7 +2,7 @@ import { Post } from '@/entities/post/model/type';
 import PostCard from '@/features/post/ui/post-card';
 
 interface PostListProps {
-  posts: Post[] | undefined;
+  posts?: Post[];
 }
 
 const PostList = ({ posts }: PostListProps) => {

@@ -77,7 +77,7 @@ export const useGetUserPosts = (
 };
 
 export const useCreatePost = (
-  props?: UseMutationOptions<void, unknown, CreatePostRequest, unknown>,
+  props?: UseMutationOptions<void, Error, CreatePostRequest, unknown>,
 ) => {
   return useMutation({
     mutationFn: createPost,

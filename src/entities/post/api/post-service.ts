@@ -35,13 +35,11 @@ export const createPost = async (request: CreatePostRequest): Promise<void> => {
     },
   );
 
-  if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to create post');
-  }
-
   const data: GlobalResponse<void> = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.errors.message);
+  }
 
   return data.data;
 };

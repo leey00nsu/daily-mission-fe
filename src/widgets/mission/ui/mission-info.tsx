@@ -58,9 +58,12 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const participantCount = participantDto.length;
 
   const isOwner = user.nickname === mission.nickname;
+  const isParticipant = participantDto.some(
+    (participant) => participant.nickname === user.nickname,
+  );
 
   return (
-    <section className="mb-20 flex w-full flex-col items-center justify-center gap-4">
+    <section className="mb-40 flex w-full flex-col items-center justify-center gap-4">
       <div className="relative h-64 w-full overflow-hidden rounded-2xl">
         <Image
           fill
@@ -115,18 +118,27 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <PostList posts={posts} />
       </div>
 
-      {!isOwner && (
-        <div className="fixed bottom-0 w-full max-w-2xl p-4">
-          <Button asChild className="w-full">
-            <Link href={`/mission/join/${pageId}`}>미션 참여하기</Link>
-          </Button>
-        </div>
-      )}
-      {isOwner && (
-        <div className="fixed bottom-0 w-full max-w-2xl p-4">
-          <Button className="w-full">미션 수정하기</Button>
-        </div>
-      )}
+      <div className="fixed bottom-0 flex w-full max-w-2xl flex-col gap-2 p-4">
+        {!isOwner && !isParticipant && (
+          <div className="w-full">
+            <Button asChild className="w-full">
+              <Link href={`/mission/join/${pageId}`}>미션 참여하기</Link>
+            </Button>
+          </div>
+        )}
+        {isParticipant && (
+          <div className="w-full">
+            <Button asChild className="w-full">
+              <Link href={`/post/new/${pageId}`}>포스트 작성하기</Link>
+            </Button>
+          </div>
+        )}
+        {isOwner && (
+          <div className="w-full">
+            <Button className="w-full">미션 수정하기</Button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };
