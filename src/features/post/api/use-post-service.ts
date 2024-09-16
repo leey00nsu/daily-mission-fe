@@ -49,8 +49,7 @@ export const useGetPost = (
   props?: UseQueryOptions<unknown, unknown, GetPostResponse>,
 ) => {
   return useQuery({
-    queryKey: queryKeys.post(id),
-    queryFn: queryOptions.post(id).queryFn,
+    ...queryOptions.post(id),
     ...props,
   });
 };
@@ -60,8 +59,7 @@ export const useGetMissionPosts = (
   props?: UseQueryOptions<unknown, unknown, GetPostsResponse>,
 ) => {
   return useQuery({
-    queryKey: queryKeys.missionPosts(missionId),
-    queryFn: queryOptions.missionPosts(missionId).queryFn,
+    ...queryOptions.missionPosts(missionId),
     ...props,
   });
 };
@@ -70,8 +68,7 @@ export const useGetUserPosts = (
   props?: UseQueryOptions<unknown, unknown, GetPostsResponse>,
 ) => {
   return useQuery({
-    queryKey: queryKeys.userPosts(),
-    queryFn: queryOptions.userPosts().queryFn,
+    ...queryOptions.userPosts(),
     ...props,
   });
 };

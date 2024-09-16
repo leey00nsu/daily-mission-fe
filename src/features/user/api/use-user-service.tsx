@@ -37,5 +37,7 @@ export const useUpdateProfile = (
 };
 
 export const useGetProfile = () => {
-  return useQuery(queryOptions.user());
+  return useQuery({
+    ...queryOptions.user(),
+  });
 };

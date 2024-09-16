@@ -14,6 +14,7 @@ import {
   GetMissionResponse,
   GetMissionsResponse,
   GetPaginationMissionsRequest,
+  GetPaginationMissionsResponse,
   JoinMissionRequest,
   MissionSort,
   MissionType,
@@ -53,8 +54,22 @@ export const queryOptions = {
     size: number,
     sort: MissionSort,
   ) => ({
+    initialPageParam: page,
     queryKey: queryKeys.paginationMissions(type, page, size, sort),
-    queryFn: () => getPaginationMissions({ type, page, size, sort }),
+    queryFn: ({ pageParam = page }) =>
+      getPaginationMissions({
+        type,
+        page: pageParam,
+        size,
+        sort,
+      }),
+    getNextPageParam: (
+      lastPage: GetPaginationMissionsResponse,
+      allPages: GetPaginationMissionsResponse[],
+      pageParam: number,
+    ) => {
+      return lastPage.meta.isNext ? (pageParam as number) + 1 : undefined;
+    },
   }),
 };
 
@@ -77,8 +92,7 @@ export const useGetMission = (
   props?: UseQueryOptions<unknown, unknown, GetMissionResponse>,
 ) => {
   return useQuery({
-    queryKey: queryKeys.mission(id),
-    queryFn: queryOptions.mission(id).queryFn,
+    ...queryOptions.mission(id),
     ...props,
   });
 };
@@ -90,15 +104,7 @@ export const useGetMissions = ({
   sort,
 }: GetPaginationMissionsRequest) => {
   return useInfiniteQuery({
-    initialPageParam: page,
-    queryKey: queryKeys.paginationMissions(type, page, size, sort),
-    queryFn: ({ pageParam }) =>
-      queryOptions
-        .paginationMissions(type, pageParam as number, size, sort)
-        .queryFn(),
-    getNextPageParam: (lastPage, allPages, pageParam) => {
-      return lastPage.meta.isNext ? (pageParam as number) + 1 : undefined;
-    },
+    ...queryOptions.paginationMissions(type, page, size, sort),
   });
 };
 
