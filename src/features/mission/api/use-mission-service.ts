@@ -5,6 +5,7 @@ import {
   getPaginationMissions,
   getParticipatedMissions,
   joinMission,
+  updateMission,
 } from '@/entities/mission/api/mission-service';
 import {
   CreateMissionRequest,
@@ -18,6 +19,8 @@ import {
   JoinMissionRequest,
   MissionSort,
   MissionType,
+  UpdateMissionResponse,
+  UpdateMissionRequest,
 } from '@/entities/mission/model/type';
 
 import {
@@ -83,6 +86,20 @@ export const useCreateMission = (
 ) => {
   return useMutation({
     mutationFn: createMission,
+    ...props,
+  });
+};
+
+export const useUpdateMission = (
+  props?: UseMutationOptions<
+    UpdateMissionResponse,
+    unknown,
+    UpdateMissionRequest,
+    unknown
+  >,
+) => {
+  return useMutation({
+    mutationFn: updateMission,
     ...props,
   });
 };

@@ -100,7 +100,18 @@ export const CreateMissionSchema = z.object({
 
 export type CreateMissionRequest = z.infer<typeof CreateMissionSchema>;
 
+export const UpdateMissionSchema = CreateMissionSchema.pick({
+  hint: true,
+  credential: true,
+});
+export type UpdateMissionRequest = z.infer<typeof UpdateMissionSchema> & {
+  id: Mission['id'];
+};
+
 export interface CreateMissionResponse {
+  credential: string;
+}
+export interface UpdateMissionResponse {
   credential: string;
 }
 

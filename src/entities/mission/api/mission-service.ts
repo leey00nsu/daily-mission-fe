@@ -10,6 +10,8 @@ import {
   GetPaginationMissionsResponse,
   JoinMissionRequest,
   Mission,
+  UpdateMissionRequest,
+  UpdateMissionResponse,
 } from '@/entities/mission/model/type';
 import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
@@ -49,6 +51,37 @@ export const createMission = async (
     SignOut();
 
     throw new Error('Failed to create mission');
+  }
+
+  const data: GlobalResponse<CreateMissionResponse> = await response.json();
+
+  return data.data;
+};
+
+export const updateMission = async (
+  request: UpdateMissionRequest,
+): Promise<UpdateMissionResponse> => {
+  const missionReqDto = {
+    hint: request.hint,
+    credential: request.credential,
+  };
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(missionReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    },
+  );
+
+  if (!response.ok) {
+    SignOut();
+
+    throw new Error('Failed to update mission');
   }
 
   const data: GlobalResponse<CreateMissionResponse> = await response.json();

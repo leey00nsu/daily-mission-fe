@@ -91,7 +91,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 규칙</h3>
-        <WeekCheckboxGroup week={missionRuleResponseDto.week} readonly />
+        <WeekCheckboxGroup week={missionRuleResponseDto.week} readOnly />
       </div>
 
       <div className="w-full">
@@ -135,7 +135,9 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         )}
         {isOwner && (
           <div className="w-full">
-            <Button className="w-full">미션 수정하기</Button>
+            <Button asChild className="w-full">
+              <Link href={`/mission/edit/${pageId}`}>미션 수정하기</Link>
+            </Button>
           </div>
         )}
       </div>
