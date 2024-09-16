@@ -25,7 +25,7 @@ const ProfileMenu = () => {
       <NavigationButton
         leftIcon={<LuMessageSquare />}
         title="내 포스트"
-        href="/mission/post"
+        href="/post/user"
       />
       <Separator />
       <NavigationButton

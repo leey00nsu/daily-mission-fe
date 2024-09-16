@@ -1,18 +1,18 @@
 import PageContainer from '@/shared/ui/page-container';
-import CreatePostForm from '@/widgets/post/ui/create-post-form';
+import UserPostList from '@/widgets/post/ui/user-post-list';
 
-const CreatePost = () => {
+const UserPosts = () => {
   return (
     <PageContainer
       headerShown
       headerOptions={{
-        title: '포스트 작성',
         leftIcon: 'leftArrow',
+        title: '내 포스트',
       }}
     >
-      <CreatePostForm />
+      <UserPostList />
     </PageContainer>
   );
 };
 
-export default CreatePost;
+export default UserPosts;

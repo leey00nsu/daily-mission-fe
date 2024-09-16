@@ -1,18 +1,16 @@
-import Logo from '@/shared/ui/logo';
 import PageContainer from '@/shared/ui/page-container';
-import ParticipatedMissionListTab from '@/widgets/mission/ui/participated-mission-list-tab';
+import ParticipatedMissionList from '@/widgets/mission/ui/participated-mission-list';
 
 const ParticipatedMissions = () => {
   return (
     <PageContainer
       headerShown
       headerOptions={{
-        fixed: false,
-        title: <Logo />,
+        leftIcon: 'leftArrow',
+        title: '참여한 미션',
       }}
-      navigationShown
     >
-      <ParticipatedMissionListTab />
+      <ParticipatedMissionList />
     </PageContainer>
   );
 };
