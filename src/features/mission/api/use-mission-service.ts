@@ -2,7 +2,8 @@ import {
   createMission,
   deleteMission,
   getMission,
-  getMissions,
+  getPaginationMissions,
+  getParticipatedMissions,
   joinMission,
 } from '@/entities/mission/api/mission-service';
 import {
@@ -11,7 +12,8 @@ import {
   DeleteMissionRequest,
   GetMissionRequest,
   GetMissionResponse,
-  GetMissionsRequest,
+  GetMissionsResponse,
+  GetPaginationMissionsRequest,
   JoinMissionRequest,
   MissionSort,
   MissionType,
@@ -27,7 +29,8 @@ import {
 
 export const queryKeys = {
   mission: (id: number) => ['mission', id],
-  missions: (
+  participatedMissions: ['participatedMissions'],
+  paginationMissions: (
     type: MissionType,
     page: number,
     size: number,
@@ -40,14 +43,18 @@ export const queryOptions = {
     queryKey: queryKeys.mission(id),
     queryFn: () => getMission({ id }),
   }),
-  missions: (
+  participatedMissions: () => ({
+    queryKey: queryKeys.participatedMissions,
+    queryFn: getParticipatedMissions,
+  }),
+  paginationMissions: (
     type: MissionType,
     page: number,
     size: number,
     sort: MissionSort,
   ) => ({
-    queryKey: queryKeys.missions(type, page, size, sort),
-    queryFn: () => getMissions({ type, page, size, sort }),
+    queryKey: queryKeys.paginationMissions(type, page, size, sort),
+    queryFn: () => getPaginationMissions({ type, page, size, sort }),
   }),
 };
 
@@ -81,12 +88,14 @@ export const useGetMissions = ({
   page,
   size,
   sort,
-}: GetMissionsRequest) => {
+}: GetPaginationMissionsRequest) => {
   return useInfiniteQuery({
     initialPageParam: page,
-    queryKey: queryKeys.missions(type, page, size, sort),
+    queryKey: queryKeys.paginationMissions(type, page, size, sort),
     queryFn: ({ pageParam }) =>
-      queryOptions.missions(type, pageParam as number, size, sort).queryFn(),
+      queryOptions
+        .paginationMissions(type, pageParam as number, size, sort)
+        .queryFn(),
     getNextPageParam: (lastPage, allPages, pageParam) => {
       return lastPage.meta.isNext ? (pageParam as number) + 1 : undefined;
     },
@@ -107,6 +116,15 @@ export const useDeleteMission = (
 ) => {
   return useMutation({
     mutationFn: deleteMission,
+    ...props,
+  });
+};
+
+export const useGetParticipatedMissions = (
+  props?: UseQueryOptions<unknown, unknown, GetMissionsResponse>,
+) => {
+  return useQuery({
+    ...queryOptions.participatedMissions(),
     ...props,
   });
 };

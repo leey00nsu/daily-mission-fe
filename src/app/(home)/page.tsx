@@ -1,5 +1,5 @@
-import Home from '@/views/mission/home';
+import Missions from '@/views/mission/missions';
 
 export default function Page() {
-  return <Home />;
+  return <Missions />;
 }

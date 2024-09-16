@@ -5,8 +5,9 @@ import {
   DeleteMissionRequest,
   GetMissionRequest,
   GetMissionResponse,
-  GetMissionsRequest,
   GetMissionsResponse,
+  GetPaginationMissionsRequest,
+  GetPaginationMissionsResponse,
   JoinMissionRequest,
   Mission,
 } from '@/entities/mission/model/type';
@@ -76,9 +77,29 @@ export const getMission = async (
   return data.data;
 };
 
-export const getMissions = async (
-  request: GetMissionsRequest,
-): Promise<GetMissionsResponse> => {
+export const getParticipatedMissions =
+  async (): Promise<GetMissionsResponse> => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_HOST}/mission/user`,
+      {
+        credentials: 'include',
+      },
+    );
+
+    if (!response.ok) {
+      SignOut();
+
+      throw new Error('Failed to get participated missions');
+    }
+
+    const data: GlobalResponse<GetMissionsResponse> = await response.json();
+
+    return data.data;
+  };
+
+export const getPaginationMissions = async (
+  request: GetPaginationMissionsRequest,
+): Promise<GetPaginationMissionsResponse> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.type}?page=${request.page}&size=${request.size}&sort=${request.sort}`,
     {

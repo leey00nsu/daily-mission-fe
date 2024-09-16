@@ -112,13 +112,15 @@ export type GetMissionResponse = Mission;
 export type MissionType = 'all' | 'hot' | 'new';
 export type MissionSort = 'asc' | 'desc';
 
-export interface GetMissionsRequest {
+export interface GetPaginationMissionsRequest {
   type: MissionType;
   page: number;
   size: number;
   sort: MissionSort;
 }
-export type GetMissionsResponse = Page<Mission>;
+export type GetPaginationMissionsResponse = Page<Mission>;
+export interface GetMissionsRequest {}
+export type GetMissionsResponse = Mission[];
 
 export const JoinMissionSchema = z.object({
   missionId: z.number(),
