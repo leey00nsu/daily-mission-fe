@@ -1,7 +1,6 @@
 import NavigationButton from '@/shared/ui/navigation-button';
 import { Separator } from '@/shared/ui/separator';
 import {
-  LuBookCopy,
   LuBookOpen,
   LuLogOut,
   LuMessageSquare,
@@ -19,26 +18,20 @@ const ProfileMenu = () => {
       <Separator />
       <NavigationButton
         leftIcon={<LuBookOpen />}
-        title="참여중인 미션"
-        href="/mission/active"
-      />
-      <Separator />
-      <NavigationButton
-        leftIcon={<LuBookCopy />}
-        title="참여한 모든 미션"
-        href="/mission/all"
+        title="참여한 미션"
+        href="/mission/participated"
       />
       <Separator />
       <NavigationButton
         leftIcon={<LuMessageSquare />}
         title="내 포스트"
-        href="/mission/post"
+        href="/post/user"
       />
       <Separator />
       <NavigationButton
         leftIcon={<LuLogOut />}
         title="로그아웃"
-        href="/auth/sign-out"
+        href="/sign-out"
       />
     </div>
   );

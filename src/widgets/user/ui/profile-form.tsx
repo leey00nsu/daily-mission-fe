@@ -1,13 +1,11 @@
 'use client';
 
+import { useUserStore } from '@/entities/user/model/store';
 import {
   UpdateProfileRequest,
   UpdateProfileSchema,
 } from '@/entities/user/model/type';
-import {
-  useGetProfile,
-  useUpdateProfile,
-} from '@/features/user/api/use-user-service';
+import { useUpdateProfile } from '@/features/user/api/use-user-service';
 import ProfileImage from '@/features/user/ui/profile-image';
 import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -28,22 +26,43 @@ import { LuLoader2 } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ProfileForm = () => {
-  const { data: user } = useGetProfile();
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
   const [imageSrc, setImageSrc] = useState(user?.imageUrl || '');
 
-  const { mutate: updateProfile, isPending } = useUpdateProfile();
+  const { mutate: updateProfile, isPending } = useUpdateProfile({
+    onSuccess: (data) => {
+      setUser({
+        ...user,
+        nickname: data.nickname || user?.nickname,
+        imageUrl: data.imageUrl || user?.imageUrl,
+      });
+    },
+  });
 
   const form = useForm<UpdateProfileRequest>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
       email: user?.email,
-      name: user?.name,
+      nickname: user?.nickname,
     },
   });
 
   const onSubmit = (data: UpdateProfileRequest) => {
-    updateProfile(data);
+    if (
+      !form.formState.dirtyFields.image &&
+      !form.formState.dirtyFields.nickname
+    )
+      return;
+
+    const formData = {
+      email: data.email,
+      nickname: form.formState.dirtyFields.nickname ? data.nickname : undefined,
+      image: form.formState.dirtyFields.image ? data.image : undefined,
+    };
+
+    updateProfile(formData);
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +121,7 @@ const ProfileForm = () => {
               <FormLabel>이메일</FormLabel>
               <FormControl>
                 <Input
+                  readOnly
                   type="email"
                   id="email"
                   placeholder="Email@mail.com"
@@ -115,7 +135,7 @@ const ProfileForm = () => {
 
         <FormField
           control={form.control}
-          name="name"
+          name="nickname"
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>닉네임</FormLabel>

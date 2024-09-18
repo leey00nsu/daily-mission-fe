@@ -37,6 +37,7 @@ const badgeVariants = cva(
 interface BadgeProps extends VariantProps<typeof badgeVariants> {
   children?: React.ReactNode;
   content?: string | React.ReactNode;
+  className?: string;
 }
 
 const Content = (content: string | React.ReactNode) => {
@@ -49,12 +50,18 @@ const Content = (content: string | React.ReactNode) => {
   }
 };
 
-const Badge = ({ children, content, variant, position }: BadgeProps) => {
+const Badge = ({
+  children,
+  content,
+  variant,
+  position,
+  className,
+}: BadgeProps) => {
   return (
     <div className="relative flex items-center justify-center">
       {children}
 
-      <span className={cn(badgeVariants({ variant, position }))}>
+      <span className={cn(badgeVariants({ variant, position }), className)}>
         {Content(content)}
       </span>
     </div>

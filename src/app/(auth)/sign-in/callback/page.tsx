@@ -1,5 +1,10 @@
-import UpdateProfile from '@/views/user/update-profile';
+import AuthCallback from '@/features/auth/ui/auth-callback';
+import { Suspense } from 'react';
 
 export default function Page() {
-  return <UpdateProfile />;
+  return (
+    <Suspense>
+      <AuthCallback />;
+    </Suspense>
+  );
 }

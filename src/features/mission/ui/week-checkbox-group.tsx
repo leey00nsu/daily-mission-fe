@@ -6,18 +6,18 @@ import { Button } from '@/shared/ui/button';
 
 interface WeekCheckboxGroupBaseProps {
   week: Week;
-  readonly?: boolean;
+  readOnly?: boolean;
 }
 
 interface WeekCheckboxGroupWithOnChangeProps
   extends WeekCheckboxGroupBaseProps {
-  readonly?: false;
+  readOnly?: false;
   onChange: (week: Week) => void;
 }
 
 interface WeekCheckboxGroupWithoutOnChangeProps
   extends WeekCheckboxGroupBaseProps {
-  readonly: true;
+  readOnly: true;
   onChange?: never;
 }
 

@@ -13,12 +13,20 @@ interface MissionCardProps {
 }
 
 const MissionCard = ({ mission, onClick }: MissionCardProps) => {
-  const { title, content, endDate, imgUrl } = mission;
+  const { nickname, title, content, startDate, endDate, imageUrl, ended } =
+    mission;
 
   return (
-    <Card onClick={onClick}>
+    <Card onClick={onClick} className="relative">
+      {ended && (
+        <div className="absolute z-[1] flex h-full w-full items-center justify-center bg-gray-100/50 backdrop-blur-sm">
+          <p className="font-semibold">종료된 미션입니다.</p>
+        </div>
+      )}
       <CardHeader>
-        <CardDescription>{endDate}</CardDescription>
+        <CardDescription>
+          {startDate} ~ {endDate}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">
@@ -26,13 +34,14 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
             <Image
               fill
               alt="mission image"
-              src={imgUrl}
-              className="object-cover"
+              src={imageUrl || ''}
+              className="object-contain"
               unoptimized
             />
           </div>
           <div className="w-1/2">
-            <h3 className="text-2xl font-semibold">{title}</h3>
+            <h3 className="truncate font-semibold">{nickname}</h3>
+            <h3 className="truncate text-2xl font-semibold">{title}</h3>
             <p className="truncate">{content}</p>
           </div>
         </div>

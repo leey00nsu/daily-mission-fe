@@ -2,7 +2,7 @@ import Logo from '@/shared/ui/logo';
 import PageContainer from '@/shared/ui/page-container';
 import MissionListTab from '@/widgets/mission/ui/mission-list-tab';
 
-const Home = () => {
+const Missions = () => {
   return (
     <PageContainer
       headerShown
@@ -17,4 +17,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Missions;

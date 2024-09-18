@@ -2,13 +2,14 @@
 
 import { MissionCard as MissionCardType } from '@/entities/mission/model/type';
 import MissionCard from '@/features/mission/ui/mission-card';
+import { Page } from '@/shared/model/type';
 import { useRouter } from 'next/navigation';
 
 interface MissionListProps {
-  missions: MissionCardType[];
+  missionPages?: Page<MissionCardType>[];
 }
 
-const MissionList = ({ missions }: MissionListProps) => {
+const MissionList = ({ missionPages }: MissionListProps) => {
   const router = useRouter();
 
   const clickCardHandler = (id: number) => {
@@ -17,13 +18,15 @@ const MissionList = ({ missions }: MissionListProps) => {
 
   return (
     <section className="flex flex-col gap-2">
-      {missions.map((mission) => (
-        <MissionCard
-          key={mission.id}
-          mission={mission}
-          onClick={() => clickCardHandler(mission.id)}
-        />
-      ))}
+      {missionPages?.map((page) =>
+        page.data?.map((mission) => (
+          <MissionCard
+            key={mission.id}
+            mission={mission}
+            onClick={() => clickCardHandler(mission.id)}
+          />
+        )),
+      )}
     </section>
   );
 };

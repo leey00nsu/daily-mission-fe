@@ -1,18 +1,18 @@
 import PageContainer from '@/shared/ui/page-container';
-import NewMissionForm from '@/widgets/mission/ui/new-mission-form';
+import CreatePostForm from '@/widgets/post/ui/create-post-form';
 
-const NewMission = () => {
+const CreatePost = () => {
   return (
     <PageContainer
       headerShown
       headerOptions={{
-        title: '미션 생성',
+        title: '포스트 작성',
         leftIcon: 'leftArrow',
       }}
     >
-      <NewMissionForm />
+      <CreatePostForm />
     </PageContainer>
   );
 };
 
-export default NewMission;
+export default CreatePost;

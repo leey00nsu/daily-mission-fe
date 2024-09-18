@@ -1,4 +1,5 @@
 import { Participant } from '@/entities/user/model/type';
+import { Page } from '@/shared/model/type';
 import { z } from 'zod';
 
 export interface Week {
@@ -13,19 +14,35 @@ export interface Week {
 }
 
 export interface Mission {
-  userName: string;
   id: number;
+  hint: string;
+  nickname: string;
   title: string;
   content: string;
-  imgUrl: string;
+  imageUrl: string;
   startDate: string;
   endDate: string;
-  week: Week;
-  participants: Participant[];
+  ended: boolean;
+  missionRuleResponseDto: {
+    week: Week;
+    deleted: boolean;
+  };
+  participantDto: Participant[];
+  credential: string;
 }
 
 export interface MissionCard
-  extends Pick<Mission, 'id' | 'title' | 'content' | 'endDate' | 'imgUrl'> {}
+  extends Pick<
+    Mission,
+    | 'id'
+    | 'nickname'
+    | 'title'
+    | 'content'
+    | 'startDate'
+    | 'endDate'
+    | 'imageUrl'
+    | 'ended'
+  > {}
 
 export const CreateMissionSchema = z.object({
   title: z
@@ -36,6 +53,12 @@ export const CreateMissionSchema = z.object({
     .max(20, {
       message: '미션 제목은 2글자 이상 20글자 이하여야 합니다.',
     }),
+  hint: z.string().min(2, {
+    message: '힌트는 2글자 이상이여야 합니다.',
+  }),
+  credential: z.string().min(2, {
+    message: '참여 코드는 2글자 이상이여야 합니다.',
+  }),
   content: z.string().min(2, {
     message: '미션 설명은 2글자 이상이여야 합니다.',
   }),
@@ -77,16 +100,41 @@ export const CreateMissionSchema = z.object({
 
 export type CreateMissionRequest = z.infer<typeof CreateMissionSchema>;
 
+export const UpdateMissionSchema = CreateMissionSchema.pick({
+  hint: true,
+  credential: true,
+});
+export type UpdateMissionRequest = z.infer<typeof UpdateMissionSchema> & {
+  id: Mission['id'];
+};
+
 export interface CreateMissionResponse {
+  credential: string;
+}
+export interface UpdateMissionResponse {
   credential: string;
 }
 
 export interface GetMissionRequest {
   id: Mission['id'];
 }
-export interface GetMissionResponse extends Mission {}
+export type GetMissionResponse = Mission;
+
+export type MissionType = 'all' | 'hot' | 'new';
+export type MissionSort = 'asc' | 'desc';
+
+export interface GetPaginationMissionsRequest {
+  type: MissionType;
+  page: number;
+  size: number;
+  sort: MissionSort;
+}
+export type GetPaginationMissionsResponse = Page<Mission>;
+export interface GetMissionsRequest {}
+export type GetMissionsResponse = Mission[];
 
 export const JoinMissionSchema = z.object({
+  missionId: z.number(),
   credential: z.string({
     message: '참여 코드를 입력해주세요',
   }),
@@ -94,6 +142,8 @@ export const JoinMissionSchema = z.object({
 
 export type JoinMissionRequest = z.infer<typeof JoinMissionSchema>;
 
-export interface JoinMissionResponse {
-  ok: boolean;
+export interface JoinMissionResponse {}
+
+export interface DeleteMissionRequest {
+  id: Mission['id'];
 }

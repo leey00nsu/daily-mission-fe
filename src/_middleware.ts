@@ -1,13 +1,13 @@
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const currentUser = request.cookies.get('session')?.value;
+  const isLogin = request.cookies.get('Authorization')?.value;
 
-  if (currentUser && request.nextUrl.pathname.startsWith('/sign-in')) {
+  if (isLogin && request.nextUrl.pathname === '/sign-in') {
     return Response.redirect(new URL('/', request.url));
   }
 
-  if (!currentUser && !request.nextUrl.pathname.startsWith('/sign-in')) {
+  if (!isLogin && request.nextUrl.pathname !== '/sign-in') {
     return Response.redirect(new URL('/sign-in', request.url));
   }
 

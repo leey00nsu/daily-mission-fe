@@ -18,6 +18,7 @@ export const queryOptions = {
   user: () => ({
     queryKey: queryKeys.user(),
     queryFn: () => getProfile(),
+    retry: 0,
   }),
 };
 
@@ -30,11 +31,13 @@ export const useUpdateProfile = (
   >,
 ) => {
   return useMutation({
-    mutationFn: (form: UpdateProfileRequest) => updateProfile(form),
+    mutationFn: updateProfile,
     ...props,
   });
 };
 
 export const useGetProfile = () => {
-  return useQuery(queryOptions.user());
+  return useQuery({
+    ...queryOptions.user(),
+  });
 };
