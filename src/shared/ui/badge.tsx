@@ -38,6 +38,7 @@ interface BadgeProps extends VariantProps<typeof badgeVariants> {
   children?: React.ReactNode;
   content?: string | React.ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
 const Content = (content: string | React.ReactNode) => {
@@ -56,9 +57,13 @@ const Badge = ({
   variant,
   position,
   className,
+  onClick,
 }: BadgeProps) => {
   return (
-    <div className="relative flex h-full w-full items-center justify-center">
+    <div
+      onClick={onClick}
+      className="relative flex h-full w-full items-center justify-center"
+    >
       {children}
 
       <span className={cn(badgeVariants({ variant, position }), className)}>

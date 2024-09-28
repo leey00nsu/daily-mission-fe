@@ -4,9 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
-import Badge from '@/shared/ui/badge';
 import { ImageViewer } from '@/shared/ui/image-viewer';
-import { LuArrowRightLeft, LuUser2, LuZoomIn } from 'react-icons/lu';
+import { LuArrowRightLeft, LuUser2 } from 'react-icons/lu';
 
 interface PostCardProps {
   post: Post;
@@ -53,16 +52,10 @@ const PostCard = ({ post, showMissionTitle = false }: PostCardProps) => {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <Badge
-          variant="outline"
-          content={<LuZoomIn />}
-          position="bottomRight"
-          className="bottom-1 right-3"
-        >
-          <div className="relative aspect-square max-h-60 min-h-10 w-full grow overflow-hidden rounded-2xl">
-            <ImageViewer images={[imageUrl]} />
-          </div>
-        </Badge>
+        <ImageViewer
+          containerClassName="relative aspect-square max-h-60 min-h-10 w-full grow overflow-hidden rounded-2xl"
+          images={[imageUrl]}
+        />
 
         <p>{content}</p>
       </CardContent>
