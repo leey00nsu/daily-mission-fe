@@ -9,6 +9,7 @@ const UserPosts = () => {
         leftIcon: 'leftArrow',
         title: '내 포스트',
       }}
+      showScrollButton
     >
       <UserPostList />
     </PageContainer>

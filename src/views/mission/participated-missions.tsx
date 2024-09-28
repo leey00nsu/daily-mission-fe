@@ -9,6 +9,7 @@ const ParticipatedMissions = () => {
         leftIcon: 'leftArrow',
         title: '참여한 미션',
       }}
+      showScrollButton
     >
       <ParticipatedMissionList />
     </PageContainer>

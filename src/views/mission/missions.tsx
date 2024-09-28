@@ -11,6 +11,7 @@ const Missions = () => {
         title: <Logo />,
       }}
       navigationShown
+      showScrollButton
     >
       <MissionListTab />
     </PageContainer>

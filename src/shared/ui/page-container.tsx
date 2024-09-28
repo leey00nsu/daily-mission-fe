@@ -1,4 +1,5 @@
 import cn from '@/shared/lib/cn';
+import ScrollTopButton from '@/shared/ui/scroll-top-button';
 import Header, { HeaderProps } from '@/widgets/header/ui/header';
 import Navigation from '@/widgets/navigation/ui/navigation';
 
@@ -6,6 +7,7 @@ interface PageContainerPropsBase {
   navigationShown?: boolean;
   className?: string;
   children: React.ReactNode;
+  showScrollButton?: boolean;
 }
 
 interface PageContainerPropsWithHeader extends PageContainerPropsBase {
@@ -28,6 +30,7 @@ const PageContainer = ({
   navigationShown = false,
   className,
   children,
+  showScrollButton,
 }: PageContainerProps) => {
   const headerFixed = headerOptions?.fixed ?? true;
   return (
@@ -43,6 +46,9 @@ const PageContainer = ({
       >
         {children}
       </main>
+      {showScrollButton && (
+        <ScrollTopButton navigationShown={navigationShown} />
+      )}
       {navigationShown && <Navigation />}
     </div>
   );
