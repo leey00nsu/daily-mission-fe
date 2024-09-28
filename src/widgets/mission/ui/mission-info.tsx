@@ -7,13 +7,14 @@ import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import { useGetMissionPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
 import AvatarGroup from '@/shared/ui/avatar-group';
+import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
+import { ImageViewer } from '@/shared/ui/image-viewer';
 import { Input } from '@/shared/ui/input';
 import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { LuChevronRight } from 'react-icons/lu';
+import { LuChevronRight, LuZoomIn } from 'react-icons/lu';
 
 interface MissionInfoProps {
   pageId: Mission['id'];
@@ -107,15 +108,16 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
       style={{ marginBottom: floatingButtonCount * 56 }}
       className="flex w-full flex-col items-center justify-center gap-4"
     >
-      <div className="relative h-64 w-full overflow-hidden rounded-2xl">
-        <Image
-          fill
-          alt="mission image"
-          src={imageUrl || ''}
-          className="object-cover"
-          unoptimized
-        />
-      </div>
+      <Badge
+        variant="outline"
+        content={<LuZoomIn />}
+        position="bottomRight"
+        className="bottom-1 right-3"
+      >
+        <div className="relative h-64 w-full overflow-hidden rounded-2xl">
+          <ImageViewer images={[imageUrl]} />
+        </div>
+      </Badge>
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 제목</h3>

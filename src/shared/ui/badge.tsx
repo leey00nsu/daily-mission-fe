@@ -58,7 +58,7 @@ const Badge = ({
   className,
 }: BadgeProps) => {
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative flex h-full w-full items-center justify-center">
       {children}
 
       <span className={cn(badgeVariants({ variant, position }), className)}>
