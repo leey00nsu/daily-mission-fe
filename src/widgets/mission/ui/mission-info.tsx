@@ -62,14 +62,57 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     (participant) => participant.nickname === user.nickname,
   );
 
+  // start mock data
+  // const {
+  //   nickname,
+  //   imageUrl,
+  //   title,
+  //   content,
+  //   hint,
+  //   startDate,
+  //   endDate,
+  //   participantDto,
+  //   missionRuleResponseDto,
+  // } = MOCK_ALL_MISSON_LIST_1[0];
+
+  // const user = MOCK_USER;
+
+  // const participantAvatars = participantDto.map((participant) => ({
+  //   imageUrl: participant.imageUrl,
+  //   nickname: participant.nickname,
+  // }));
+  // const participantCount = participantDto.length;
+
+  // const isOwner = true;
+  // const isParticipant = true;
+
+  // const posts = MOCK_POSTS;
+
+  // end mock data
+
+  // 플로팅 버튼 높이 계산
+
+  const defaultButtonCount = 1;
+  const floatingButtonConditions = [isOwner, isParticipant];
+  const floatingButtonCount = Math.max(
+    defaultButtonCount,
+    floatingButtonConditions.reduce(
+      (acc, condition) => acc + (condition ? 1 : 0),
+      0,
+    ),
+  );
+
   return (
-    <section className="mb-40 flex w-full flex-col items-center justify-center gap-4">
+    <section
+      style={{ marginBottom: floatingButtonCount * 56 }}
+      className="flex w-full flex-col items-center justify-center gap-4"
+    >
       <div className="relative h-64 w-full overflow-hidden rounded-2xl">
         <Image
           fill
           alt="mission image"
           src={imageUrl || ''}
-          className="object-contain"
+          className="object-cover"
           unoptimized
         />
       </div>

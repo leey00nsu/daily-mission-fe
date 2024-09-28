@@ -7,13 +7,9 @@ import PostListSkeleton from '@/features/post/ui/post-list-skeleton';
 const UserPostList = () => {
   const { data: posts, isFetching: isPostsFetching } = useGetUserPosts();
 
-  return (
-    <>
-      <PostList posts={posts} />
+  if (isPostsFetching) return <PostListSkeleton />;
 
-      {isPostsFetching && <PostListSkeleton />}
-    </>
-  );
+  return <PostList showMissionTitle posts={posts} />;
 };
 
 export default UserPostList;
