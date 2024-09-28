@@ -54,7 +54,7 @@ const Header = ({ leftIcon, title, rightIcon, fixed = true }: HeaderProps) => {
     <header
       className={cn(
         'z-10 flex h-16 w-full max-w-2xl items-center justify-between bg-background p-4',
-        fixed && 'fixed top-0',
+        fixed && 'fixed top-0 border-x border-slate-200',
       )}
     >
       <Button

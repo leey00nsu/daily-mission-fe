@@ -34,22 +34,24 @@ const PageContainer = ({
 }: PageContainerProps) => {
   const headerFixed = headerOptions?.fixed ?? true;
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center">
-      {headerShown && headerOptions && <Header {...headerOptions} />}
-      <main
-        className={cn(
-          headerShown && headerFixed && 'mt-16',
-          navigationShown && 'mb-16',
-          'relative flex w-full max-w-2xl grow flex-col p-4',
-          className,
+    <div className="flex min-h-screen w-full items-center justify-center">
+      <div className="relative flex min-h-screen w-full max-w-2xl flex-col items-center border-x border-slate-200">
+        {headerShown && headerOptions && <Header {...headerOptions} />}
+        <main
+          className={cn(
+            headerShown && headerFixed && 'mt-16',
+            navigationShown && 'mb-16',
+            'relative flex w-full max-w-2xl grow flex-col p-4',
+            className,
+          )}
+        >
+          {children}
+        </main>
+        {showScrollButton && (
+          <ScrollTopButton navigationShown={navigationShown} />
         )}
-      >
-        {children}
-      </main>
-      {showScrollButton && (
-        <ScrollTopButton navigationShown={navigationShown} />
-      )}
-      {navigationShown && <Navigation />}
+        {navigationShown && <Navigation />}
+      </div>
     </div>
   );
 };
