@@ -106,18 +106,23 @@ export const getUserPosts = async (): Promise<GetPostsResponse> => {
 };
 
 export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
+  console.log(request);
+
   const formData = new FormData();
 
-  const postUpdateReqDto = {
+  const postUpdateRequestDto = {
     title: request.title,
     content: request.content,
   };
 
-  const postUpdateReqDtoBlob = new Blob([JSON.stringify(postUpdateReqDto)], {
-    type: 'application/json',
-  });
+  const postUpdateRequestDtoBlob = new Blob(
+    [JSON.stringify(postUpdateRequestDto)],
+    {
+      type: 'application/json',
+    },
+  );
 
-  formData.append('postUpdateReqDto', postUpdateReqDtoBlob);
+  formData.append('postUpdateRequestDto', postUpdateRequestDtoBlob);
   formData.append('file', request.image);
 
   const response = await fetch(

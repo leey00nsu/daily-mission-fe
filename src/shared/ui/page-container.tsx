@@ -39,7 +39,6 @@ const PageContainer = ({
         {headerShown && headerOptions && <Header {...headerOptions} />}
         <main
           className={cn(
-            headerShown && headerFixed && 'mt-16',
             navigationShown && 'mb-16',
             'relative flex w-full max-w-2xl grow flex-col p-4',
             className,

@@ -44,12 +44,11 @@ export interface GetPostsRequest {
 }
 export type GetPostsResponse = Post[];
 
-export interface UpdatePostRequest {
+export const UpdatePostSchema = CreatePostSchema;
+
+export type UpdatePostRequest = z.infer<typeof UpdatePostSchema> & {
   id: number;
-  title: string;
-  content: string;
-  image: File;
-}
+};
 
 export interface DeletePostRequest {
   id: number;

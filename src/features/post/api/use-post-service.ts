@@ -83,7 +83,7 @@ export const useCreatePost = (
 };
 
 export const useUpdatePost = (
-  props?: UseMutationOptions<void, unknown, UpdatePostRequest, unknown>,
+  props?: UseMutationOptions<void, Error, UpdatePostRequest, unknown>,
 ) => {
   return useMutation({
     mutationFn: updatePost,

@@ -75,7 +75,9 @@ const PostCard = ({
                   <LuMoreHorizontal className="h-6 w-6" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>수정</DropdownMenuItem>
+                  <Link href={`/post/edit/${post.id}`}>
+                    <DropdownMenuItem>수정</DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem>삭제</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
