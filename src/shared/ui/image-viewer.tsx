@@ -31,20 +31,18 @@ export function ImageViewer({ images, containerClassName }: ImageViewerProps) {
     >
       <div className={containerClassName}>
         <PhotoProvider pullClosable maskClosable>
-          <div>
-            {images.map((item, index) => (
-              <PhotoView key={index} src={item}>
-                <Image
-                  fill
-                  ref={imageRef}
-                  alt={`image ${index}`}
-                  src={item || ''}
-                  className="object-cover"
-                  unoptimized
-                />
-              </PhotoView>
-            ))}
-          </div>
+          {images.map((item, index) => (
+            <PhotoView key={index} src={item}>
+              <Image
+                fill
+                ref={imageRef}
+                alt={`image ${index}`}
+                src={item || ''}
+                className="object-cover"
+                unoptimized
+              />
+            </PhotoView>
+          ))}
         </PhotoProvider>
       </div>
     </Badge>

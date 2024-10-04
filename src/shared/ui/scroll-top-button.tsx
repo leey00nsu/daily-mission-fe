@@ -17,7 +17,7 @@ const ScrollTopButton = ({ navigationShown }: ScrollTopButtonProps) => {
     <div
       className={cn(
         navigationShown ? 'bottom-20' : 'bottom-8',
-        'fixed z-20 flex w-full max-w-2xl justify-end p-1',
+        'fixed z-20 flex w-full max-w-2xl justify-end p-2',
       )}
     >
       <Button

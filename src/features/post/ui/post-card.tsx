@@ -4,15 +4,26 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/shared/ui/dropdown-menu';
 import { ImageViewer } from '@/shared/ui/image-viewer';
-import { LuArrowRightLeft, LuUser2 } from 'react-icons/lu';
+import { LuArrowRightLeft, LuMoreHorizontal, LuUser2 } from 'react-icons/lu';
 
 interface PostCardProps {
   post: Post;
   showMissionTitle?: boolean;
+  username?: string;
 }
 
-const PostCard = ({ post, showMissionTitle = false }: PostCardProps) => {
+const PostCard = ({
+  post,
+  showMissionTitle = false,
+  username,
+}: PostCardProps) => {
   const {
     userImageUrl,
     missionId,
@@ -23,6 +34,8 @@ const PostCard = ({ post, showMissionTitle = false }: PostCardProps) => {
     content,
     imageUrl,
   } = post;
+
+  const isOwner = username === nickname;
 
   return (
     <Card className="border-0 shadow-none">
@@ -36,18 +49,37 @@ const PostCard = ({ post, showMissionTitle = false }: PostCardProps) => {
         </Link>
       )}
       <CardHeader className="px-0 py-2">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-16 w-16">
-            <AvatarImage src={userImageUrl} />
-            <AvatarFallback>
-              <LuUser2 className="h-1/2 w-1/2" />
-            </AvatarFallback>
-          </Avatar>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4 overflow-hidden">
+            <Avatar className="h-16 w-16">
+              <AvatarImage src={userImageUrl} />
+              <AvatarFallback>
+                <LuUser2 className="h-1/2 w-1/2" />
+              </AvatarFallback>
+            </Avatar>
 
-          <div className="w-full overflow-hidden">
-            <h3 className="truncate text-2xl font-semibold">{title}</h3>
-            <h3 className="truncate">{nickname}</h3>
-            <p>{formatDate(createdDate)}</p>
+            <div className="w-full overflow-hidden">
+              <h3 className="truncate text-2xl font-semibold">
+                {title}
+                {title}
+              </h3>
+              <h3 className="truncate">{nickname}</h3>
+              <p>{formatDate(createdDate)}</p>
+            </div>
+          </div>
+
+          <div className="min-w-6">
+            {isOwner && (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <LuMoreHorizontal className="h-6 w-6" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>수정</DropdownMenuItem>
+                  <DropdownMenuItem>삭제</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </CardHeader>

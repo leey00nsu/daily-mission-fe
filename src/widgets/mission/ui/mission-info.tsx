@@ -153,7 +153,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <div className="w-full">
         <h3 className="text-lg font-medium">미션 포스트</h3>
-        <PostList posts={posts} />
+        <PostList posts={posts} username={user.nickname} />
       </div>
 
       <div className="fixed bottom-0 flex w-full max-w-2xl flex-col gap-2 p-4">

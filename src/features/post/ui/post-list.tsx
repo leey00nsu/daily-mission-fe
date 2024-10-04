@@ -4,9 +4,14 @@ import PostCard from '@/features/post/ui/post-card';
 interface PostListProps {
   posts?: Post[];
   showMissionTitle?: boolean;
+  username?: string;
 }
 
-const PostList = ({ posts, showMissionTitle = false }: PostListProps) => {
+const PostList = ({
+  posts,
+  showMissionTitle = false,
+  username,
+}: PostListProps) => {
   return (
     <section className="flex flex-col gap-2">
       {posts?.map((post) => (
@@ -14,6 +19,7 @@ const PostList = ({ posts, showMissionTitle = false }: PostListProps) => {
           key={post.id}
           post={post}
           showMissionTitle={showMissionTitle}
+          username={username}
         />
       ))}
       {!posts?.length && (
