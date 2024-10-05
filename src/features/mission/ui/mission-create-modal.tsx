@@ -31,7 +31,7 @@ const MissionCreateModal = ({
 
   useEffect(() => {
     createMission(formData);
-  }, [formData]);
+  }, []);
 
   const closeHandler = () => {
     onClose();

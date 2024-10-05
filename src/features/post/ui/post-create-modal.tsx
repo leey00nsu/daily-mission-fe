@@ -35,7 +35,7 @@ const PostCreateModal = ({
 
   useEffect(() => {
     createPost(formData);
-  }, [formData]);
+  }, []);
 
   const closeHandler = () => {
     onClose();

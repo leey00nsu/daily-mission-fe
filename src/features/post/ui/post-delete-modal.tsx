@@ -1,5 +1,5 @@
-import { UpdatePostRequest } from '@/entities/post/model/type';
-import { useUpdatePost } from '@/features/post/api/use-post-service';
+import { DeletePostRequest } from '@/entities/post/model/type';
+import { useDeletePost } from '@/features/post/api/use-post-service';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -12,36 +12,36 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
 
-interface PostUpdateModalProps {
+interface PostDeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  formData: UpdatePostRequest;
+  formData: DeletePostRequest;
 }
 
-const PostUpdateModal = ({
+const PostDeleteModal = ({
   isOpen,
   onClose,
   formData,
-}: PostUpdateModalProps) => {
+}: PostDeleteModalProps) => {
   const router = useRouter();
 
   const {
     isPending,
-    mutate: updatePost,
+    mutate: deletePost,
     error,
     isSuccess,
     isError,
-  } = useUpdatePost();
+  } = useDeletePost();
 
   useEffect(() => {
-    updatePost(formData);
+    deletePost(formData);
   }, []);
 
   const closeHandler = () => {
     onClose();
 
     if (isSuccess || isError) {
-      router.back();
+      router.refresh();
     }
   };
 
@@ -49,7 +49,7 @@ const PostUpdateModal = ({
     <Dialog open={isOpen} onOpenChange={closeHandler}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>포스트 작성</DialogTitle>
+          <DialogTitle>포스트 삭제</DialogTitle>
         </DialogHeader>
         {isPending && (
           <div className="flex items-center justify-center">
@@ -58,7 +58,7 @@ const PostUpdateModal = ({
         )}
         {isSuccess && (
           <div className="flex flex-col gap-2">
-            <p>포스트 작성이 완료되었습니다.</p>
+            <p>포스트 삭제가 완료되었습니다.</p>
 
             <DialogClose asChild>
               <Button type="button">확인</Button>
@@ -79,4 +79,4 @@ const PostUpdateModal = ({
   );
 };
 
-export default PostUpdateModal;
+export default PostDeleteModal;

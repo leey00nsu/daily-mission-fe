@@ -31,7 +31,7 @@ const MissionUpdateModal = ({
 
   useEffect(() => {
     updateMission(formData);
-  }, [formData]);
+  }, []);
 
   const closeHandler = () => {
     onClose();

@@ -92,7 +92,7 @@ export const useUpdatePost = (
 };
 
 export const useDeletePost = (
-  props?: UseMutationOptions<void, unknown, DeletePostRequest, unknown>,
+  props?: UseMutationOptions<void, Error, DeletePostRequest, unknown>,
 ) => {
   return useMutation({
     mutationFn: deletePost,

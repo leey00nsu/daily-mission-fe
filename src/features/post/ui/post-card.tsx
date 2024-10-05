@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
+import PostDeleteModal from '@/features/post/ui/post-delete-modal';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { ImageViewer } from '@/shared/ui/image-viewer';
+import { overlay } from 'overlay-kit';
 import { LuArrowRightLeft, LuMoreHorizontal, LuUser2 } from 'react-icons/lu';
 
 interface PostCardProps {
@@ -37,6 +39,20 @@ const PostCard = ({
 
   const isOwner = username === nickname;
 
+  const openDeleteModal = () => {
+    overlay.open(({ isOpen, close }) => {
+      return (
+        <PostDeleteModal
+          formData={{
+            id: post.id,
+          }}
+          isOpen={isOpen}
+          onClose={close}
+        />
+      );
+    });
+  };
+
   return (
     <Card className="border-0 shadow-none">
       {showMissionTitle && (
@@ -59,10 +75,7 @@ const PostCard = ({
             </Avatar>
 
             <div className="w-full overflow-hidden">
-              <h3 className="truncate text-2xl font-semibold">
-                {title}
-                {title}
-              </h3>
+              <h3 className="truncate text-2xl font-semibold">{title}</h3>
               <h3 className="truncate">{nickname}</h3>
               <p>{formatDate(createdDate)}</p>
             </div>
@@ -78,7 +91,10 @@ const PostCard = ({
                   <Link href={`/post/edit/${post.id}`}>
                     <DropdownMenuItem>수정</DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem className="text-red-600">
+                  <DropdownMenuItem
+                    onClick={openDeleteModal}
+                    className="text-red-600"
+                  >
                     삭제
                   </DropdownMenuItem>
                 </DropdownMenuContent>
