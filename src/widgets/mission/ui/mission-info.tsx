@@ -8,9 +8,11 @@ import { useGetMissionPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { ImageViewer } from '@/shared/ui/image-viewer';
 import { Input } from '@/shared/ui/input';
 import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
+import { differenceInDays } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LuChevronRight } from 'react-icons/lu';
@@ -102,6 +104,21 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     ),
   );
 
+  const ruleCount = Object.values(missionRuleResponseDto.week).reduce(
+    (acc, rule) => acc + (rule ? 1 : 0),
+    0,
+  );
+  const leftDays = Math.min(0, differenceInDays(new Date(), endDate));
+
+  const getParticipantText = (name: string, count: number) => {
+    if (count <= 1) return `${name} 님이 미션을 시작했습니다.`;
+
+    return `${name} 님 외 ${count - 1} 명이 참여하고 있습니다.`;
+  };
+
+  const participantText = getParticipantText(nickname, participantCount);
+  const postsCount = posts?.length ?? 0;
+
   return (
     <section
       style={{ marginBottom: floatingButtonCount * 56 }}
@@ -113,27 +130,35 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
       />
 
       <div className="w-full">
-        <h3 className="text-lg font-medium">미션 제목</h3>
-        <p>{title}</p>
+        <h3 className="text-2xl font-medium">{title}</h3>
+        <p className="text-lg">{content}</p>
       </div>
 
       <div className="w-full">
-        <h3 className="text-lg font-medium">미션 설명</h3>
-        <p>{content}</p>
+        <Card>
+          <CardHeader>
+            <CardDescription>참여코드 힌트</CardDescription>
+            <CardTitle>{hint ?? '힌트가 없습니다.'}</CardTitle>
+          </CardHeader>
+        </Card>
       </div>
 
       <div className="w-full">
-        <h3 className="text-lg font-medium">미션 참여코드 힌트</h3>
-        <p>{hint ?? '힌트가 없습니다.'}</p>
-      </div>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-medium">인증 빈도</h3>
+          <span className="text-sm text-muted-foreground">
+            주 {ruleCount}회
+          </span>
+        </div>
 
-      <div className="w-full">
-        <h3 className="text-lg font-medium">미션 규칙</h3>
         <WeekCheckboxGroup week={missionRuleResponseDto.week} readOnly />
       </div>
 
       <div className="w-full">
-        <h3 className="text-lg font-medium">미션 날짜</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-medium">미션 기간</h3>
+          <span className="text-sm text-red-600">D-{leftDays}</span>
+        </div>
         <div className="flex w-full items-center gap-2">
           <Input readOnly type="date" value={startDate} />
           <LuChevronRight className="h-8 w-8" />
@@ -142,17 +167,23 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
       </div>
 
       <div className="w-full">
-        <h3 className="text-lg font-medium">미션 참여자</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-medium">참여자</h3>
+          <span className="text-sm text-muted-foreground">
+            {participantCount}명
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <AvatarGroup avatars={participantAvatars} />
-          <p>
-            {nickname}님 외 {participantCount - 1} 명이 참여하고 있습니다.
-          </p>
+          <p>{participantText}</p>
         </div>
       </div>
 
       <div className="w-full">
-        <h3 className="text-lg font-medium">미션 포스트</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-lg font-medium">인증 포스트</h3>
+          <span className="text-sm text-muted-foreground">{postsCount}개</span>
+        </div>
         <PostList posts={posts} username={user.nickname} />
       </div>
 

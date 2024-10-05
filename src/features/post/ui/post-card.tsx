@@ -78,7 +78,9 @@ const PostCard = ({
                   <Link href={`/post/edit/${post.id}`}>
                     <DropdownMenuItem>수정</DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem>삭제</DropdownMenuItem>
+                  <DropdownMenuItem className="text-red-600">
+                    삭제
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
