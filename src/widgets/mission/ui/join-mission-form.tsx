@@ -7,6 +7,7 @@ import {
   JoinMissionSchema,
 } from '@/entities/mission/model/type';
 import JoinMissionModal from '@/features/mission/ui/join-mission-modal';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -65,7 +66,9 @@ const JoinMissionForm = () => {
           )}
         />
 
-        <Button className="w-full">미션 참여</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">미션 참여</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

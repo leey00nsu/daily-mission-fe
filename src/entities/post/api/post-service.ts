@@ -106,8 +106,6 @@ export const getUserPosts = async (): Promise<GetPostsResponse> => {
 };
 
 export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
-  console.log(request);
-
   const formData = new FormData();
 
   const postUpdateRequestDto = {

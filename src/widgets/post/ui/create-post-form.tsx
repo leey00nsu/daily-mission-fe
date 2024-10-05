@@ -10,6 +10,7 @@ import {
 import PostImage from '@/features/mission/ui/mission-image';
 import PostCreateModal from '@/features/post/ui/post-create-modal';
 import Badge from '@/shared/ui/badge';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -139,7 +140,9 @@ const CreatePostForm = () => {
           )}
         />
 
-        <Button className="w-full">포스트 작성</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">포스트 작성</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

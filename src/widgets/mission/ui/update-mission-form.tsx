@@ -13,6 +13,7 @@ import MissionImage from '@/features/mission/ui/mission-image';
 import MissionUpdateModal from '@/features/mission/ui/mission-update-modal';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import Badge from '@/shared/ui/badge';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -188,7 +189,9 @@ const UpdateMissionForm = () => {
           />
         </FormItem>
 
-        <Button className="w-full">미션 수정</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">미션 수정</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

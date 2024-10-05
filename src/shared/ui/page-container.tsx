@@ -40,7 +40,7 @@ const PageContainer = ({
         <main
           className={cn(
             navigationShown && 'mb-16',
-            'relative flex w-full max-w-2xl grow flex-col p-4',
+            'relative flex w-full max-w-2xl grow flex-col px-4',
             className,
           )}
         >

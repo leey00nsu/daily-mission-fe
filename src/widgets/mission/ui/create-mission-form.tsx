@@ -12,6 +12,7 @@ import MissionCreateModal from '@/features/mission/ui/mission-create-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import Badge from '@/shared/ui/badge';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -270,7 +271,9 @@ const CreateMissionForm = () => {
           )}
         />
 
-        <Button className="w-full">미션 생성</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">미션 생성</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

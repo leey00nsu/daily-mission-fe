@@ -9,6 +9,7 @@ import PostList from '@/features/post/ui/post-list';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import { ImageViewer } from '@/shared/ui/image-viewer';
 import { Input } from '@/shared/ui/input';
 import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
@@ -92,18 +93,6 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
   // end mock data
 
-  // 플로팅 버튼 높이 계산
-
-  const defaultButtonCount = 1;
-  const floatingButtonConditions = [isOwner, isParticipant];
-  const floatingButtonCount = Math.max(
-    defaultButtonCount,
-    floatingButtonConditions.reduce(
-      (acc, condition) => acc + (condition ? 1 : 0),
-      0,
-    ),
-  );
-
   const ruleCount = Object.values(missionRuleResponseDto.week).reduce(
     (acc, rule) => acc + (rule ? 1 : 0),
     0,
@@ -120,10 +109,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const postsCount = posts?.length ?? 0;
 
   return (
-    <section
-      style={{ marginBottom: floatingButtonCount * 56 }}
-      className="flex w-full flex-col items-center justify-center gap-4"
-    >
+    <section className="flex w-full flex-col items-center justify-center gap-4">
       <ImageViewer
         containerClassName="relative h-64 w-full overflow-hidden rounded-2xl"
         images={[imageUrl]}
@@ -187,7 +173,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         <PostList posts={posts} username={user.nickname} />
       </div>
 
-      <div className="fixed bottom-0 flex w-full max-w-2xl flex-col gap-2 p-4">
+      <FloatingButtonGroup>
         {!isOwner && !isParticipant && (
           <div className="w-full">
             <Button asChild className="w-full">
@@ -209,7 +195,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
             </Button>
           </div>
         )}
-      </div>
+      </FloatingButtonGroup>
     </section>
   );
 };

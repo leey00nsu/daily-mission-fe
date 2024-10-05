@@ -11,6 +11,7 @@ import PostImage from '@/features/mission/ui/mission-image';
 import { useGetPost } from '@/features/post/api/use-post-service';
 import PostUpdateModal from '@/features/post/ui/post-update-modal';
 import Badge from '@/shared/ui/badge';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -147,7 +148,9 @@ const UpdatePostForm = () => {
           )}
         />
 
-        <Button className="w-full">포스트 수정</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">포스트 수정</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

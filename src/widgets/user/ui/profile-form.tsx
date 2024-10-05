@@ -9,6 +9,7 @@ import { useUpdateProfile } from '@/features/user/api/use-user-service';
 import ProfileImage from '@/features/user/ui/profile-image';
 import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -152,9 +153,11 @@ const ProfileForm = () => {
           )}
         />
 
-        <Button className="w-full">
-          {isPending ? <LuLoader2 className="animate-spin" /> : '저장'}
-        </Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">
+            {isPending ? <LuLoader2 className="animate-spin" /> : '저장'}
+          </Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );
