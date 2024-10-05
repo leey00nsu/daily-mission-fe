@@ -147,7 +147,7 @@ const UpdatePostForm = () => {
           )}
         />
 
-        <Button className="w-full">포스트 작성</Button>
+        <Button className="w-full">포스트 수정</Button>
       </form>
     </Form>
   );

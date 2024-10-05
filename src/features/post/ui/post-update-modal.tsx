@@ -47,7 +47,7 @@ const PostUpdateModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={closeHandler}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>포스트 작성</DialogTitle>
         </DialogHeader>
