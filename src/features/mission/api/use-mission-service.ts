@@ -19,8 +19,8 @@ import {
   JoinMissionRequest,
   MissionSort,
   MissionType,
-  UpdateMissionResponse,
   UpdateMissionRequest,
+  UpdateMissionResponse,
 } from '@/entities/mission/model/type';
 
 import {
@@ -135,7 +135,7 @@ export const useJoinMission = (
 };
 
 export const useDeleteMission = (
-  props?: UseMutationOptions<void, unknown, DeleteMissionRequest, unknown>,
+  props?: UseMutationOptions<void, Error, DeleteMissionRequest, unknown>,
 ) => {
   return useMutation({
     mutationFn: deleteMission,

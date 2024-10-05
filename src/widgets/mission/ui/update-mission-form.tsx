@@ -9,6 +9,7 @@ import {
   UpdateMissionSchema,
 } from '@/entities/mission/model/type';
 import { useGetMission } from '@/features/mission/api/use-mission-service';
+import MissionDeleteModal from '@/features/mission/ui/mission-delete-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import MissionUpdateModal from '@/features/mission/ui/mission-update-modal';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
@@ -56,6 +57,20 @@ const UpdateMissionForm = () => {
       return (
         <MissionUpdateModal
           formData={formData}
+          isOpen={isOpen}
+          onClose={close}
+        />
+      );
+    });
+  };
+
+  const deleteMissionHandler = () => {
+    overlay.open(({ isOpen, close }) => {
+      return (
+        <MissionDeleteModal
+          formData={{
+            id: Number(missionId),
+          }}
           isOpen={isOpen}
           onClose={close}
         />
@@ -191,6 +206,14 @@ const UpdateMissionForm = () => {
 
         <FloatingButtonGroup>
           <Button className="w-full">미션 수정</Button>
+          <Button
+            type="button"
+            onClick={deleteMissionHandler}
+            variant="destructive"
+            className="w-full"
+          >
+            미션 삭제
+          </Button>
         </FloatingButtonGroup>
       </form>
     </Form>

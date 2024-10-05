@@ -43,7 +43,7 @@ const MissionCreateModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={closeHandler}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>미션 생성</DialogTitle>
         </DialogHeader>

@@ -175,25 +175,19 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
 
       <FloatingButtonGroup>
         {!isOwner && !isParticipant && (
-          <div className="w-full">
-            <Button asChild className="w-full">
-              <Link href={`/mission/join/${pageId}`}>미션 참여하기</Link>
-            </Button>
-          </div>
+          <Button asChild className="w-full">
+            <Link href={`/mission/join/${pageId}`}>미션 참여하기</Link>
+          </Button>
         )}
         {isParticipant && (
-          <div className="w-full">
-            <Button asChild className="w-full">
-              <Link href={`/post/new/${pageId}`}>포스트 작성하기</Link>
-            </Button>
-          </div>
+          <Button asChild className="w-full">
+            <Link href={`/post/new/${pageId}`}>포스트 작성하기</Link>
+          </Button>
         )}
         {isOwner && (
-          <div className="w-full">
-            <Button asChild className="w-full">
-              <Link href={`/mission/edit/${pageId}`}>미션 수정하기</Link>
-            </Button>
-          </div>
+          <Button asChild className="w-full">
+            <Link href={`/mission/edit/${pageId}`}>미션 수정하기</Link>
+          </Button>
         )}
       </FloatingButtonGroup>
     </section>

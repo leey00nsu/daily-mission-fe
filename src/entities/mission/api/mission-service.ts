@@ -186,18 +186,16 @@ export const deleteMission = async (
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
     {
-      method: 'DELETE',
+      method: 'POST',
       credentials: 'include',
     },
   );
 
-  if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to delete mission');
-  }
-
   const data: GlobalResponse<void> = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.errors.message);
+  }
 
   return data.data;
 };
