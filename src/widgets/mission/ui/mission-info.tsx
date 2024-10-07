@@ -14,6 +14,7 @@ import { ImageViewer } from '@/shared/ui/image-viewer';
 import { Input } from '@/shared/ui/input';
 import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
 import { differenceInDays } from 'date-fns';
+import { toDate } from 'date-fns-tz';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LuChevronRight } from 'react-icons/lu';
@@ -98,8 +99,10 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     0,
   );
 
-  const leftDays =
-    Math.max(0, Math.abs(differenceInDays(new Date(), endDate))) + 1;
+  const leftDays = Math.max(
+    0,
+    differenceInDays(endDate, toDate(new Date(), { timeZone: 'Asia/Seoul' })),
+  );
 
   const getParticipantText = (name: string, count: number) => {
     if (count <= 1) return `${name} 님이 미션을 시작했습니다.`;
