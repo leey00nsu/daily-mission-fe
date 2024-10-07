@@ -6,13 +6,15 @@ import {
   CardHeader,
 } from '@/shared/ui/card';
 import Image from 'next/image';
+import { LuFlag, LuPenTool } from 'react-icons/lu';
 
 interface MissionCardProps {
   mission: MissionCardType;
   onClick?: () => void;
+  role?: 'owner' | 'participant' | null;
 }
 
-const MissionCard = ({ mission, onClick }: MissionCardProps) => {
+const MissionCard = ({ mission, onClick, role }: MissionCardProps) => {
   const { nickname, title, content, startDate, endDate, imageUrl, ended } =
     mission;
 
@@ -29,7 +31,7 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-4">
+        <div className="relative flex gap-4">
           <div className="relative aspect-square min-h-10 w-1/2 grow overflow-hidden rounded-2xl">
             <Image
               fill
@@ -43,6 +45,21 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
             <h3 className="truncate font-semibold">{nickname}</h3>
             <h3 className="truncate text-2xl font-semibold">{title}</h3>
             <p className="">{content}</p>
+          </div>
+
+          <div className="absolute bottom-0 right-0 z-[2]">
+            {role === 'owner' && (
+              <div className="flex flex-col items-center justify-center">
+                <span className="text-xs text-muted-foreground">작성자</span>
+                <LuPenTool className="h-6 w-6 text-muted-foreground" />
+              </div>
+            )}
+            {role === 'participant' && (
+              <div className="flex flex-col items-center justify-center">
+                <span className="text-xs text-muted-foreground">참여자</span>
+                <LuFlag className="h-6 w-6 text-muted-foreground" />
+              </div>
+            )}
           </div>
         </div>
       </CardContent>

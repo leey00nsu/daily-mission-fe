@@ -97,7 +97,9 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     (acc, rule) => acc + (rule ? 1 : 0),
     0,
   );
-  const leftDays = Math.min(0, differenceInDays(new Date(), endDate));
+
+  const leftDays =
+    Math.max(0, Math.abs(differenceInDays(new Date(), endDate))) + 1;
 
   const getParticipantText = (name: string, count: number) => {
     if (count <= 1) return `${name} 님이 미션을 시작했습니다.`;

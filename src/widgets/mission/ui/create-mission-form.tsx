@@ -259,9 +259,9 @@ const CreateMissionForm = () => {
           name="week"
           render={({ field: { value, onChange } }) => (
             <FormItem className="w-full">
-              <FormLabel>미션 규칙</FormLabel>
+              <FormLabel>미션 인증 빈도</FormLabel>
               <FormDescription>
-                미션을 수행할 요일을 선택해주세요.
+                미션을 인증할 요일을 선택해주세요.
               </FormDescription>
               <FormControl>
                 <WeekCheckboxGroup week={value} onChange={onChange} />

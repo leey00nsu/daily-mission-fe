@@ -1,6 +1,7 @@
 'use client';
 
 import { MissionCard as MissionCardType } from '@/entities/mission/model/type';
+import { useUserStore } from '@/entities/user/model/store';
 import MissionCard from '@/features/mission/ui/mission-card';
 import { Page } from '@/shared/model/type';
 import { useRouter } from 'next/navigation';
@@ -10,6 +11,8 @@ interface MissionListProps {
 }
 
 const MissionList = ({ missionPages }: MissionListProps) => {
+  const user = useUserStore((state) => state.user);
+
   const router = useRouter();
 
   const clickCardHandler = (id: number) => {
@@ -24,6 +27,7 @@ const MissionList = ({ missionPages }: MissionListProps) => {
             key={mission.id}
             mission={mission}
             onClick={() => clickCardHandler(mission.id)}
+            role={user.nickname === mission.nickname ? 'owner' : null}
           />
         )),
       )}
