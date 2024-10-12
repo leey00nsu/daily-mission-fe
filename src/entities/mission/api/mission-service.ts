@@ -186,7 +186,7 @@ export const deleteMission = async (
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
     {
-      method: 'POST',
+      method: 'DELETE',
       credentials: 'include',
     },
   );
