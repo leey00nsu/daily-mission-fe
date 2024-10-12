@@ -21,12 +21,14 @@ import {
   UseQueryOptions,
   useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 
 export const queryKeys = {
+  all: ['post'],
   post: (id: number) => ['post', id],
-  missionPosts: (missionId: number) => ['posts', missionId],
-  userPosts: () => ['userPosts'],
+  missionPosts: (missionId: number) => ['post', 'missionPosts', missionId],
+  userPosts: () => ['post', 'userPosts'],
 };
 
 export const queryOptions = {
@@ -76,8 +78,13 @@ export const useGetUserPosts = (
 export const useCreatePost = (
   props?: UseMutationOptions<void, Error, CreatePostRequest, unknown>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createPost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
     ...props,
   });
 };
@@ -85,8 +92,13 @@ export const useCreatePost = (
 export const useUpdatePost = (
   props?: UseMutationOptions<void, Error, UpdatePostRequest, unknown>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: updatePost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
     ...props,
   });
 };
@@ -94,8 +106,13 @@ export const useUpdatePost = (
 export const useDeletePost = (
   props?: UseMutationOptions<void, Error, DeletePostRequest, unknown>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: deletePost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
     ...props,
   });
 };

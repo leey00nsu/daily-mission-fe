@@ -8,6 +8,7 @@ import {
   UseMutationOptions,
   useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 
 export const queryKeys = {
@@ -30,8 +31,13 @@ export const useUpdateProfile = (
     unknown
   >,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: updateProfile,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.user() });
+    },
     ...props,
   });
 };
