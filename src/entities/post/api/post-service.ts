@@ -121,7 +121,8 @@ export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
   );
 
   formData.append('postUpdateRequestDto', postUpdateRequestDtoBlob);
-  formData.append('file', request.image);
+
+  if (request.image) formData.append('file', request.image);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/post/${request.id}`,

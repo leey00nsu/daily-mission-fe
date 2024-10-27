@@ -50,14 +50,16 @@ const MissionCard = ({ mission, onClick, role }: MissionCardProps) => {
           <div className="absolute bottom-0 right-0 z-[2]">
             {role === 'owner' && (
               <div className="flex flex-col items-center justify-center">
-                <span className="text-xs text-muted-foreground">작성자</span>
-                <LuPenTool className="h-6 w-6 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">
+                  참여중인 미션
+                </span>
+                <LuFlag className="h-6 w-6 text-muted-foreground" />
               </div>
             )}
             {role === 'participant' && (
               <div className="flex flex-col items-center justify-center">
                 <span className="text-xs text-muted-foreground">참여자</span>
-                <LuFlag className="h-6 w-6 text-muted-foreground" />
+                <LuPenTool className="h-6 w-6 text-muted-foreground" />
               </div>
             )}
           </div>
