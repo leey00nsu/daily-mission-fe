@@ -49,7 +49,7 @@ const PostUpdateModal = ({
     <Dialog open={isOpen} onOpenChange={closeHandler}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>포스트 작성</DialogTitle>
+          <DialogTitle>포스트 수정</DialogTitle>
         </DialogHeader>
         {isPending && (
           <div className="flex items-center justify-center">
@@ -58,7 +58,7 @@ const PostUpdateModal = ({
         )}
         {isSuccess && (
           <div className="flex flex-col gap-2">
-            <p>포스트 작성이 완료되었습니다.</p>
+            <p>포스트 수정이 완료되었습니다.</p>
 
             <DialogClose asChild>
               <Button type="button">확인</Button>

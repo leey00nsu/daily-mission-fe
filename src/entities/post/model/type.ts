@@ -44,7 +44,9 @@ export interface GetPostsRequest {
 }
 export type GetPostsResponse = Post[];
 
-export const UpdatePostSchema = CreatePostSchema;
+export const UpdatePostSchema = CreatePostSchema.extend({
+  image: CreatePostSchema.shape.image.optional(),
+});
 
 export type UpdatePostRequest = z.infer<typeof UpdatePostSchema> & {
   id: number;

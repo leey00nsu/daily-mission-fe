@@ -4,8 +4,8 @@ import { AutosizeTextarea } from '@/shared/ui/autosize-textarea';
 import { Button } from '@/shared/ui/button';
 
 import {
-  CreatePostSchema,
   UpdatePostRequest,
+  UpdatePostSchema,
 } from '@/entities/post/model/type';
 import PostImage from '@/features/mission/ui/mission-image';
 import { useGetPost } from '@/features/post/api/use-post-service';
@@ -24,7 +24,7 @@ import { Input } from '@/shared/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
@@ -38,18 +38,25 @@ const UpdatePostForm = () => {
   const [imageSrc, setImageSrc] = useState(post?.imageUrl ?? '');
 
   const form = useForm<UpdatePostRequest>({
-    resolver: zodResolver(CreatePostSchema),
-    values: {
+    resolver: zodResolver(UpdatePostSchema),
+    defaultValues: {
       id: Number(postId),
       title: post?.title ?? '',
       content: post?.content ?? '',
-      image: new File([], post?.imageUrl ?? ''),
     },
   });
 
+  useEffect(() => {
+    form.setValue('title', post?.title ?? '');
+    form.setValue('content', post?.content ?? '');
+    setImageSrc(post?.imageUrl ?? '');
+  }, [post]);
+
   const onSubmit = (data: UpdatePostRequest) => {
     const formData = {
-      ...data,
+      title: data.title,
+      content: data.content,
+      image: form.formState.dirtyFields.image ? data.image : undefined,
       id: Number(postId),
     };
 
@@ -89,7 +96,7 @@ const UpdatePostForm = () => {
                   position="bottomRight"
                   className="bottom-1 right-3"
                 >
-                  <PostImage imageSrc={post?.imageUrl ?? imageSrc} />
+                  <PostImage imageSrc={imageSrc} />
                 </Badge>
               </FormLabel>
               <FormControl>
