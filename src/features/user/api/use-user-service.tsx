@@ -26,7 +26,7 @@ export const queryOptions = {
 export const useUpdateProfile = (
   props?: UseMutationOptions<
     UpdateProfileResponse,
-    unknown,
+    Error,
     UpdateProfileRequest,
     unknown
   >,

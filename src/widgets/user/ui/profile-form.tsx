@@ -5,8 +5,8 @@ import {
   UpdateProfileRequest,
   UpdateProfileSchema,
 } from '@/entities/user/model/type';
-import { useUpdateProfile } from '@/features/user/api/use-user-service';
 import ProfileImage from '@/features/user/ui/profile-image';
+import ProfileUpdateModal from '@/features/user/ui/profile-update-modal';
 import Badge from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import FloatingButtonGroup from '@/shared/ui/floating-button-group';
@@ -21,26 +21,15 @@ import {
 import { Input } from '@/shared/ui/input';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { LuLoader2 } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const ProfileForm = () => {
   const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.setUser);
 
   const [imageSrc, setImageSrc] = useState(user?.imageUrl || '');
-
-  const { mutate: updateProfile, isPending } = useUpdateProfile({
-    onSuccess: (data) => {
-      setUser({
-        ...user,
-        nickname: data.nickname || user?.nickname,
-        imageUrl: data.imageUrl || user?.imageUrl,
-      });
-    },
-  });
 
   const form = useForm<UpdateProfileRequest>({
     resolver: zodResolver(UpdateProfileSchema),
@@ -63,7 +52,15 @@ const ProfileForm = () => {
       image: form.formState.dirtyFields.image ? data.image : undefined,
     };
 
-    updateProfile(formData);
+    overlay.open(({ isOpen, close }) => {
+      return (
+        <ProfileUpdateModal
+          formData={formData}
+          isOpen={isOpen}
+          onClose={close}
+        />
+      );
+    });
   };
 
   const setImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,6 +120,7 @@ const ProfileForm = () => {
               <FormControl>
                 <Input
                   readOnly
+                  disabled
                   type="email"
                   id="email"
                   placeholder="Email@mail.com"
@@ -154,9 +152,7 @@ const ProfileForm = () => {
         />
 
         <FloatingButtonGroup>
-          <Button className="w-full">
-            {isPending ? <LuLoader2 className="animate-spin" /> : '저장'}
-          </Button>
+          <Button className="w-full">저장</Button>
         </FloatingButtonGroup>
       </form>
     </Form>
