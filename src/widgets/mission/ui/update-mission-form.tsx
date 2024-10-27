@@ -101,6 +101,7 @@ const UpdateMissionForm = () => {
           <FormLabel>미션 제목</FormLabel>
           <Input
             readOnly
+            disabled
             type="text"
             id="title"
             value={mission?.title}
@@ -113,6 +114,7 @@ const UpdateMissionForm = () => {
           <FormLabel>미션 설명</FormLabel>
           <AutosizeTextarea
             readOnly
+            disabled
             id="content"
             value={mission?.content}
             placeholder="미션 설명을 입력해주세요."
