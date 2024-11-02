@@ -40,7 +40,7 @@ const UpdateMissionForm = () => {
 
   const form = useForm<UpdateMissionRequest>({
     resolver: zodResolver(UpdateMissionSchema),
-    values: {
+    defaultValues: {
       id: Number(missionId),
       hint: mission?.hint ?? '',
       credential: mission?.credential ?? '',

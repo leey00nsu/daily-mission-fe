@@ -37,7 +37,7 @@ const MissionUpdateModal = ({
     onClose();
 
     if (updateMissionResult) {
-      router.push('/');
+      router.push(`/mission/${formData.id}`);
     }
   };
 
