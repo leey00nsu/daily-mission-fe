@@ -30,6 +30,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 
 const CreateMissionForm = () => {
   const [imageSrc, setImageSrc] = useState('');
@@ -57,7 +58,13 @@ const CreateMissionForm = () => {
     },
   });
 
-  const onSubmit = (data: CreateMissionRequest) => {
+  const onSubmit = async (data: CreateMissionRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <CreateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     overlay.open(({ isOpen, close }) => {
       return (
         <MissionCreateModal formData={data} isOpen={isOpen} onClose={close} />
@@ -272,7 +279,7 @@ const CreateMissionForm = () => {
         />
 
         <FloatingButtonGroup>
-          <Button className="w-full">미션 생성</Button>
+          <Button className="w-full">미션 작성</Button>
         </FloatingButtonGroup>
       </form>
     </Form>

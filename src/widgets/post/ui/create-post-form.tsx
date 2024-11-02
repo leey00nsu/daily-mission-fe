@@ -26,6 +26,7 @@ import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 
 const CreatePostForm = () => {
   const { id: missionId } = useParams<{ id: string }>();
@@ -39,7 +40,13 @@ const CreatePostForm = () => {
     },
   });
 
-  const onSubmit = (data: CreatePostRequest) => {
+  const onSubmit = async (data: CreatePostRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <CreateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     const formData = {
       ...data,
       missionId: Number(missionId),

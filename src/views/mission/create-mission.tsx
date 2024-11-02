@@ -6,7 +6,7 @@ const CreateMission = () => {
     <PageContainer
       headerShown
       headerOptions={{
-        title: '미션 생성',
+        title: '미션 작성',
         leftIcon: 'leftArrow',
       }}
     >
