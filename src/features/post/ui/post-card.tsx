@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
 import PostDeleteModal from '@/features/post/ui/post-delete-modal';
+import DeleteConfirmModal from '@/shared/ui/delete-confirm-modal';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +40,13 @@ const PostCard = ({
 
   const isOwner = username === nickname;
 
-  const openDeleteModal = () => {
+  const openDeleteModal = async () => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <DeleteConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     overlay.open(({ isOpen, close }) => {
       return (
         <PostDeleteModal

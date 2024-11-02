@@ -14,6 +14,7 @@ import MissionImage from '@/features/mission/ui/mission-image';
 import MissionUpdateModal from '@/features/mission/ui/mission-update-modal';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import Badge from '@/shared/ui/badge';
+import DeleteConfirmModal from '@/shared/ui/delete-confirm-modal';
 import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
@@ -64,7 +65,13 @@ const UpdateMissionForm = () => {
     });
   };
 
-  const deleteMissionHandler = () => {
+  const deleteMissionHandler = async () => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <DeleteConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     overlay.open(({ isOpen, close }) => {
       return (
         <MissionDeleteModal
