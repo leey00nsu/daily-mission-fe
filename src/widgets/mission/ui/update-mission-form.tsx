@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
+import UpdateConfirmModal from '@/shared/ui/update-confirm-modal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
@@ -48,7 +49,13 @@ const UpdateMissionForm = () => {
     },
   });
 
-  const onSubmit = (data: UpdateMissionRequest) => {
+  const onSubmit = async (data: UpdateMissionRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <UpdateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     const formData = {
       ...data,
       id: Number(missionId),

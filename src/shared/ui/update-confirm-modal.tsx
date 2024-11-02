@@ -6,12 +6,12 @@ import {
   DialogTitle,
 } from '@/shared/ui/dialog';
 
-interface DeleteConfirmModalProps {
+interface UpdateConfirmModalProps {
   isOpen: boolean;
   onClose: (param: boolean) => void;
 }
 
-const DeleteConfirmModal = ({ isOpen, onClose }: DeleteConfirmModalProps) => {
+const UpdateConfirmModal = ({ isOpen, onClose }: UpdateConfirmModalProps) => {
   const agreeHandler = () => {
     onClose(true);
   };
@@ -24,20 +24,17 @@ const DeleteConfirmModal = ({ isOpen, onClose }: DeleteConfirmModalProps) => {
     <Dialog open={isOpen} onOpenChange={cancleHandler}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>삭제</DialogTitle>
+          <DialogTitle>수정</DialogTitle>
         </DialogHeader>
         <div>
-          <p>정말 삭제하시겠습니까?</p>
-          <p className="text-muted-foreground">
-            삭제 후에는 복구할 수 없습니다.
-          </p>
+          <p>정말 수정하시겠습니까?</p>
         </div>
         <div className="flex justify-end gap-2">
           <Button onClick={cancleHandler} variant="outline">
             취소
           </Button>
-          <Button onClick={agreeHandler} variant="destructive">
-            삭제
+          <Button onClick={agreeHandler} variant="default">
+            수정
           </Button>
         </div>
       </DialogContent>
@@ -45,4 +42,4 @@ const DeleteConfirmModal = ({ isOpen, onClose }: DeleteConfirmModalProps) => {
   );
 };
 
-export default DeleteConfirmModal;
+export default UpdateConfirmModal;

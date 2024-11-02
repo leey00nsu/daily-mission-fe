@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
+import UpdateConfirmModal from '@/shared/ui/update-confirm-modal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
@@ -52,7 +53,13 @@ const UpdatePostForm = () => {
     setImageSrc(post?.imageUrl ?? '');
   }, [post]);
 
-  const onSubmit = (data: UpdatePostRequest) => {
+  const onSubmit = async (data: UpdatePostRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <UpdateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     const formData = {
       title: data.title,
       content: data.content,
@@ -156,7 +163,9 @@ const UpdatePostForm = () => {
         />
 
         <FloatingButtonGroup>
-          <Button className="w-full">포스트 수정</Button>
+          <Button className="w-full" variant="default">
+            포스트 수정
+          </Button>
         </FloatingButtonGroup>
       </form>
     </Form>
