@@ -6,17 +6,24 @@ import {
   CardHeader,
 } from '@/shared/ui/card';
 import Image from 'next/image';
-import { LuFlag, LuPenTool } from 'react-icons/lu';
+import { LuFlag } from 'react-icons/lu';
 
 interface MissionCardProps {
   mission: MissionCardType;
   onClick?: () => void;
-  role?: 'owner' | 'participant' | null;
 }
 
-const MissionCard = ({ mission, onClick, role }: MissionCardProps) => {
-  const { nickname, title, content, startDate, endDate, imageUrl, ended } =
-    mission;
+const MissionCard = ({ mission, onClick }: MissionCardProps) => {
+  const {
+    nickname,
+    title,
+    content,
+    startDate,
+    endDate,
+    imageUrl,
+    ended,
+    participating,
+  } = mission;
 
   return (
     <Card onClick={onClick} className="relative">
@@ -48,18 +55,12 @@ const MissionCard = ({ mission, onClick, role }: MissionCardProps) => {
           </div>
 
           <div className="absolute bottom-0 right-0 z-[2]">
-            {role === 'owner' && (
+            {participating && (
               <div className="flex flex-col items-center justify-center">
                 <span className="text-xs text-muted-foreground">
                   참여중인 미션
                 </span>
                 <LuFlag className="h-6 w-6 text-muted-foreground" />
-              </div>
-            )}
-            {role === 'participant' && (
-              <div className="flex flex-col items-center justify-center">
-                <span className="text-xs text-muted-foreground">참여자</span>
-                <LuPenTool className="h-6 w-6 text-muted-foreground" />
               </div>
             )}
           </div>

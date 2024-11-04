@@ -34,5 +34,6 @@ export const MOCK_ALL_MISSON_LIST_1: Mission[] = [
       },
     ],
     credential: 'credential',
+    participating: false,
   },
 ];

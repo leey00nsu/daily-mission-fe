@@ -28,6 +28,7 @@ export interface Mission {
     deleted: boolean;
   };
   participantDto: Participant[];
+  participating: boolean;
   credential: string;
 }
 
@@ -42,6 +43,7 @@ export interface MissionCard
     | 'endDate'
     | 'imageUrl'
     | 'ended'
+    | 'participating'
   > {}
 
 export const CreateMissionSchema = z.object({
