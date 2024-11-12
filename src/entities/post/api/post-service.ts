@@ -8,29 +8,31 @@ import {
   GetPostsResponse,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
+import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
 import { GlobalResponse } from '@/shared/model/type';
 
 export const createPost = async (request: CreatePostRequest): Promise<void> => {
-  const formData = new FormData();
+  const { title, content, image, missionId } = request;
 
-  const postSaveReqDto = {
-    missionId: request.missionId,
-    title: request.title,
-    content: request.content,
-  };
-
-  const postSaveReqDtoBlob = new Blob([JSON.stringify(postSaveReqDto)], {
-    type: 'application/json',
+  const { url } = await getPresignedUrl({
+    fileName: image.name,
+    title,
   });
 
-  formData.append('postSaveReqDto', postSaveReqDtoBlob);
-  formData.append('file', request.image);
+  await uploadImage({ image, url });
+
+  const postSaveReqDto = {
+    missionId,
+    title,
+    content,
+    imageUrl: `${title}/${image.name}`,
+  };
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/post/save`,
     {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(postSaveReqDto),
       credentials: 'include',
     },
   );
@@ -106,29 +108,28 @@ export const getUserPosts = async (): Promise<GetPostsResponse> => {
 };
 
 export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
-  const formData = new FormData();
+  const { title, content, image, id } = request;
 
-  const postUpdateRequestDto = {
-    title: request.title,
-    content: request.content,
+  if (image) {
+    const { url } = await getPresignedUrl({
+      fileName: image.name,
+      title,
+    });
+
+    await uploadImage({ image, url });
+  }
+
+  const postSaveReqDto = {
+    title,
+    content,
+    imageUrl: image ? `${title}/${image.name}` : undefined,
   };
 
-  const postUpdateRequestDtoBlob = new Blob(
-    [JSON.stringify(postUpdateRequestDto)],
-    {
-      type: 'application/json',
-    },
-  );
-
-  formData.append('postUpdateRequestDto', postUpdateRequestDtoBlob);
-
-  if (request.image) formData.append('file', request.image);
-
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/${request.id}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/${id}`,
     {
       method: 'PUT',
-      body: formData,
+      body: JSON.stringify(postSaveReqDto),
       credentials: 'include',
     },
   );

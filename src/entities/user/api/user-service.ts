@@ -4,32 +4,34 @@ import {
   UpdateProfileResponse,
   User,
 } from '@/entities/user/model/type';
+import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
 import { GlobalResponse } from '@/shared/model/type';
 
 export const updateProfile = async (
   request: UpdateProfileRequest,
 ): Promise<UpdateProfileResponse> => {
-  const formData = new FormData();
+  const { email, nickname, image } = request;
 
-  const requestDto: {
-    nickname?: string;
-  } = {};
+  if (image) {
+    const { url } = await getPresignedUrl({
+      fileName: image.name,
+      title: image.name,
+    });
 
-  if (request.nickname) requestDto.nickname = request.nickname;
+    await uploadImage({ image, url });
+  }
 
-  const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
-    type: 'application/json',
-  });
-
-  formData.append('requestDto', requestDtoBlob);
-
-  if (request.image) formData.append('file', request.image);
+  const reqDto = {
+    email,
+    nickname,
+    imageUrl: image ? `${image.name}/${image.name}` : undefined,
+  };
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/user/profile`,
     {
       method: 'PUT',
-      body: formData,
+      body: JSON.stringify(reqDto),
       credentials: 'include',
     },
   );

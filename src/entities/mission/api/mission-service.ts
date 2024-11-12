@@ -13,36 +13,38 @@ import {
   UpdateMissionRequest,
   UpdateMissionResponse,
 } from '@/entities/mission/model/type';
+import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
 import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
 
 export const createMission = async (
   request: CreateMissionRequest,
 ): Promise<CreateMissionResponse> => {
-  const formData = new FormData();
+  const { week, title, hint, credential, content, date, image } = request;
 
-  const missionReqDto = {
-    week: request.week,
-    title: request.title,
-    hint: request.hint,
-    credential: request.credential,
-    content: request.content,
-    startDate: format(request.date.startDate!, 'yyyy-MM-dd'),
-    endDate: format(request.date.endDate!, 'yyyy-MM-dd'),
-  };
-
-  const missionReqDtoBlob = new Blob([JSON.stringify(missionReqDto)], {
-    type: 'application/json',
+  const { url } = await getPresignedUrl({
+    fileName: image.name,
+    title,
   });
 
-  formData.append('missionReqDto', missionReqDtoBlob);
-  formData.append('file', request.image);
+  await uploadImage({ image, url });
+
+  const missionReqDto = {
+    week,
+    title,
+    hint,
+    credential,
+    content,
+    startDate: format(date.startDate!, 'yyyy-MM-dd'),
+    endDate: format(date.endDate!, 'yyyy-MM-dd'),
+    imageUrl: `${title}/${image.name}`,
+  };
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/save`,
     {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(missionReqDto),
       credentials: 'include',
     },
   );
@@ -61,13 +63,15 @@ export const createMission = async (
 export const updateMission = async (
   request: UpdateMissionRequest,
 ): Promise<UpdateMissionResponse> => {
+  const { hint, credential, id } = request;
+
   const missionReqDto = {
-    hint: request.hint,
-    credential: request.credential,
+    hint,
+    credential,
   };
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${id}`,
     {
       method: 'PUT',
       body: JSON.stringify(missionReqDto),

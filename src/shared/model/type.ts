@@ -16,3 +16,17 @@ export interface Page<T> {
     isNext: boolean;
   };
 }
+
+export interface GetPresignedUrlRequest {
+  fileName: string;
+  title: string;
+}
+
+export interface GetPresignedUrlResponse {
+  url: string;
+}
+
+export interface UploadImageRequest {
+  image: File;
+  url: string;
+}
