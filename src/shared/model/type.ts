@@ -24,6 +24,7 @@ export interface GetPresignedUrlRequest {
 
 export interface GetPresignedUrlResponse {
   url: string;
+  path: string;
 }
 
 export interface UploadImageRequest {

@@ -22,7 +22,7 @@ export const createMission = async (
 ): Promise<CreateMissionResponse> => {
   const { week, title, hint, credential, content, date, image } = request;
 
-  const { url } = await getPresignedUrl({
+  const { url, path } = await getPresignedUrl({
     fileName: image.name,
     title,
   });
@@ -37,7 +37,7 @@ export const createMission = async (
     content,
     startDate: format(date.startDate!, 'yyyy-MM-dd'),
     endDate: format(date.endDate!, 'yyyy-MM-dd'),
-    imageUrl: `${title}/${image.name}`,
+    imageUrl: path,
   };
 
   const response = await fetch(

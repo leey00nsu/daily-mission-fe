@@ -12,20 +12,25 @@ export const updateProfile = async (
 ): Promise<UpdateProfileResponse> => {
   const { email, nickname, image } = request;
 
+  const reqDto: {
+    email: string;
+    nickname?: string;
+    imageUrl?: string;
+  } = {
+    email,
+    nickname,
+  };
+
   if (image) {
-    const { url } = await getPresignedUrl({
+    const { url, path } = await getPresignedUrl({
       fileName: image.name,
       title: image.name,
     });
 
     await uploadImage({ image, url });
-  }
 
-  const reqDto = {
-    email,
-    nickname,
-    imageUrl: image ? `${image.name}/${image.name}` : undefined,
-  };
+    reqDto.imageUrl = path;
+  }
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/user/profile`,

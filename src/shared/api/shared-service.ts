@@ -1,6 +1,7 @@
 import {
   GetPresignedUrlRequest,
   GetPresignedUrlResponse,
+  GlobalResponse,
   UploadImageRequest,
 } from '@/shared/model/type';
 
@@ -9,8 +10,11 @@ export const getPresignedUrl = async (
 ): Promise<GetPresignedUrlResponse> => {
   const { fileName, title } = request;
 
+  const serializedFileName = fileName.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
+  const serializedTitle = title.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_TEMP}/presigned-url/put?fileName=${fileName}&title=${title}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/image/presigned-url?fileName=${serializedFileName}&title=${serializedTitle}`,
     {
       credentials: 'include',
     },
@@ -20,10 +24,11 @@ export const getPresignedUrl = async (
     throw new Error('Failed to get presigned url');
   }
 
-  const data = await response.text();
+  const data: GlobalResponse<GetPresignedUrlResponse> = await response.json();
 
   return {
-    url: data,
+    url: data.data.url,
+    path: data.data.path,
   };
 };
 

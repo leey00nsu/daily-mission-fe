@@ -14,7 +14,7 @@ import { GlobalResponse } from '@/shared/model/type';
 export const createPost = async (request: CreatePostRequest): Promise<void> => {
   const { title, content, image, missionId } = request;
 
-  const { url } = await getPresignedUrl({
+  const { url, path } = await getPresignedUrl({
     fileName: image.name,
     title,
   });
@@ -25,7 +25,7 @@ export const createPost = async (request: CreatePostRequest): Promise<void> => {
     missionId,
     title,
     content,
-    imageUrl: `${title}/${image.name}`,
+    imageUrl: path,
   };
 
   const response = await fetch(
@@ -110,20 +110,25 @@ export const getUserPosts = async (): Promise<GetPostsResponse> => {
 export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
   const { title, content, image, id } = request;
 
+  const postSaveReqDto: {
+    title: string;
+    content: string;
+    imageUrl?: string;
+  } = {
+    title,
+    content,
+  };
+
   if (image) {
-    const { url } = await getPresignedUrl({
+    const { url, path } = await getPresignedUrl({
       fileName: image.name,
       title,
     });
 
     await uploadImage({ image, url });
-  }
 
-  const postSaveReqDto = {
-    title,
-    content,
-    imageUrl: image ? `${title}/${image.name}` : undefined,
-  };
+    postSaveReqDto.imageUrl = path;
+  }
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/post/${id}`,
