@@ -42,7 +42,7 @@ export const updateProfile = async (
   );
 
   if (!response.ok) {
-    throw new Error('Failed to update profile');
+    throw new Error('프로필을 수정하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<UpdateProfileResponse> = await response.json();
@@ -61,7 +61,7 @@ export const getProfile = async (): Promise<User> => {
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to get profile');
+    throw new Error('프로필을 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<User> = await response.json();

@@ -52,7 +52,7 @@ export const createMission = async (
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to create mission');
+    throw new Error('미션을 생성하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<CreateMissionResponse> = await response.json();
@@ -85,7 +85,7 @@ export const updateMission = async (
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to update mission');
+    throw new Error('미션을 수정하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<CreateMissionResponse> = await response.json();
@@ -106,7 +106,7 @@ export const getMission = async (
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to get mission');
+    throw new Error('미션을 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<GetMissionResponse> = await response.json();
@@ -126,7 +126,7 @@ export const getParticipatedMissions =
     if (!response.ok) {
       SignOut();
 
-      throw new Error('Failed to get participated missions');
+      throw new Error('참여한 미션을 불러오는데 실패했습니다.');
     }
 
     const data: GlobalResponse<GetMissionsResponse> = await response.json();
@@ -147,7 +147,7 @@ export const getPaginationMissions = async (
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to get missions');
+    throw new Error('미션 목록을 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<Mission[]> = await response.json();
@@ -178,7 +178,7 @@ export const joinMission = async (
   const data: GlobalResponse<void> = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.errors.message);
+    throw new Error(data.errors.message || '미션 참여에 실패했습니다.');
   }
 
   return data.data;
@@ -198,7 +198,7 @@ export const deleteMission = async (
   const data: GlobalResponse<void> = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.errors.message);
+    throw new Error(data.errors.message || '미션 삭제에 실패했습니다.');
   }
 
   return data.data;
