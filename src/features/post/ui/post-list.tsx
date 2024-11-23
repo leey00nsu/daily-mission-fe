@@ -4,12 +4,14 @@ import PostCard from '@/features/post/ui/post-card';
 interface PostListProps {
   posts?: Post[];
   showMissionTitle?: boolean;
+  viewMode?: 'default' | 'compact';
   username?: string;
 }
 
 const PostList = ({
   posts,
   showMissionTitle = false,
+  viewMode = 'default',
   username,
 }: PostListProps) => {
   return (
@@ -19,6 +21,7 @@ const PostList = ({
           key={post.id}
           post={post}
           showMissionTitle={showMissionTitle}
+          viewMode={viewMode}
           username={username}
         />
       ))}

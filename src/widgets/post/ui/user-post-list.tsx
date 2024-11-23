@@ -11,7 +11,19 @@ const UserPostList = () => {
 
   if (isPostsFetching) return <PostListSkeleton />;
 
-  return <PostList showMissionTitle posts={posts} username={user.nickname} />;
+  const userMapppedPosts = posts?.map((post) => ({
+    ...post,
+    nickname: user.nickname,
+  }));
+
+  return (
+    <PostList
+      viewMode="compact"
+      showMissionTitle
+      posts={userMapppedPosts}
+      username={user.nickname}
+    />
+  );
 };
 
 export default UserPostList;

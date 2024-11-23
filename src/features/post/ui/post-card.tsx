@@ -19,12 +19,14 @@ import { LuArrowRightLeft, LuMoreHorizontal, LuUser2 } from 'react-icons/lu';
 interface PostCardProps {
   post: Post;
   showMissionTitle?: boolean;
+  viewMode?: 'default' | 'compact';
   username?: string;
 }
 
 const PostCard = ({
   post,
   showMissionTitle = false,
+  viewMode = 'default',
   username,
 }: PostCardProps) => {
   const {
@@ -74,16 +76,20 @@ const PostCard = ({
       <CardHeader className="px-0 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 overflow-hidden">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={userImageUrl} />
-              <AvatarFallback>
-                <LuUser2 className="h-1/2 w-1/2" />
-              </AvatarFallback>
-            </Avatar>
+            {viewMode === 'default' && (
+              <Avatar className="h-16 w-16">
+                <AvatarImage src={userImageUrl} />
+                <AvatarFallback>
+                  <LuUser2 className="h-1/2 w-1/2" />
+                </AvatarFallback>
+              </Avatar>
+            )}
 
             <div className="w-full overflow-hidden">
               <h3 className="truncate text-2xl font-semibold">{title}</h3>
-              <h3 className="truncate">{nickname}</h3>
+              {viewMode === 'default' && (
+                <h3 className="truncate">{nickname}</h3>
+              )}
               <p>{formatDate(createdDate)}</p>
             </div>
           </div>
