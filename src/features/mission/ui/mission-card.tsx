@@ -6,7 +6,6 @@ import {
   CardHeader,
 } from '@/shared/ui/card';
 import Image from 'next/image';
-import { LuFlag } from 'react-icons/lu';
 
 interface MissionCardProps {
   mission: MissionCardType;
@@ -33,8 +32,15 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
         </div>
       )}
       <CardHeader>
-        <CardDescription>
-          {startDate} ~ {endDate}
+        <CardDescription className="flex justify-between">
+          <div>
+            {startDate} ~ {endDate}
+          </div>
+          {participating && (
+            <div className="flex flex-col items-center justify-center">
+              <span className="text-xs text-muted-foreground">참여중</span>
+            </div>
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -52,17 +58,6 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
             <h3 className="truncate font-semibold">{nickname}</h3>
             <h3 className="truncate text-2xl font-semibold">{title}</h3>
             <p className="">{content}</p>
-          </div>
-
-          <div className="absolute bottom-0 right-0 z-[2]">
-            {participating && (
-              <div className="flex flex-col items-center justify-center">
-                <span className="text-xs text-muted-foreground">
-                  참여중인 미션
-                </span>
-                <LuFlag className="h-6 w-6 text-muted-foreground" />
-              </div>
-            )}
           </div>
         </div>
       </CardContent>

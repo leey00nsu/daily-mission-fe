@@ -37,6 +37,9 @@ export const updateProfile = async (
     {
       method: 'PUT',
       body: JSON.stringify(reqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );

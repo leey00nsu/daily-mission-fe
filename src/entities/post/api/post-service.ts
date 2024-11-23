@@ -33,6 +33,9 @@ export const createPost = async (request: CreatePostRequest): Promise<void> => {
     {
       method: 'POST',
       body: JSON.stringify(postSaveReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );
@@ -135,6 +138,9 @@ export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
     {
       method: 'PUT',
       body: JSON.stringify(postSaveReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );

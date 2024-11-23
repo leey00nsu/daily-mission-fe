@@ -45,6 +45,9 @@ export const createMission = async (
     {
       method: 'POST',
       body: JSON.stringify(missionReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );
