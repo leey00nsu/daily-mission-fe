@@ -40,7 +40,7 @@ const PostCard = ({
     imageUrl,
   } = post;
 
-  const isOwner = username === nickname;
+  const isOwner = !nickname || nickname === username;
 
   const openDeleteModal = async () => {
     const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
