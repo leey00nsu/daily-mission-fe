@@ -2,13 +2,14 @@
 
 import cn from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
+import { NavigationProps } from '@/widgets/navigation/ui/navigation';
 import { LuChevronUp } from 'react-icons/lu';
 
 interface ScrollTopButtonProps {
-  navigationShown: boolean;
+  navigationOption: NavigationProps;
 }
 
-const ScrollTopButton = ({ navigationShown }: ScrollTopButtonProps) => {
+const ScrollTopButton = ({ navigationOption }: ScrollTopButtonProps) => {
   const scrollTopHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -16,7 +17,7 @@ const ScrollTopButton = ({ navigationShown }: ScrollTopButtonProps) => {
   return (
     <div
       className={cn(
-        navigationShown ? 'bottom-20' : 'bottom-8',
+        navigationOption.visible ? 'bottom-20' : 'bottom-8',
         'fixed z-20 flex w-full max-w-2xl justify-end p-2',
       )}
     >

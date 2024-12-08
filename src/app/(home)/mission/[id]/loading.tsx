@@ -4,8 +4,7 @@ import MissionInfoSkeleton from '@/widgets/mission/ui/mission-info-skeleton';
 export default function Loading() {
   return (
     <PageContainer
-      headerShown
-      headerOptions={{
+      headerOption={{
         title: '미션 정보',
         leftIcon: 'leftArrow',
       }}

@@ -1,45 +1,41 @@
 import cn from '@/shared/lib/cn';
 import ScrollTopButton from '@/shared/ui/scroll-top-button';
 import Header, { HeaderProps } from '@/widgets/header/ui/header';
-import Navigation from '@/widgets/navigation/ui/navigation';
+import Navigation, {
+  NavigationProps,
+} from '@/widgets/navigation/ui/navigation';
 
-interface PageContainerPropsBase {
-  navigationShown?: boolean;
+interface PageContainerProps {
+  headerOption?: HeaderProps;
+  navigationOption?: NavigationProps;
   className?: string;
   children: React.ReactNode;
   showScrollButton?: boolean;
 }
 
-interface PageContainerPropsWithHeader extends PageContainerPropsBase {
-  headerShown: true;
-  headerOptions: HeaderProps;
-}
+const defaultHeaderOption: HeaderProps = {
+  visible: true,
+  fixed: true,
+};
 
-interface PageContainerPropsWithoutHeader extends PageContainerPropsBase {
-  headerShown?: false;
-  headerOptions?: never;
-}
-
-type PageContainerProps =
-  | PageContainerPropsWithHeader
-  | PageContainerPropsWithoutHeader;
+const defaultNavigationOption: NavigationProps = {
+  visible: true,
+};
 
 const PageContainer = ({
-  headerShown = false,
-  headerOptions,
-  navigationShown = false,
+  headerOption = defaultHeaderOption,
+  navigationOption = defaultNavigationOption,
   className,
   children,
   showScrollButton,
 }: PageContainerProps) => {
-  const headerFixed = headerOptions?.fixed ?? true;
   return (
     <div className="flex min-h-screen w-full items-center justify-center">
       <div className="relative flex min-h-screen w-full max-w-2xl flex-col items-center border-x border-slate-200">
-        {headerShown && headerOptions && <Header {...headerOptions} />}
+        <Header headerOption={headerOption} />
         <main
           className={cn(
-            navigationShown && 'mb-16',
+            navigationOption?.visible && 'mb-16',
             'relative flex w-full max-w-2xl grow flex-col px-4',
             className,
           )}
@@ -47,9 +43,9 @@ const PageContainer = ({
           {children}
         </main>
         {showScrollButton && (
-          <ScrollTopButton navigationShown={navigationShown} />
+          <ScrollTopButton navigationOption={navigationOption} />
         )}
-        {navigationShown && <Navigation />}
+        <Navigation navigationOption={navigationOption} />
       </div>
     </div>
   );

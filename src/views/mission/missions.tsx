@@ -5,12 +5,11 @@ import MissionListTab from '@/widgets/mission/ui/mission-list-tab';
 const Missions = () => {
   return (
     <PageContainer
-      headerShown
-      headerOptions={{
+      headerOption={{
         fixed: false,
         title: <Logo />,
+        rightIcon: 'notification',
       }}
-      navigationShown
       showScrollButton
     >
       <MissionListTab />

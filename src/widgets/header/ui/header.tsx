@@ -3,13 +3,14 @@
 import cn from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
 import { useRouter } from 'next/navigation';
-import { LuArrowLeft } from 'react-icons/lu';
+import { LuArrowLeft, LuBell } from 'react-icons/lu';
 
-export type HeaderIcon = 'leftArrow';
+export type HeaderIcon = 'leftArrow' | 'notification';
 
 export interface HeaderProps {
+  visible?: boolean;
   leftIcon?: HeaderIcon;
-  title: string | React.ReactNode;
+  title?: string | React.ReactNode;
   rightIcon?: HeaderIcon;
   fixed?: boolean;
 }
@@ -18,6 +19,8 @@ const Icon = (icon?: HeaderIcon) => {
   switch (icon) {
     case 'leftArrow':
       return <LuArrowLeft className="h-full w-full" />;
+    case 'notification':
+      return <LuBell className="h-full w-full" />;
 
     default:
       return null;
@@ -32,6 +35,12 @@ const Properties = (icon?: HeaderIcon) => {
       return {
         'aria-label': '뒤로가기',
         onClick: () => router.back(),
+      };
+
+    case 'notification':
+      return {
+        'aria-label': '알림',
+        onClick: () => router.push('/notification'),
       };
 
     default:
@@ -49,7 +58,19 @@ const Title = (title: string | React.ReactNode) => {
   }
 };
 
-const Header = ({ leftIcon, title, rightIcon, fixed = true }: HeaderProps) => {
+const Header = ({ headerOption }: { headerOption: HeaderProps }) => {
+  const {
+    visible = true,
+    leftIcon,
+    title,
+    rightIcon,
+    fixed = true,
+  } = headerOption;
+
+  if (!visible) {
+    return null;
+  }
+
   return (
     <header
       className={cn(
@@ -69,6 +90,7 @@ const Header = ({ leftIcon, title, rightIcon, fixed = true }: HeaderProps) => {
       <Button
         variant="ghost"
         type="button"
+        {...Properties(rightIcon)}
         className={cn('h-10 w-10 p-2', !rightIcon && 'invisible')}
       >
         {Icon(rightIcon)}

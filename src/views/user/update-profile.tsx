@@ -4,10 +4,12 @@ import ProfileForm from '@/widgets/user/ui/profile-form';
 const UpdateProfile = () => {
   return (
     <PageContainer
-      headerShown
-      headerOptions={{
+      headerOption={{
         leftIcon: 'leftArrow',
         title: '프로필 수정',
+      }}
+      navigationOption={{
+        visible: false,
       }}
     >
       <ProfileForm />
