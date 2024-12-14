@@ -21,6 +21,11 @@ const ProtectedPageProvider = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthorized = Boolean(user.email);
+  const isDebug = process.env.NEXT_PUBLIC_API_MODE === 'local';
+
+  if (isDebug) {
+    return <>{children}</>;
+  }
 
   useLayoutEffect(() => {
     if (isAuthorized !== needAuthorized) {
