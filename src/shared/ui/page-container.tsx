@@ -1,5 +1,6 @@
 import cn from '@/shared/lib/cn';
 import ScrollTopButton from '@/shared/ui/scroll-top-button';
+import { Toaster } from '@/shared/ui/sonner';
 import Header, { HeaderProps } from '@/widgets/header/ui/header';
 import Navigation, {
   NavigationProps,
@@ -47,6 +48,7 @@ const PageContainer = ({
         )}
         <Navigation navigationOption={navigationOption} />
       </div>
+      <Toaster />
     </div>
   );
 };

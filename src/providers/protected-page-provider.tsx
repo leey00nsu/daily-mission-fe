@@ -1,6 +1,7 @@
 'use client';
 
 import { useUserStore } from '@/entities/user/model/store';
+import { useNotification } from '@/features/notification/api/use-notification-service';
 import { Spinner } from '@/shared/ui/spinner';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
@@ -17,6 +18,7 @@ const ProtectedPageProvider = ({
   const router = useRouter();
   const pathname = usePathname();
   const user = useUserStore((state) => state.user);
+  const notifications = useNotification();
 
   const [isLoading, setIsLoading] = useState(true);
 

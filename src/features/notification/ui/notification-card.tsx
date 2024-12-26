@@ -1,19 +1,64 @@
-import { Card, CardContent, CardHeader } from '@/shared/ui/card';
+'use client';
 
-interface NotificationCardProps {
-  title: string;
-  body: string;
-}
+import { Notification } from '@/entities/notification/model/type';
+import cn from '@/shared/lib/cn';
+import { Button } from '@/shared/ui/button';
+import { Card, CardHeader } from '@/shared/ui/card';
+import { LuMessageCircle } from 'react-icons/lu';
+import { toast } from 'sonner';
 
-const NotificationCard = ({ title, body }: NotificationCardProps) => {
+interface NotificationCardProps extends Notification {}
+
+const NotificationCard = (props: NotificationCardProps) => {
+  const { content, read } = props;
+
+  const readHandler = () => {
+    toast('알림제목', {
+      description: '알림내용',
+      position: 'bottom-center',
+      action: {
+        label: '확인',
+        onClick: () => {},
+      },
+    });
+  };
+
   return (
     <Card className="w-full border-0 shadow-none">
       <CardHeader className="px-0 py-2">
-        <p>{title}</p>
+        <div className="flex items-center justify-between">
+          <div
+            className={cn(
+              'flex items-center gap-4 overflow-hidden',
+              read ? 'text-muted-foreground' : 'text-primary',
+            )}
+          >
+            <LuMessageCircle className="h-8 w-8" />
+
+            <div className="w-full overflow-hidden">
+              <h3 className="truncate text-xl font-semibold">{content}</h3>
+              {/* <p>{body}</p>
+              <p>{formatDate(date)}</p> */}
+            </div>
+          </div>
+
+          <div>
+            {read ? (
+              <Button disabled variant="ghost" className="text-primary">
+                읽음
+              </Button>
+            ) : (
+              <Button
+                onClick={readHandler}
+                variant="ghost"
+                className="text-primary"
+              >
+                확인
+              </Button>
+            )}
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="p-6">
-        <p>{body}</p>
-      </CardContent>
     </Card>
   );
 };

@@ -23,6 +23,7 @@
   "plugins": ["@typescript-eslint", "react", "prettier"],
   "ignorePatterns": ["node_modules/"],
   "rules": {
+    "consistent-return": "off",
     "import/prefer-default-export": "off",
     "arrow-body-style": "off",
     "react/function-component-definition": [
