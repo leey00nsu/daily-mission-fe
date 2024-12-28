@@ -1,4 +1,3 @@
-import { SignOut } from '@/entities/auth/api/auth-action';
 import {
   CreatePostRequest,
   DeletePostRequest,
@@ -60,8 +59,6 @@ export const getPost = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('포스트를 불러오는데 실패했습니다.');
   }
 
@@ -81,8 +78,6 @@ export const getMissionPosts = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('포스트 목록을 불러오는데 실패했습니다.');
   }
 
@@ -100,8 +95,6 @@ export const getUserPosts = async (): Promise<GetPostsResponse> => {
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('Failed to get posts');
   }
 
@@ -146,8 +139,6 @@ export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('포스트를 수정하는데 실패했습니다.');
   }
 
@@ -166,8 +157,6 @@ export const deletePost = async (request: DeletePostRequest): Promise<void> => {
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('포스트를 삭제하는데 실패했습니다.');
   }
 

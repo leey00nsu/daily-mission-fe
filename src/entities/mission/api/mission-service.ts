@@ -1,4 +1,3 @@
-import { SignOut } from '@/entities/auth/api/auth-action';
 import {
   CreateMissionRequest,
   CreateMissionResponse,
@@ -53,8 +52,6 @@ export const createMission = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('미션을 생성하는데 실패했습니다.');
   }
 
@@ -86,8 +83,6 @@ export const updateMission = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('미션을 수정하는데 실패했습니다.');
   }
 
@@ -107,8 +102,6 @@ export const getMission = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('미션을 불러오는데 실패했습니다.');
   }
 
@@ -127,8 +120,6 @@ export const getParticipatedMissions =
     );
 
     if (!response.ok) {
-      SignOut();
-
       throw new Error('참여한 미션을 불러오는데 실패했습니다.');
     }
 
@@ -148,8 +139,6 @@ export const getPaginationMissions = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('미션 목록을 불러오는데 실패했습니다.');
   }
 
