@@ -7,8 +7,12 @@ import {
 import { GlobalResponse } from '@/shared/model/type';
 
 export const createEventSource = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   return new EventSource(
-    `${process.env.NEXT_PUBLIC_API_HOST2}/notify/subscribe`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/notify/subscribe`,
     {
       withCredentials: true,
     },
@@ -19,7 +23,7 @@ export const readNotification = async (request: ReadNotificationRequest) => {
   const { id } = request;
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST2}/notify/${id}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/notify/${id}`,
     {
       method: 'PATCH',
       credentials: 'include',
@@ -35,7 +39,7 @@ export const getPaginationNotifications = async (
   request: GetPaginationNotificationsRequest,
 ): Promise<GetPaginationNotificationsResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST2}/notify/user?page=${request.page}&size=${request.size}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/notify/user?page=${request.page}&size=${request.size}`,
     {
       credentials: 'include',
     },

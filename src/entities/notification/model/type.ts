@@ -5,7 +5,7 @@ export interface Notification {
   content: string;
   notificationType: 'POST' | 'PARTICIPATE';
   createdAt?: string;
-  read?: boolean;
+  checked: boolean;
 }
 
 export interface ReadNotificationRequest {

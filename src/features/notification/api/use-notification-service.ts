@@ -38,22 +38,13 @@ export const queryOptions = {
   }),
 };
 
-let eventSourceInstance: EventSource | null = null;
-
 export const useNotification = () => {
   const queryClient = useQueryClient();
+  const eventSourceInstance = createEventSource();
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    if (!eventSourceInstance) {
-      eventSourceInstance = createEventSource();
-    }
-
-    eventSourceInstance.addEventListener('message', (event) => {
+    eventSourceInstance?.addEventListener('message', (event) => {
       const data = JSON.parse(event.data);
-
-      console.log(data);
 
       toast(data.content, {
         description: data.content,
@@ -70,10 +61,7 @@ export const useNotification = () => {
     });
 
     return () => {
-      if (eventSourceInstance) {
-        eventSourceInstance.close();
-        eventSourceInstance = null;
-      }
+      eventSourceInstance?.close();
     };
   }, []);
 };

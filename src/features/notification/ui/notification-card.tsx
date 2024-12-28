@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 interface NotificationCardProps extends Notification {}
 
 const NotificationCard = (props: NotificationCardProps) => {
-  const { content, read } = props;
+  const { content, checked } = props;
 
   const readHandler = () => {
     toast('알림제목', {
@@ -30,20 +30,20 @@ const NotificationCard = (props: NotificationCardProps) => {
           <div
             className={cn(
               'flex items-center gap-4 overflow-hidden',
-              read ? 'text-muted-foreground' : 'text-primary',
+              checked ? 'text-muted-foreground' : 'text-primary',
             )}
           >
             <LuMessageCircle className="h-8 w-8" />
 
             <div className="w-full overflow-hidden">
-              <h3 className="truncate text-xl font-semibold">{content}</h3>
+              <h3 className="text-xl font-semibold">{content}</h3>
               {/* <p>{body}</p>
               <p>{formatDate(date)}</p> */}
             </div>
           </div>
 
           <div>
-            {read ? (
+            {checked ? (
               <Button disabled variant="ghost" className="text-primary">
                 읽음
               </Button>

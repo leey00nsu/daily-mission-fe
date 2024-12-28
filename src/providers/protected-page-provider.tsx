@@ -18,7 +18,6 @@ const ProtectedPageProvider = ({
   const router = useRouter();
   const pathname = usePathname();
   const user = useUserStore((state) => state.user);
-  const notifications = useNotification();
 
   const [isLoading, setIsLoading] = useState(true);
 
