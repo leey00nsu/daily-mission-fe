@@ -1,7 +1,7 @@
 import { Page } from '@/shared/model/type';
 
 export interface Notification {
-  id?: string;
+  id: string;
   content: string;
   notificationType: 'POST' | 'PARTICIPATE';
   createdAt?: string;

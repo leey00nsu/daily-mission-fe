@@ -1,25 +1,21 @@
 'use client';
 
 import { Notification } from '@/entities/notification/model/type';
+import { useReadNotification } from '@/features/notification/api/use-notification-service';
 import cn from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
 import { Card, CardHeader } from '@/shared/ui/card';
 import { LuMessageCircle } from 'react-icons/lu';
-import { toast } from 'sonner';
 
 interface NotificationCardProps extends Notification {}
 
 const NotificationCard = (props: NotificationCardProps) => {
-  const { content, checked } = props;
+  const { content, checked, id } = props;
+  const { mutate: readNotification } = useReadNotification();
 
   const readHandler = () => {
-    toast('알림제목', {
-      description: '알림내용',
-      position: 'bottom-center',
-      action: {
-        label: '확인',
-        onClick: () => {},
-      },
+    readNotification({
+      id,
     });
   };
 

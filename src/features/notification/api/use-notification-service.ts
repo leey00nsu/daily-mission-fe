@@ -1,18 +1,26 @@
 import {
   createEventSource,
   getPaginationNotifications,
+  readNotification,
 } from '@/entities/notification/api/notification-service';
 import {
   GetPaginationNotificationsRequest,
   GetPaginationNotificationsResponse,
+  ReadNotificationRequest,
 } from '@/entities/notification/model/type';
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  UseMutationOptions,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 export const queryKeys = {
+  all: ['notification'],
   paginationNotifications: (page: number, size: number) => [
-    'mission',
+    'notification',
     'paginationNotifications',
     page,
     size,
@@ -72,5 +80,26 @@ export const useGetUserNotifications = ({
 }: GetPaginationNotificationsRequest) => {
   return useInfiniteQuery({
     ...queryOptions.paginationNotifications(page, size),
+  });
+};
+
+export const useReadNotification = (
+  props?: UseMutationOptions<
+    boolean,
+    unknown,
+    ReadNotificationRequest,
+    unknown
+  >,
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: readNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.all,
+      });
+    },
+    ...props,
   });
 };

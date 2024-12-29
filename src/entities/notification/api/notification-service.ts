@@ -25,7 +25,7 @@ export const readNotification = async (request: ReadNotificationRequest) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/notify/${id}`,
     {
-      method: 'PATCH',
+      method: 'PUT',
       credentials: 'include',
     },
   );
@@ -33,6 +33,10 @@ export const readNotification = async (request: ReadNotificationRequest) => {
   if (!response.ok) {
     throw new Error('Failed to read notification');
   }
+
+  const data: GlobalResponse<boolean> = await response.json();
+
+  return data.data;
 };
 
 export const getPaginationNotifications = async (
