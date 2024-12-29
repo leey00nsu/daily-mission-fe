@@ -14,7 +14,7 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { ImageViewer } from '@/shared/ui/image-viewer';
 import { overlay } from 'overlay-kit';
-import { LuArrowRightLeft, LuMoreHorizontal, LuUser2 } from 'react-icons/lu';
+import { LuArrowRightLeft, LuEllipsis, LuUser } from 'react-icons/lu';
 
 interface PostCardProps {
   post: Post;
@@ -80,7 +80,7 @@ const PostCard = ({
               <Avatar className="h-16 w-16">
                 <AvatarImage src={userImageUrl} />
                 <AvatarFallback>
-                  <LuUser2 className="h-1/2 w-1/2" />
+                  <LuUser className="h-1/2 w-1/2" />
                 </AvatarFallback>
               </Avatar>
             )}
@@ -98,7 +98,7 @@ const PostCard = ({
             {isOwner && (
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <LuMoreHorizontal className="h-6 w-6" />
+                  <LuEllipsis className="h-6 w-6" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <Link href={`/post/edit/${post.id}`}>

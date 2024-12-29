@@ -5,12 +5,12 @@ import { useReadNotification } from '@/features/notification/api/use-notificatio
 import cn from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
 import { Card, CardHeader } from '@/shared/ui/card';
-import { LuMessageCircle } from 'react-icons/lu';
+import { LuMessageSquareDiff, LuSmilePlus } from 'react-icons/lu';
 
 interface NotificationCardProps extends Notification {}
 
 const NotificationCard = (props: NotificationCardProps) => {
-  const { content, checked, id } = props;
+  const { content, checked, id, notificationType } = props;
   const { mutate: readNotification } = useReadNotification();
 
   const readHandler = () => {
@@ -29,7 +29,12 @@ const NotificationCard = (props: NotificationCardProps) => {
               checked ? 'text-muted-foreground' : 'text-primary',
             )}
           >
-            <LuMessageCircle className="h-8 w-8" />
+            {notificationType === 'PARTICIPATE' && (
+              <LuSmilePlus className="h-8 w-8" />
+            )}
+            {notificationType === 'POST' && (
+              <LuMessageSquareDiff className="h-8 w-8" />
+            )}
 
             <div className="w-full overflow-hidden">
               <h3 className="text-xl font-semibold">{content}</h3>

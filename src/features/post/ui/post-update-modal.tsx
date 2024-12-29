@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
+import { Spinner } from '@/shared/ui/spinner';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { LuLoader2 } from 'react-icons/lu';
 
 interface PostUpdateModalProps {
   isOpen: boolean;
@@ -53,7 +53,7 @@ const PostUpdateModal = ({
         </DialogHeader>
         {isPending && (
           <div className="flex items-center justify-center">
-            <LuLoader2 className="h-8 w-8 animate-spin" />
+            <Spinner />
           </div>
         )}
         {isSuccess && (
