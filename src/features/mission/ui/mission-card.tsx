@@ -13,8 +13,16 @@ interface MissionCardProps {
 }
 
 const MissionCard = ({ mission, onClick }: MissionCardProps) => {
-  const { nickname, title, content, startDate, endDate, imageUrl, ended } =
-    mission;
+  const {
+    nickname,
+    title,
+    content,
+    startDate,
+    endDate,
+    imageUrl,
+    ended,
+    participating,
+  } = mission;
 
   return (
     <Card onClick={onClick} className="relative">
@@ -24,25 +32,32 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
         </div>
       )}
       <CardHeader>
-        <CardDescription>
-          {startDate} ~ {endDate}
+        <CardDescription className="flex justify-between">
+          <div>
+            {startDate} ~ {endDate}
+          </div>
+          {participating && (
+            <div className="flex flex-col items-center justify-center">
+              <span className="text-xs text-muted-foreground">참여중</span>
+            </div>
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-4">
+        <div className="relative flex gap-4">
           <div className="relative aspect-square min-h-10 w-1/2 grow overflow-hidden rounded-2xl">
             <Image
               fill
               alt="mission image"
               src={imageUrl || ''}
-              className="object-contain"
+              className="object-cover"
               unoptimized
             />
           </div>
           <div className="w-1/2">
             <h3 className="truncate font-semibold">{nickname}</h3>
             <h3 className="truncate text-2xl font-semibold">{title}</h3>
-            <p className="truncate">{content}</p>
+            <p className="">{content}</p>
           </div>
         </div>
       </CardContent>

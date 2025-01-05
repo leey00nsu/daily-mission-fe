@@ -8,10 +8,12 @@ interface MissionDetailProps {
 const MissionDetail = ({ pageId }: MissionDetailProps) => {
   return (
     <PageContainer
-      headerShown
-      headerOptions={{
+      headerOption={{
         title: '미션 정보',
         leftIcon: 'leftArrow',
+      }}
+      navigationOption={{
+        visible: false,
       }}
     >
       <MissionInfo pageId={pageId} />

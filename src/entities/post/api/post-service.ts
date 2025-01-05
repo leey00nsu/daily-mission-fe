@@ -1,36 +1,41 @@
-import { SignOut } from '@/entities/auth/api/auth-action';
 import {
   CreatePostRequest,
   DeletePostRequest,
+  GetPaginatedPostsResponse,
   GetPostRequest,
   GetPostResponse,
   GetPostsRequest,
-  GetPostsResponse,
+  Post,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
+import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
 import { GlobalResponse } from '@/shared/model/type';
 
 export const createPost = async (request: CreatePostRequest): Promise<void> => {
-  const formData = new FormData();
+  const { title, content, image, missionId } = request;
 
-  const postSaveReqDto = {
-    missionId: request.missionId,
-    title: request.title,
-    content: request.content,
-  };
-
-  const postSaveReqDtoBlob = new Blob([JSON.stringify(postSaveReqDto)], {
-    type: 'application/json',
+  const { url, path } = await getPresignedUrl({
+    fileName: image.name,
+    title,
   });
 
-  formData.append('postSaveReqDto', postSaveReqDtoBlob);
-  formData.append('file', request.image);
+  await uploadImage({ image, url });
+
+  const postSaveReqDto = {
+    missionId,
+    title,
+    content,
+    imageUrl: path,
+  };
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/post/save`,
     {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(postSaveReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );
@@ -38,7 +43,7 @@ export const createPost = async (request: CreatePostRequest): Promise<void> => {
   const data: GlobalResponse<void> = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.errors.message);
+    throw new Error(data.errors.message || '포스트를 생성하는데 실패했습니다.');
   }
 
   return data.data;
@@ -55,9 +60,7 @@ export const getPost = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to get post');
+    throw new Error('포스트를 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<GetPostResponse> = await response.json();
@@ -65,74 +68,91 @@ export const getPost = async (
   return data.data;
 };
 
-export const getMissionPosts = async (
+export const getPaginatedMissionPosts = async (
   request: GetPostsRequest,
-): Promise<GetPostsResponse> => {
+): Promise<GetPaginatedPostsResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/mission/${request.missionId}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/mission/${request.missionId}?page=${request.page}&size=${request.size}`,
     {
       credentials: 'include',
     },
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to get mission posts');
+    throw new Error('포스트 목록을 불러오는데 실패했습니다.');
   }
 
-  const data: GlobalResponse<GetPostsResponse> = await response.json();
+  const data: GlobalResponse<Post[]> = await response.json();
 
-  return data.data;
+  return {
+    data: data.data,
+    meta: {
+      isNext: data.meta.isNext,
+    },
+  };
 };
 
-export const getUserPosts = async (): Promise<GetPostsResponse> => {
+export const getPaginatedUserPosts = async (
+  request: Pick<GetPostsRequest, 'page' | 'size'>,
+): Promise<GetPaginatedPostsResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/user`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/user?page=${request.page}&size=${request.size}`,
     {
       credentials: 'include',
     },
   );
 
   if (!response.ok) {
-    SignOut();
-
     throw new Error('Failed to get posts');
   }
 
-  const data: GlobalResponse<GetPostsResponse> = await response.json();
+  const data: GlobalResponse<Post[]> = await response.json();
 
-  return data.data;
+  return {
+    data: data.data,
+    meta: {
+      isNext: data.meta.isNext,
+    },
+  };
 };
 
 export const updatePost = async (request: UpdatePostRequest): Promise<void> => {
-  const formData = new FormData();
+  const { title, content, image, id } = request;
 
-  const postUpdateReqDto = {
-    title: request.title,
-    content: request.content,
+  const postSaveReqDto: {
+    title: string;
+    content: string;
+    imageUrl?: string;
+  } = {
+    title,
+    content,
   };
 
-  const postUpdateReqDtoBlob = new Blob([JSON.stringify(postUpdateReqDto)], {
-    type: 'application/json',
-  });
+  if (image) {
+    const { url, path } = await getPresignedUrl({
+      fileName: image.name,
+      title,
+    });
 
-  formData.append('postUpdateReqDto', postUpdateReqDtoBlob);
-  formData.append('file', request.image);
+    await uploadImage({ image, url });
+
+    postSaveReqDto.imageUrl = path;
+  }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/${request.id}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/${id}`,
     {
       method: 'PUT',
-      body: formData,
+      body: JSON.stringify(postSaveReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to update post');
+    throw new Error('포스트를 수정하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<void> = await response.json();
@@ -150,9 +170,7 @@ export const deletePost = async (request: DeletePostRequest): Promise<void> => {
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to delete post');
+    throw new Error('포스트를 삭제하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<void> = await response.json();

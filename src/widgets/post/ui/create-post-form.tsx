@@ -10,6 +10,7 @@ import {
 import PostImage from '@/features/mission/ui/mission-image';
 import PostCreateModal from '@/features/post/ui/post-create-modal';
 import Badge from '@/shared/ui/badge';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -25,6 +26,7 @@ import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 
 const CreatePostForm = () => {
   const { id: missionId } = useParams<{ id: string }>();
@@ -38,7 +40,13 @@ const CreatePostForm = () => {
     },
   });
 
-  const onSubmit = (data: CreatePostRequest) => {
+  const onSubmit = async (data: CreatePostRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <CreateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     const formData = {
       ...data,
       missionId: Number(missionId),
@@ -139,7 +147,9 @@ const CreatePostForm = () => {
           )}
         />
 
-        <Button className="w-full">포스트 작성</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">포스트 작성</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

@@ -1,4 +1,3 @@
-import { SignOut } from '@/entities/auth/api/auth-action';
 import {
   CreateMissionRequest,
   CreateMissionResponse,
@@ -13,44 +12,47 @@ import {
   UpdateMissionRequest,
   UpdateMissionResponse,
 } from '@/entities/mission/model/type';
+import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
 import { GlobalResponse } from '@/shared/model/type';
 import { format } from 'date-fns';
 
 export const createMission = async (
   request: CreateMissionRequest,
 ): Promise<CreateMissionResponse> => {
-  const formData = new FormData();
+  const { week, title, hint, credential, content, date, image } = request;
 
-  const missionReqDto = {
-    week: request.week,
-    title: request.title,
-    hint: request.hint,
-    credential: request.credential,
-    content: request.content,
-    startDate: format(request.date.startDate!, 'yyyy-MM-dd'),
-    endDate: format(request.date.endDate!, 'yyyy-MM-dd'),
-  };
-
-  const missionReqDtoBlob = new Blob([JSON.stringify(missionReqDto)], {
-    type: 'application/json',
+  const { url, path } = await getPresignedUrl({
+    fileName: image.name,
+    title,
   });
 
-  formData.append('missionReqDto', missionReqDtoBlob);
-  formData.append('file', request.image);
+  await uploadImage({ image, url });
+
+  const missionReqDto = {
+    week,
+    title,
+    hint,
+    credential,
+    content,
+    startDate: format(date.startDate!, 'yyyy-MM-dd'),
+    endDate: format(date.endDate!, 'yyyy-MM-dd'),
+    imageUrl: path,
+  };
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/mission/save`,
     {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(missionReqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to create mission');
+    throw new Error('미션을 생성하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<CreateMissionResponse> = await response.json();
@@ -61,13 +63,15 @@ export const createMission = async (
 export const updateMission = async (
   request: UpdateMissionRequest,
 ): Promise<UpdateMissionResponse> => {
+  const { hint, credential, id } = request;
+
   const missionReqDto = {
-    hint: request.hint,
-    credential: request.credential,
+    hint,
+    credential,
   };
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${request.id}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/mission/${id}`,
     {
       method: 'PUT',
       body: JSON.stringify(missionReqDto),
@@ -79,9 +83,7 @@ export const updateMission = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to update mission');
+    throw new Error('미션을 수정하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<CreateMissionResponse> = await response.json();
@@ -100,9 +102,7 @@ export const getMission = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to get mission');
+    throw new Error('미션을 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<GetMissionResponse> = await response.json();
@@ -120,9 +120,7 @@ export const getParticipatedMissions =
     );
 
     if (!response.ok) {
-      SignOut();
-
-      throw new Error('Failed to get participated missions');
+      throw new Error('참여한 미션을 불러오는데 실패했습니다.');
     }
 
     const data: GlobalResponse<GetMissionsResponse> = await response.json();
@@ -141,9 +139,7 @@ export const getPaginationMissions = async (
   );
 
   if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to get missions');
+    throw new Error('미션 목록을 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<Mission[]> = await response.json();
@@ -174,7 +170,7 @@ export const joinMission = async (
   const data: GlobalResponse<void> = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.errors.message);
+    throw new Error(data.errors.message || '미션 참여에 실패했습니다.');
   }
 
   return data.data;
@@ -191,13 +187,11 @@ export const deleteMission = async (
     },
   );
 
-  if (!response.ok) {
-    SignOut();
-
-    throw new Error('Failed to delete mission');
-  }
-
   const data: GlobalResponse<void> = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.errors.message || '미션 삭제에 실패했습니다.');
+  }
 
   return data.data;
 };

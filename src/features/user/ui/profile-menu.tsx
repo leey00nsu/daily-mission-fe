@@ -4,14 +4,14 @@ import {
   LuBookOpen,
   LuLogOut,
   LuMessageSquare,
-  LuUserCog2,
+  LuUserCog,
 } from 'react-icons/lu';
 
 const ProfileMenu = () => {
   return (
     <div className="flex flex-col gap-2">
       <NavigationButton
-        leftIcon={<LuUserCog2 />}
+        leftIcon={<LuUserCog />}
         title="프로필 수정"
         href="/profile/edit"
       />

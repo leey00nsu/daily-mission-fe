@@ -4,11 +4,14 @@ import ParticipatedMissionList from '@/widgets/mission/ui/participated-mission-l
 const ParticipatedMissions = () => {
   return (
     <PageContainer
-      headerShown
-      headerOptions={{
+      headerOption={{
         leftIcon: 'leftArrow',
         title: '참여한 미션',
       }}
+      navigationOption={{
+        visible: false,
+      }}
+      showScrollButton
     >
       <ParticipatedMissionList />
     </PageContainer>

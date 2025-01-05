@@ -3,15 +3,44 @@
 import { useGetUserPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
 import PostListSkeleton from '@/features/post/ui/post-list-skeleton';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const UserPostList = () => {
-  const { data: posts, isFetching: isPostsFetching } = useGetUserPosts();
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+  const {
+    data: postPages,
+    isFetching: isPostsFetching,
+    hasNextPage: postHasNextPage,
+    fetchNextPage: fetchPostNextPage,
+  } = useGetUserPosts({
+    page: 0,
+    size: 5,
+  });
+
+  useEffect(() => {
+    if (inView && !isPostsFetching && postHasNextPage) {
+      fetchPostNextPage();
+    }
+  }, [inView]);
 
   return (
     <>
-      <PostList posts={posts} />
-
+      <PostList
+        viewMode="compact"
+        showMissionTitle
+        postPages={postPages?.pages}
+      />
+      {!isPostsFetching && !postPages?.pages?.length && (
+        <div className="flex h-40 items-center justify-center">
+          <p>등록된 포스트가 없습니다.</p>
+        </div>
+      )}
       {isPostsFetching && <PostListSkeleton />}
+
+      <div ref={ref} className="h-1" />
     </>
   );
 };

@@ -4,38 +4,48 @@ import {
   UpdateProfileResponse,
   User,
 } from '@/entities/user/model/type';
+import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
 import { GlobalResponse } from '@/shared/model/type';
 
 export const updateProfile = async (
   request: UpdateProfileRequest,
 ): Promise<UpdateProfileResponse> => {
-  const formData = new FormData();
+  const { email, nickname, image } = request;
 
-  const requestDto: {
+  const reqDto: {
+    email: string;
     nickname?: string;
-  } = {};
+    imageUrl?: string;
+  } = {
+    email,
+    nickname,
+  };
 
-  if (request.nickname) requestDto.nickname = request.nickname;
+  if (image) {
+    const { url, path } = await getPresignedUrl({
+      fileName: image.name,
+      title: image.name,
+    });
 
-  const requestDtoBlob = new Blob([JSON.stringify(requestDto)], {
-    type: 'application/json',
-  });
+    await uploadImage({ image, url });
 
-  formData.append('requestDto', requestDtoBlob);
-
-  if (request.image) formData.append('file', request.image);
+    reqDto.imageUrl = path;
+  }
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/user/profile`,
     {
       method: 'PUT',
-      body: formData,
+      body: JSON.stringify(reqDto),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     },
   );
 
   if (!response.ok) {
-    throw new Error('Failed to update profile');
+    throw new Error('프로필을 수정하는데 실패했습니다.');
   }
 
   const data: GlobalResponse<UpdateProfileResponse> = await response.json();
@@ -54,7 +64,7 @@ export const getProfile = async (): Promise<User> => {
   if (!response.ok) {
     SignOut();
 
-    throw new Error('Failed to get profile');
+    throw new Error('프로필을 불러오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<User> = await response.json();

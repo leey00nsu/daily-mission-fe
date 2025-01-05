@@ -1,6 +1,7 @@
 'use client';
 
 import { useUserStore } from '@/entities/user/model/store';
+import { useNotification } from '@/features/notification/api/use-notification-service';
 import { Spinner } from '@/shared/ui/spinner';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
@@ -21,6 +22,11 @@ const ProtectedPageProvider = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthorized = Boolean(user.email);
+  const isDebug = process.env.NEXT_PUBLIC_API_MODE === 'local';
+
+  if (isDebug) {
+    return <>{children}</>;
+  }
 
   useLayoutEffect(() => {
     if (isAuthorized !== needAuthorized) {

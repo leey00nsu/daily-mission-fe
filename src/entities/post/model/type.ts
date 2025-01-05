@@ -1,3 +1,4 @@
+import { Page } from '@/shared/model/type';
 import { z } from 'zod';
 
 export interface Post {
@@ -41,15 +42,18 @@ export type GetPostResponse = Post;
 
 export interface GetPostsRequest {
   missionId: number;
+  page: number;
+  size: number;
 }
-export type GetPostsResponse = Post[];
+export type GetPaginatedPostsResponse = Page<Post>;
 
-export interface UpdatePostRequest {
+export const UpdatePostSchema = CreatePostSchema.extend({
+  image: CreatePostSchema.shape.image.optional(),
+});
+
+export type UpdatePostRequest = z.infer<typeof UpdatePostSchema> & {
   id: number;
-  title: string;
-  content: string;
-  image: File;
-}
+};
 
 export interface DeletePostRequest {
   id: number;

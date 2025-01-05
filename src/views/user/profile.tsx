@@ -5,11 +5,9 @@ import ProfileDashboard from '@/widgets/user/ui/profile-dashboard';
 const Profile = () => {
   return (
     <PageContainer
-      headerShown
-      headerOptions={{
+      headerOption={{
         title: '프로필',
       }}
-      navigationShown
     >
       <ProfileDashboard />
     </PageContainer>

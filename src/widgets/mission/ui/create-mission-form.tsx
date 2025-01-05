@@ -12,6 +12,7 @@ import MissionCreateModal from '@/features/mission/ui/mission-create-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import Badge from '@/shared/ui/badge';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -29,6 +30,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 
 const CreateMissionForm = () => {
   const [imageSrc, setImageSrc] = useState('');
@@ -56,7 +58,13 @@ const CreateMissionForm = () => {
     },
   });
 
-  const onSubmit = (data: CreateMissionRequest) => {
+  const onSubmit = async (data: CreateMissionRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <CreateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     overlay.open(({ isOpen, close }) => {
       return (
         <MissionCreateModal formData={data} isOpen={isOpen} onClose={close} />
@@ -258,9 +266,9 @@ const CreateMissionForm = () => {
           name="week"
           render={({ field: { value, onChange } }) => (
             <FormItem className="w-full">
-              <FormLabel>미션 규칙</FormLabel>
+              <FormLabel>미션 인증 빈도</FormLabel>
               <FormDescription>
-                미션을 수행할 요일을 선택해주세요.
+                미션을 인증할 요일을 선택해주세요.
               </FormDescription>
               <FormControl>
                 <WeekCheckboxGroup week={value} onChange={onChange} />
@@ -270,7 +278,9 @@ const CreateMissionForm = () => {
           )}
         />
 
-        <Button className="w-full">미션 생성</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">미션 작성</Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

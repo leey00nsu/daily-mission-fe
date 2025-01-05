@@ -9,9 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
+import { Spinner } from '@/shared/ui/spinner';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { LuLoader2 } from 'react-icons/lu';
 
 interface MissionUpdateModalProps {
   isOpen: boolean;
@@ -31,25 +31,25 @@ const MissionUpdateModal = ({
 
   useEffect(() => {
     updateMission(formData);
-  }, [formData]);
+  }, []);
 
   const closeHandler = () => {
     onClose();
 
     if (updateMissionResult) {
-      router.push('/');
+      router.push(`/mission/${formData.id}`);
     }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={closeHandler}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>미션 수정</DialogTitle>
         </DialogHeader>
         {!updateMissionResult && (
           <div className="flex items-center justify-center">
-            <LuLoader2 className="h-8 w-8 animate-spin" />
+            <Spinner />
           </div>
         )}
         {updateMissionResult && (

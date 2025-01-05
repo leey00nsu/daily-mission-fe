@@ -9,10 +9,13 @@ import {
   UpdateMissionSchema,
 } from '@/entities/mission/model/type';
 import { useGetMission } from '@/features/mission/api/use-mission-service';
+import MissionDeleteModal from '@/features/mission/ui/mission-delete-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import MissionUpdateModal from '@/features/mission/ui/mission-update-modal';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import Badge from '@/shared/ui/badge';
+import DeleteConfirmModal from '@/shared/ui/delete-confirm-modal';
+import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
   FormControl,
@@ -23,6 +26,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
+import UpdateConfirmModal from '@/shared/ui/update-confirm-modal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
@@ -38,14 +42,20 @@ const UpdateMissionForm = () => {
 
   const form = useForm<UpdateMissionRequest>({
     resolver: zodResolver(UpdateMissionSchema),
-    values: {
+    defaultValues: {
       id: Number(missionId),
       hint: mission?.hint ?? '',
       credential: mission?.credential ?? '',
     },
   });
 
-  const onSubmit = (data: UpdateMissionRequest) => {
+  const onSubmit = async (data: UpdateMissionRequest) => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <UpdateConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
     const formData = {
       ...data,
       id: Number(missionId),
@@ -55,6 +65,26 @@ const UpdateMissionForm = () => {
       return (
         <MissionUpdateModal
           formData={formData}
+          isOpen={isOpen}
+          onClose={close}
+        />
+      );
+    });
+  };
+
+  const deleteMissionHandler = async () => {
+    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
+      return <DeleteConfirmModal isOpen={isOpen} onClose={close} />;
+    });
+
+    if (!result) return;
+
+    overlay.open(({ isOpen, close }) => {
+      return (
+        <MissionDeleteModal
+          formData={{
+            id: Number(missionId),
+          }}
           isOpen={isOpen}
           onClose={close}
         />
@@ -85,6 +115,7 @@ const UpdateMissionForm = () => {
           <FormLabel>미션 제목</FormLabel>
           <Input
             readOnly
+            disabled
             type="text"
             id="title"
             value={mission?.title}
@@ -97,6 +128,7 @@ const UpdateMissionForm = () => {
           <FormLabel>미션 설명</FormLabel>
           <AutosizeTextarea
             readOnly
+            disabled
             id="content"
             value={mission?.content}
             placeholder="미션 설명을 입력해주세요."
@@ -170,8 +202,8 @@ const UpdateMissionForm = () => {
         </div>
 
         <FormItem className="w-full">
-          <FormLabel>미션 규칙</FormLabel>
-          <FormDescription>미션을 수행할 요일을 선택해주세요.</FormDescription>
+          <FormLabel>미션 인증 빈도</FormLabel>
+          <FormDescription>미션을 인증할 요일을 선택해주세요.</FormDescription>
           <WeekCheckboxGroup
             readOnly
             week={
@@ -188,7 +220,17 @@ const UpdateMissionForm = () => {
           />
         </FormItem>
 
-        <Button className="w-full">미션 수정</Button>
+        <FloatingButtonGroup>
+          <Button className="w-full">미션 수정</Button>
+          <Button
+            type="button"
+            onClick={deleteMissionHandler}
+            variant="destructive"
+            className="w-full"
+          >
+            미션 삭제
+          </Button>
+        </FloatingButtonGroup>
       </form>
     </Form>
   );

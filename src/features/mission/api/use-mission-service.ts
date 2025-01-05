@@ -19,8 +19,8 @@ import {
   JoinMissionRequest,
   MissionSort,
   MissionType,
-  UpdateMissionResponse,
   UpdateMissionRequest,
+  UpdateMissionResponse,
 } from '@/entities/mission/model/type';
 
 import {
@@ -29,17 +29,19 @@ import {
   useInfiniteQuery,
   useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 
 export const queryKeys = {
+  all: ['mission'],
   mission: (id: number) => ['mission', id],
-  participatedMissions: ['participatedMissions'],
+  participatedMissions: ['mission', 'participatedMissions'],
   paginationMissions: (
     type: MissionType,
     page: number,
     size: number,
     sort: MissionSort,
-  ) => ['missions', type, page, size, sort],
+  ) => ['mission', 'paginationMissions', type, page, size, sort],
 };
 
 export const queryOptions = {
@@ -84,8 +86,15 @@ export const useCreateMission = (
     unknown
   >,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createMission,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.all,
+      });
+    },
     ...props,
   });
 };
@@ -98,8 +107,15 @@ export const useUpdateMission = (
     unknown
   >,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: updateMission,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.all,
+      });
+    },
     ...props,
   });
 };
@@ -135,10 +151,17 @@ export const useJoinMission = (
 };
 
 export const useDeleteMission = (
-  props?: UseMutationOptions<void, unknown, DeleteMissionRequest, unknown>,
+  props?: UseMutationOptions<void, Error, DeleteMissionRequest, unknown>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: deleteMission,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.all,
+      });
+    },
     ...props,
   });
 };
@@ -148,6 +171,7 @@ export const useGetParticipatedMissions = (
 ) => {
   return useQuery({
     ...queryOptions.participatedMissions(),
+
     ...props,
   });
 };
