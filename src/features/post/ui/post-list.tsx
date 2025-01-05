@@ -1,34 +1,32 @@
 import { Post } from '@/entities/post/model/type';
 import PostCard from '@/features/post/ui/post-card';
+import { Page } from '@/shared/model/type';
 
 interface PostListProps {
-  posts?: Post[];
+  postPages?: Page<Post>[];
   showMissionTitle?: boolean;
   viewMode?: 'default' | 'compact';
   username?: string;
 }
 
 const PostList = ({
-  posts,
+  postPages,
   showMissionTitle = false,
   viewMode = 'default',
   username,
 }: PostListProps) => {
   return (
     <section className="flex flex-col gap-2">
-      {posts?.map((post) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          showMissionTitle={showMissionTitle}
-          viewMode={viewMode}
-          username={username}
-        />
-      ))}
-      {!posts?.length && (
-        <div className="flex h-40 items-center justify-center">
-          <p>등록된 포스트가 없습니다.</p>
-        </div>
+      {postPages?.map((page) =>
+        page.data?.map((post) => (
+          <PostCard
+            key={post.id}
+            post={post}
+            showMissionTitle={showMissionTitle}
+            viewMode={viewMode}
+            username={username}
+          />
+        )),
       )}
     </section>
   );

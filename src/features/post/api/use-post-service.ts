@@ -1,24 +1,25 @@
 import {
   createPost,
   deletePost,
-  getMissionPosts,
+  getPaginatedMissionPosts,
+  getPaginatedUserPosts,
   getPost,
-  getUserPosts,
   updatePost,
 } from '@/entities/post/api/post-service';
 import {
   CreatePostRequest,
   DeletePostRequest,
+  GetPaginatedPostsResponse,
   GetPostRequest,
   GetPostResponse,
   GetPostsRequest,
-  GetPostsResponse,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
 
 import {
   UseMutationOptions,
   UseQueryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -27,7 +28,18 @@ import {
 export const queryKeys = {
   all: ['post'],
   post: (id: number) => ['post', id],
-  missionPosts: (missionId: number) => ['post', 'missionPosts', missionId],
+  paginatedMissionPosts: (page: number, size: number) => [
+    'post',
+    'paginatedMissionPosts',
+    page,
+    size,
+  ],
+  paginatedUserPosts: (page: number, size: number) => [
+    'post',
+    'paginatedUserPosts',
+    page,
+    size,
+  ],
   userPosts: () => ['post', 'userPosts'],
 };
 
@@ -36,13 +48,38 @@ export const queryOptions = {
     queryKey: queryKeys.post(id),
     queryFn: () => getPost({ id }),
   }),
-  missionPosts: (missionId: number) => ({
-    queryKey: queryKeys.missionPosts(missionId),
-    queryFn: () => getMissionPosts({ missionId }),
+  paginatedMissionPosts: (missionId: number, page: number, size: number) => ({
+    initialPageParam: page,
+    queryKey: queryKeys.paginatedMissionPosts(page, size),
+    queryFn: ({ pageParam = page }) =>
+      getPaginatedMissionPosts({
+        missionId,
+        page: pageParam,
+        size,
+      }),
+    getNextPageParam: (
+      lastPage: GetPaginatedPostsResponse,
+      allPages: GetPaginatedPostsResponse[],
+      pageParam: number,
+    ) => {
+      return lastPage.meta.isNext ? (pageParam as number) + 1 : undefined;
+    },
   }),
-  userPosts: () => ({
-    queryKey: queryKeys.userPosts(),
-    queryFn: () => getUserPosts(),
+  paginatedUserPosts: (page: number, size: number) => ({
+    initialPageParam: page,
+    queryKey: queryKeys.paginatedUserPosts(page, size),
+    queryFn: ({ pageParam = page }) =>
+      getPaginatedUserPosts({
+        page: pageParam,
+        size,
+      }),
+    getNextPageParam: (
+      lastPage: GetPaginatedPostsResponse,
+      allPages: GetPaginatedPostsResponse[],
+      pageParam: number,
+    ) => {
+      return lastPage.meta.isNext ? (pageParam as number) + 1 : undefined;
+    },
   }),
 };
 
@@ -56,22 +93,22 @@ export const useGetPost = (
   });
 };
 
-export const useGetMissionPosts = (
-  { missionId }: GetPostsRequest,
-  props?: UseQueryOptions<unknown, unknown, GetPostsResponse>,
-) => {
-  return useQuery({
-    ...queryOptions.missionPosts(missionId),
-    ...props,
+export const useGetMissionPosts = ({
+  missionId,
+  page,
+  size,
+}: GetPostsRequest) => {
+  return useInfiniteQuery({
+    ...queryOptions.paginatedMissionPosts(missionId, page, size),
   });
 };
 
-export const useGetUserPosts = (
-  props?: UseQueryOptions<unknown, unknown, GetPostsResponse>,
-) => {
-  return useQuery({
-    ...queryOptions.userPosts(),
-    ...props,
+export const useGetUserPosts = ({
+  page,
+  size,
+}: Pick<GetPostsRequest, 'page' | 'size'>) => {
+  return useInfiniteQuery({
+    ...queryOptions.paginatedUserPosts(page, size),
   });
 };
 

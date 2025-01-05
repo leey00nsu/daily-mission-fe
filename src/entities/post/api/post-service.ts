@@ -1,10 +1,11 @@
 import {
   CreatePostRequest,
   DeletePostRequest,
+  GetPaginatedPostsResponse,
   GetPostRequest,
   GetPostResponse,
   GetPostsRequest,
-  GetPostsResponse,
+  Post,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
 import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
@@ -67,11 +68,11 @@ export const getPost = async (
   return data.data;
 };
 
-export const getMissionPosts = async (
+export const getPaginatedMissionPosts = async (
   request: GetPostsRequest,
-): Promise<GetPostsResponse> => {
+): Promise<GetPaginatedPostsResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/mission/${request.missionId}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/mission/${request.missionId}?page=${request.page}&size=${request.size}`,
     {
       credentials: 'include',
     },
@@ -81,14 +82,21 @@ export const getMissionPosts = async (
     throw new Error('포스트 목록을 불러오는데 실패했습니다.');
   }
 
-  const data: GlobalResponse<GetPostsResponse> = await response.json();
+  const data: GlobalResponse<Post[]> = await response.json();
 
-  return data.data;
+  return {
+    data: data.data,
+    meta: {
+      isNext: data.meta.isNext,
+    },
+  };
 };
 
-export const getUserPosts = async (): Promise<GetPostsResponse> => {
+export const getPaginatedUserPosts = async (
+  request: Pick<GetPostsRequest, 'page' | 'size'>,
+): Promise<GetPaginatedPostsResponse> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/post/user`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/post/user?page=${request.page}&size=${request.size}`,
     {
       credentials: 'include',
     },
@@ -98,9 +106,14 @@ export const getUserPosts = async (): Promise<GetPostsResponse> => {
     throw new Error('Failed to get posts');
   }
 
-  const data: GlobalResponse<GetPostsResponse> = await response.json();
+  const data: GlobalResponse<Post[]> = await response.json();
 
-  return data.data;
+  return {
+    data: data.data,
+    meta: {
+      isNext: data.meta.isNext,
+    },
+  };
 };
 
 export const updatePost = async (request: UpdatePostRequest): Promise<void> => {

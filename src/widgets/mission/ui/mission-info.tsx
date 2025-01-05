@@ -6,6 +6,7 @@ import { useGetMission } from '@/features/mission/api/use-mission-service';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import { useGetMissionPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
+import PostListSkeleton from '@/features/post/ui/post-list-skeleton';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -17,7 +18,9 @@ import { differenceInDays } from 'date-fns';
 import { toDate } from 'date-fns-tz';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { LuChevronRight } from 'react-icons/lu';
+import { useInView } from 'react-intersection-observer';
 
 interface MissionInfoProps {
   pageId: Mission['id'];
@@ -25,15 +28,31 @@ interface MissionInfoProps {
 
 const MissionInfo = ({ pageId }: MissionInfoProps) => {
   const router = useRouter();
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
   const {
     data: mission,
     isLoading: isMissonLoading,
     error: isMissionError,
   } = useGetMission({ id: pageId });
-  const { data: posts, isLoading: isPostsLoading } = useGetMissionPosts({
+  const {
+    data: postPages,
+    isLoading: isPostsLoading,
+    hasNextPage: postHasNextPage,
+    fetchNextPage: fetchPostNextPage,
+  } = useGetMissionPosts({
     missionId: pageId,
+    page: 0,
+    size: 5,
   });
   const user = useUserStore((state) => state.user);
+
+  useEffect(() => {
+    if (inView && !isMissonLoading && !isPostsLoading && postHasNextPage) {
+      fetchPostNextPage();
+    }
+  }, [inView]);
 
   if (isMissonLoading || isPostsLoading) return <MissionInfoSkeleton />;
 
@@ -66,34 +85,6 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
     (participant) => participant.nickname === user.nickname,
   );
 
-  // start mock data
-  // const {
-  //   nickname,
-  //   imageUrl,
-  //   title,
-  //   content,
-  //   hint,
-  //   startDate,
-  //   endDate,
-  //   participantDto,
-  //   missionRuleResponseDto,
-  // } = MOCK_ALL_MISSON_LIST_1[0];
-
-  // const user = MOCK_USER;
-
-  // const participantAvatars = participantDto.map((participant) => ({
-  //   imageUrl: participant.imageUrl,
-  //   nickname: participant.nickname,
-  // }));
-  // const participantCount = participantDto.length;
-
-  // const isOwner = true;
-  // const isParticipant = true;
-
-  // const posts = MOCK_POSTS;
-
-  // end mock data
-
   const ruleCount = Object.values(missionRuleResponseDto.week).reduce(
     (acc, rule) => acc + (rule ? 1 : 0),
     0,
@@ -111,7 +102,10 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   };
 
   const participantText = getParticipantText(nickname, participantCount);
-  const postsCount = posts?.length ?? 0;
+  // const postsCount = postPages?.pages.reduce(
+  //   (acc, page) => acc + page.data.length,
+  //   0,
+  // );
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-4">
@@ -173,9 +167,16 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
       <div className="w-full">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-medium">인증 포스트</h3>
-          <span className="text-sm text-muted-foreground">{postsCount}개</span>
+          {/* <span className="text-sm text-muted-foreground">{postsCount}개</span> */}
         </div>
-        <PostList posts={posts} username={user.nickname} />
+        <PostList postPages={postPages?.pages} username={user.nickname} />
+        {!isPostsLoading && !postPages?.pages?.length && (
+          <div className="flex h-40 items-center justify-center">
+            <p>등록된 포스트가 없습니다.</p>
+          </div>
+        )}
+        {isPostsLoading && <PostListSkeleton />}
+        <div ref={ref} className="h-1" />
       </div>
 
       <FloatingButtonGroup>
