@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
 import PostDeleteModal from '@/features/post/ui/post-delete-modal';
+import { Button } from '@/shared/ui/button';
 import DeleteConfirmModal from '@/shared/ui/delete-confirm-modal';
 import {
   DropdownMenu,
@@ -14,7 +15,13 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { ImageViewer } from '@/shared/ui/image-viewer';
 import { overlay } from 'overlay-kit';
-import { LuArrowRightLeft, LuEllipsis, LuUser } from 'react-icons/lu';
+import {
+  LuArrowRightLeft,
+  LuEllipsis,
+  LuHeart,
+  LuThumbsUp,
+  LuUser,
+} from 'react-icons/lu';
 
 interface PostCardProps {
   post: Post;
@@ -97,8 +104,10 @@ const PostCard = ({
           <div className="min-w-6">
             {isOwner && (
               <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <LuEllipsis className="h-6 w-6" />
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    <LuEllipsis className="h-6 w-6" />
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <Link href={`/post/edit/${post.id}`}>
@@ -123,6 +132,22 @@ const PostCard = ({
         />
 
         <p>{content}</p>
+
+        <div className="flex gap-2">
+          <Button variant="ghost" className="p-2">
+            <div className="flex items-center justify-center gap-1">
+              <LuHeart />
+              <span>0</span>
+            </div>
+          </Button>
+
+          <Button variant="ghost" className="p-2">
+            <div className="flex items-center justify-center gap-1">
+              <LuThumbsUp />
+              <span>0</span>
+            </div>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
