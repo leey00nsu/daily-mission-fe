@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
 } from '@/shared/ui/card';
-import Image from 'next/image';
+import FadeInImage from '@/shared/ui/fade-in-image';
 
 interface MissionCardProps {
   mission: MissionCardType;
@@ -46,11 +46,10 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
       <CardContent>
         <div className="relative flex gap-4">
           <div className="relative aspect-square min-h-10 w-1/2 grow overflow-hidden rounded-2xl">
-            <Image
+            <FadeInImage
               fill
               alt="mission image"
               src={imageUrl || ''}
-              className="object-cover"
               unoptimized
             />
           </div>
