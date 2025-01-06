@@ -56,8 +56,8 @@ const MissionCard = ({ mission, onClick }: MissionCardProps) => {
           </div>
           <div className="w-1/2">
             <h3 className="truncate font-semibold">{nickname}</h3>
-            <h3 className="truncate text-2xl font-semibold">{title}</h3>
-            <p className="">{content}</p>
+            <h3 className="text-2xl font-semibold">{title}</h3>
+            <p>{content}</p>
           </div>
         </div>
       </CardContent>
