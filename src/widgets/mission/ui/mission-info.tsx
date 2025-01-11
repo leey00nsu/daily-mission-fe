@@ -102,10 +102,10 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   };
 
   const participantText = getParticipantText(nickname, participantCount);
-  // const postsCount = postPages?.pages.reduce(
-  //   (acc, page) => acc + page.data.length,
-  //   0,
-  // );
+  const postsCount = postPages?.pages.reduce(
+    (acc, page) => acc + page.data.length,
+    0,
+  );
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-4">
@@ -170,7 +170,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
           {/* <span className="text-sm text-muted-foreground">{postsCount}개</span> */}
         </div>
         <PostList postPages={postPages?.pages} username={user.nickname} />
-        {!isPostsLoading && !postPages?.pages?.length && (
+        {!isPostsLoading && !postsCount && (
           <div className="flex h-40 items-center justify-center">
             <p>등록된 포스트가 없습니다.</p>
           </div>

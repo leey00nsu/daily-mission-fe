@@ -26,6 +26,11 @@ const UserPostList = () => {
     }
   }, [inView]);
 
+  const postsCount = postPages?.pages.reduce(
+    (acc, page) => acc + page.data.length,
+    0,
+  );
+
   return (
     <>
       <PostList
@@ -33,7 +38,7 @@ const UserPostList = () => {
         showMissionTitle
         postPages={postPages?.pages}
       />
-      {!isPostsFetching && !postPages?.pages?.length && (
+      {!isPostsFetching && !postsCount && (
         <div className="flex h-40 items-center justify-center">
           <p>등록된 포스트가 없습니다.</p>
         </div>
