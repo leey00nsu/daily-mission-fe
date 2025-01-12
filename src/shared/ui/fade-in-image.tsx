@@ -1,14 +1,51 @@
 import cn from '@/shared/lib/cn';
 import Image, { ImageProps } from 'next/image';
-import { useState } from 'react';
+import { forwardRef, ReactNode, useEffect, useState } from 'react';
 
-type FadeInImageProps = ImageProps & React.ComponentPropsWithRef<'img'>;
-
-import { forwardRef } from 'react';
+type FadeInImageProps = ImageProps &
+  React.ComponentPropsWithRef<'img'> & {
+    fallbackComponent?: ReactNode;
+    fallbackMs?: number;
+  };
 
 const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
-  ({ src, alt, className, ...props }, ref) => {
+  (
+    { src, alt, className, fallbackComponent, fallbackMs = 1000, ...props },
+    ref,
+  ) => {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [showFallback, setShowFallback] = useState(false);
+
+    useEffect(() => {
+      setIsLoaded(false);
+      setShowFallback(false);
+    }, [src]);
+
+    useEffect(() => {
+      if (!fallbackComponent) return;
+
+      const timer = setTimeout(() => {
+        if (!isLoaded) {
+          setShowFallback(true);
+        }
+      }, fallbackMs);
+
+      return () => clearTimeout(timer);
+    }, [fallbackMs, fallbackComponent, isLoaded]);
+
+    if (showFallback && fallbackComponent) {
+      return (
+        <div
+          className={cn(
+            'opacity-0 transition-opacity duration-500 ease-in-out',
+            showFallback && 'opacity-100',
+            className,
+          )}
+        >
+          {fallbackComponent}
+        </div>
+      );
+    }
 
     return (
       <Image
@@ -20,6 +57,7 @@ const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
           className,
         )}
         onLoadingComplete={() => setIsLoaded(true)}
+        onError={() => setShowFallback(true)}
         ref={ref}
         {...props}
       />

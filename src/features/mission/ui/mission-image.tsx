@@ -1,19 +1,26 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import cn from '@/shared/lib/cn';
+import FadeInImage from '@/shared/ui/fade-in-image';
 import { LuImagePlus } from 'react-icons/lu';
 
 interface MissionImageProps {
   imageSrc: string;
+  className?: string;
 }
 
-const MissionImage = ({ imageSrc }: MissionImageProps) => {
+const MissionImage = ({ imageSrc, className }: MissionImageProps) => {
   return (
-    <div className="h-64 w-full overflow-hidden rounded-2xl">
-      <Avatar className="h-full w-full rounded-none">
-        <AvatarImage src={imageSrc} className="w-full object-cover" />
-        <AvatarFallback className="rounded-none">
-          <LuImagePlus className="h-1/2 w-1/2" />
-        </AvatarFallback>
-      </Avatar>
+    <div className={cn('relative shrink-0', className)}>
+      <FadeInImage
+        fallbackComponent={<LuImagePlus className="h-1/2 w-1/2" />}
+        src={imageSrc}
+        alt="Mission Image"
+        fill
+        unoptimized
+        className={cn(
+          'flex items-center justify-center rounded-2xl',
+          className,
+        )}
+      />
     </div>
   );
 };

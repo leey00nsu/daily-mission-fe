@@ -1,5 +1,6 @@
 'use client';
 
+import { useUserStore } from '@/entities/user/model/store';
 import { useGetUserPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
 import PostListSkeleton from '@/features/post/ui/post-list-skeleton';
@@ -10,6 +11,7 @@ const UserPostList = () => {
   const { ref, inView } = useInView({
     threshold: 0,
   });
+  const user = useUserStore((state) => state.user);
   const {
     data: postPages,
     isFetching: isPostsFetching,
@@ -37,6 +39,7 @@ const UserPostList = () => {
         viewMode="compact"
         showMissionTitle
         postPages={postPages?.pages}
+        username={user?.nickname}
       />
       {!isPostsFetching && !postsCount && (
         <div className="flex h-40 items-center justify-center">

@@ -106,7 +106,10 @@ const UpdateMissionForm = () => {
               position="bottomRight"
               className="bottom-1 right-3"
             >
-              <MissionImage imageSrc={mission?.imageUrl ?? ''} />
+              <MissionImage
+                className="h-80 w-full object-cover"
+                imageSrc={mission?.imageUrl ?? ''}
+              />
             </Badge>
           </FormLabel>
         </FormItem>

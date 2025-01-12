@@ -12,6 +12,7 @@ import MissionCreateModal from '@/features/mission/ui/mission-create-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import Badge from '@/shared/ui/badge';
+import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
@@ -30,7 +31,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { MdAddPhotoAlternate } from 'react-icons/md';
-import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 
 const CreateMissionForm = () => {
   const [imageSrc, setImageSrc] = useState('');
@@ -101,7 +101,10 @@ const CreateMissionForm = () => {
                   position="bottomRight"
                   className="bottom-1 right-3"
                 >
-                  <MissionImage imageSrc={imageSrc} />
+                  <MissionImage
+                    className="h-80 w-full object-cover"
+                    imageSrc={imageSrc}
+                  />
                 </Badge>
               </FormLabel>
               <FormControl>

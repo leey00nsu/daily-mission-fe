@@ -1,50 +1,32 @@
-'use client';
-
 import cn from '@/shared/lib/cn';
-import * as AvatarPrimitive from '@radix-ui/react-avatar';
-import * as React from 'react';
+import FadeInImage from '@/shared/ui/fade-in-image';
+import { LuUser } from 'react-icons/lu';
 
-const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
-      className,
-    )}
-    {...props}
-  />
-));
-Avatar.displayName = AvatarPrimitive.Root.displayName;
+interface AvatarProps {
+  imageUrl: string;
+  nickname: string;
+  className?: string;
+}
 
-const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn('aspect-square h-full w-full object-cover', className)}
-    {...props}
-  />
-));
-AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-
-const AvatarFallback = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Fallback>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      'flex h-full w-full items-center justify-center rounded-full bg-muted',
-      className,
-    )}
-    delayMs={100}
-    {...props}
-  />
-));
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
-
-export { Avatar, AvatarFallback, AvatarImage };
+export const Avatar = ({ imageUrl, nickname, className }: AvatarProps) => {
+  return (
+    <div
+      className={cn(
+        'relative shrink-0 overflow-hidden rounded-full',
+        className,
+      )}
+    >
+      <FadeInImage
+        fallbackComponent={<LuUser className="h-1/2 w-1/2" />}
+        src={imageUrl}
+        alt={nickname}
+        fill
+        unoptimized
+        className={cn(
+          'flex items-center justify-center object-cover',
+          className,
+        )}
+      />
+    </div>
+  );
+};

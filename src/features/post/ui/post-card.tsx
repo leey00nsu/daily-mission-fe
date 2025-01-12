@@ -1,6 +1,6 @@
 import { Post } from '@/entities/post/model/type';
 import { formatDate } from '@/shared/lib/format';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import { Avatar } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
@@ -20,7 +20,6 @@ import {
   LuEllipsis,
   LuHeart,
   LuThumbsUp,
-  LuUser,
 } from 'react-icons/lu';
 
 interface PostCardProps {
@@ -84,12 +83,11 @@ const PostCard = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 overflow-hidden">
             {viewMode === 'default' && (
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={userImageUrl} />
-                <AvatarFallback>
-                  <LuUser className="h-1/2 w-1/2" />
-                </AvatarFallback>
-              </Avatar>
+              <Avatar
+                className="h-16 w-16"
+                imageUrl={userImageUrl}
+                nickname={nickname}
+              />
             )}
 
             <div className="w-full overflow-hidden">
