@@ -7,8 +7,9 @@ import {
   UpdatePostRequest,
   UpdatePostSchema,
 } from '@/entities/post/model/type';
-import PostImage from '@/features/mission/ui/mission-image';
+
 import { useGetPost } from '@/features/post/api/use-post-service';
+import PostImage from '@/features/post/ui/post-image';
 import PostUpdateModal from '@/features/post/ui/post-update-modal';
 import Badge from '@/shared/ui/badge';
 import FloatingButtonGroup from '@/shared/ui/floating-button-group';
@@ -103,7 +104,10 @@ const UpdatePostForm = () => {
                   position="bottomRight"
                   className="bottom-1 right-3"
                 >
-                  <PostImage imageSrc={imageSrc} />
+                  <PostImage
+                    className="h-80 w-full object-cover"
+                    imageSrc={imageSrc}
+                  />
                 </Badge>
               </FormLabel>
               <FormControl>
