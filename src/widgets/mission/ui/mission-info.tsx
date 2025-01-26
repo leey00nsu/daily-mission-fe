@@ -7,6 +7,7 @@ import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import { useGetMissionPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
 import PostListSkeleton from '@/features/post/ui/post-list-skeleton';
+import { Avatar } from '@/shared/ui/avatar';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -113,6 +114,28 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         containerClassName="relative h-64 w-full overflow-hidden rounded-2xl"
         images={[imageUrl]}
       />
+      {/* 
+      <Tabs
+        defaultValue="title"
+        className="sticky top-[4rem] z-10 flex h-14 w-full items-center justify-center bg-background"
+      >
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="title">제목</TabsTrigger>
+          <TabsTrigger value="rule">인증 빈도</TabsTrigger>
+          <TabsTrigger value="period">미션 기간</TabsTrigger>
+          <TabsTrigger value="participant">참여자</TabsTrigger>
+          <TabsTrigger value="post">포스트</TabsTrigger>
+        </TabsList>
+      </Tabs> */}
+
+      <div className="flex w-full items-center gap-2">
+        <Avatar
+          className="h-8 w-8"
+          imageUrl={participantDto[0].imageUrl}
+          nickname="Owner"
+        />
+        <p className="text-sm">{nickname}</p>
+      </div>
 
       <div className="w-full">
         <h3 className="text-2xl font-medium">{title}</h3>
