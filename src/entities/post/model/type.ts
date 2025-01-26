@@ -12,6 +12,8 @@ export interface Post {
   imageUrl: string;
   createdDate: string;
   modifiedDate: string;
+  likes: number;
+  liked: boolean;
 }
 
 export const CreatePostSchema = z.object({
@@ -57,4 +59,8 @@ export type UpdatePostRequest = z.infer<typeof UpdatePostSchema> & {
 
 export interface DeletePostRequest {
   id: number;
+}
+
+export interface ToggleLikeRequest {
+  postId: number;
 }

@@ -4,6 +4,7 @@ import {
   getPaginatedMissionPosts,
   getPaginatedUserPosts,
   getPost,
+  toggleLikePost,
   updatePost,
 } from '@/entities/post/api/post-service';
 import {
@@ -13,6 +14,7 @@ import {
   GetPostRequest,
   GetPostResponse,
   GetPostsRequest,
+  ToggleLikeRequest,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
 
@@ -147,6 +149,20 @@ export const useDeletePost = (
 
   return useMutation({
     mutationFn: deletePost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
+    ...props,
+  });
+};
+
+export const useToggleLikePost = (
+  props?: UseMutationOptions<void, Error, ToggleLikeRequest, unknown>,
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: toggleLikePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.all });
     },
