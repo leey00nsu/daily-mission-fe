@@ -4,7 +4,12 @@ import SocialLoginGroup from '@/widgets/auth/ui/social-login-group';
 
 export default function SignIn() {
   return (
-    <PageContainer className="justify-center">
+    <PageContainer
+      navigationOption={{
+        visible: false,
+      }}
+      className="justify-center"
+    >
       <Logo size="large" className="mb-6" />
       <SocialLoginGroup />
     </PageContainer>

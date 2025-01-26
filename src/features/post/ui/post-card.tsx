@@ -95,10 +95,8 @@ const PostCard = ({
             )}
 
             <div className="w-full overflow-hidden">
-              <h3 className="truncate text-2xl font-semibold">{title}</h3>
-              {viewMode === 'default' && (
-                <h3 className="truncate">{nickname}</h3>
-              )}
+              <h3 className="text-2xl font-semibold">{title}</h3>
+              {viewMode === 'default' && <h3>{nickname}</h3>}
               <p>{formatDate(createdDate)}</p>
             </div>
           </div>
