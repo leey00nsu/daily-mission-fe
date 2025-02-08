@@ -144,8 +144,15 @@ export const useGetMissions = ({
 export const useJoinMission = (
   props?: UseMutationOptions<void, Error, JoinMissionRequest, unknown>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: joinMission,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.all,
+      });
+    },
     ...props,
   });
 };
