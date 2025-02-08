@@ -26,8 +26,14 @@ const MissionCreateModal = ({
 }: MissionCreateModalProps) => {
   const router = useRouter();
 
-  const { data: createMissionResult, mutate: createMission } =
-    useCreateMission();
+  const {
+    data: createMissionResult,
+    mutate: createMission,
+    isPending,
+    isSuccess,
+    isError,
+    error,
+  } = useCreateMission();
 
   useEffect(() => {
     createMission(formData);
@@ -47,12 +53,12 @@ const MissionCreateModal = ({
         <DialogHeader>
           <DialogTitle>미션 생성</DialogTitle>
         </DialogHeader>
-        {!createMissionResult && (
+        {isPending && (
           <div className="flex items-center justify-center">
             <Spinner />
           </div>
         )}
-        {createMissionResult && (
+        {isSuccess && (
           <div className="flex flex-col gap-2">
             <p>미션 생성이 완료되었습니다.</p>
             <Card>
@@ -61,6 +67,15 @@ const MissionCreateModal = ({
                 <CardTitle>{createMissionResult.credential}</CardTitle>
               </CardHeader>
             </Card>
+
+            <DialogClose asChild>
+              <Button type="button">확인</Button>
+            </DialogClose>
+          </div>
+        )}
+        {isError && (
+          <div className="flex flex-col gap-2">
+            <p>{error.message}</p>
 
             <DialogClose asChild>
               <Button type="button">확인</Button>

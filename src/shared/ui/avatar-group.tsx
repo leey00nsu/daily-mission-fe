@@ -15,7 +15,7 @@ const AvatarGroup = ({ avatars, maxAvatars = 3 }: AvatarGroupProps) => {
           <PopoverTrigger>
             <Avatar
               className="h-10 w-10"
-              imageUrl={avatar.imageUrl + 'abcd'}
+              imageUrl={avatar.imageUrl}
               nickname={avatar.nickname}
             />
           </PopoverTrigger>

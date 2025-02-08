@@ -81,7 +81,7 @@ export const queryOptions = {
 export const useCreateMission = (
   props?: UseMutationOptions<
     CreateMissionResponse,
-    unknown,
+    Error,
     CreateMissionRequest,
     unknown
   >,
@@ -102,7 +102,7 @@ export const useCreateMission = (
 export const useUpdateMission = (
   props?: UseMutationOptions<
     UpdateMissionResponse,
-    unknown,
+    Error,
     UpdateMissionRequest,
     unknown
   >,

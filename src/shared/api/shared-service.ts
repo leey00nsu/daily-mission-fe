@@ -21,7 +21,7 @@ export const getPresignedUrl = async (
   );
 
   if (!response.ok) {
-    throw new Error('Failed to get presigned url');
+    throw new Error('이미지를 업로드할 수 있는 URL을 가져오는데 실패했습니다.');
   }
 
   const data: GlobalResponse<GetPresignedUrlResponse> = await response.json();
@@ -46,6 +46,6 @@ export const uploadImage = async (
   });
 
   if (!response.ok) {
-    throw new Error('Failed to upload image');
+    throw new Error('이미지를 업로드하는데 실패했습니다.');
   }
 };
