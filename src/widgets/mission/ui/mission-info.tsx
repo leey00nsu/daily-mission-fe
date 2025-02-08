@@ -111,7 +111,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   return (
     <section className="flex w-full flex-col items-center justify-center gap-4">
       <ImageViewer
-        containerClassName="relative h-64 w-full overflow-hidden rounded-2xl"
+        containerClassName="relative h-80 w-full overflow-hidden rounded-2xl"
         images={[imageUrl]}
       />
       {/* 

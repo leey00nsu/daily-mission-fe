@@ -101,10 +101,7 @@ const CreateMissionForm = () => {
                   position="bottomRight"
                   className="bottom-1 right-3"
                 >
-                  <MissionImage
-                    className="h-80 w-full object-cover"
-                    imageSrc={imageSrc}
-                  />
+                  <MissionImage imageSrc={imageSrc} />
                 </Badge>
               </FormLabel>
               <FormControl>

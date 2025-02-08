@@ -17,7 +17,7 @@ const PostImage = ({ imageSrc, className }: PostImageProps) => {
         fill
         unoptimized
         className={cn(
-          'flex items-center justify-center rounded-2xl',
+          'flex h-80 w-full items-center justify-center rounded-2xl object-cover',
           className,
         )}
       />

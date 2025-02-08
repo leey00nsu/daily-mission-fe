@@ -127,7 +127,7 @@ const PostCard = ({
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <ImageViewer
-          containerClassName="relative aspect-square max-h-60 min-h-10 w-full grow overflow-hidden rounded-2xl"
+          containerClassName="relative aspect-square max-h-80 min-h-10 w-full grow overflow-hidden rounded-2xl"
           images={[imageUrl]}
         />
 

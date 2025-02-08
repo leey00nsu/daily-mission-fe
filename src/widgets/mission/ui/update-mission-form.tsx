@@ -107,10 +107,7 @@ const UpdateMissionForm = () => {
       >
         <FormItem className="flex w-full flex-col items-center justify-center">
           <FormLabel htmlFor="mission-image" className="w-full">
-            <MissionImage
-              className="h-80 w-full object-cover"
-              imageSrc={mission?.imageUrl ?? ''}
-            />
+            <MissionImage imageSrc={mission?.imageUrl ?? ''} />
           </FormLabel>
         </FormItem>
 

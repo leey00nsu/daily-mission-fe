@@ -104,10 +104,7 @@ const UpdatePostForm = () => {
                   position="bottomRight"
                   className="bottom-1 right-3"
                 >
-                  <PostImage
-                    className="h-80 w-full object-cover"
-                    imageSrc={imageSrc}
-                  />
+                  <PostImage imageSrc={imageSrc} />
                 </Badge>
               </FormLabel>
               <FormControl>
