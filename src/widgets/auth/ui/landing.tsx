@@ -3,7 +3,7 @@ import SocialLoginGroup from '@/widgets/auth/ui/social-login-group';
 
 const Landing = () => {
   return (
-    <section className="flex h-full w-full grow flex-col items-center justify-evenly">
+    <section className="flex h-full max-h-60 w-full grow flex-col items-center justify-evenly">
       <div className="flex flex-col items-center gap-2">
         <Logo size="xlarge" />
         <p className="text-center text-sm text-gray-800">
@@ -11,9 +11,7 @@ const Landing = () => {
         </p>
       </div>
 
-      <div className="w-full">
-        <SocialLoginGroup />
-      </div>
+      <SocialLoginGroup />
     </section>
   );
 };

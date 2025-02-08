@@ -31,7 +31,7 @@ const PageContainer = ({
   showScrollButton,
 }: PageContainerProps) => {
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
+    <div className="flex min-h-screen w-full min-w-80 items-center justify-center">
       <div className="relative flex min-h-screen w-full max-w-2xl flex-col items-center border-x border-slate-200">
         <Header headerOption={headerOption} />
         <main
