@@ -23,7 +23,7 @@ import UpdateConfirmModal from '@/shared/ui/update-confirm-modal';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { overlay } from 'overlay-kit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 
@@ -40,18 +40,25 @@ const ProfileForm = () => {
     },
   });
 
-  const onSubmit = async (data: UpdateProfileRequest) => {
-    const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
-      return <UpdateConfirmModal isOpen={isOpen} onClose={close} />;
+  useEffect(() => {
+    setImageSrc(user?.imageUrl || '');
+    form.reset({
+      email: user?.email,
+      nickname: user?.nickname,
     });
+  }, [user]);
 
-    if (!result) return;
+  const isFormDirty =
+    form.formState.dirtyFields.image || form.formState.dirtyFields.nickname;
 
-    if (
-      !form.formState.dirtyFields.image &&
-      !form.formState.dirtyFields.nickname
-    )
-      return;
+  const onSubmit = async (data: UpdateProfileRequest) => {
+    const confirmResult = await overlay.openAsync<boolean>(
+      ({ isOpen, close }) => {
+        return <UpdateConfirmModal isOpen={isOpen} onClose={close} />;
+      },
+    );
+
+    if (!confirmResult) return;
 
     const formData = {
       email: data.email,
@@ -104,7 +111,8 @@ const ProfileForm = () => {
               <FormControl>
                 <Input
                   onChange={(e) => {
-                    onChange(e.target.files && e.target.files[0]);
+                    if (!e.target.files?.[0]) return;
+                    onChange(e.target.files[0]);
                     setImageHandler(e);
                   }}
                   accept="image/*"
@@ -159,7 +167,9 @@ const ProfileForm = () => {
         />
 
         <FloatingButtonGroup>
-          <Button className="w-full">저장</Button>
+          <Button className="w-full" disabled={!isFormDirty}>
+            저장
+          </Button>
         </FloatingButtonGroup>
       </form>
     </Form>

@@ -43,7 +43,7 @@ const MissionCreateModal = ({
     onClose();
 
     if (createMissionResult) {
-      router.push('/');
+      router.replace('/');
     }
   };
 

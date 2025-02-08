@@ -41,7 +41,7 @@ const PostCreateModal = ({
     onClose();
 
     if (isSuccess || isError) {
-      router.push(`/mission/${formData.missionId}`);
+      router.replace(`/mission/${formData.missionId}`);
     }
   };
 

@@ -26,11 +26,11 @@ const MissionDeleteModal = ({
   const router = useRouter();
 
   const {
-    isPending,
     mutate: deleteMission,
-    error,
+    isPending,
     isSuccess,
     isError,
+    error,
   } = useDeleteMission();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const MissionDeleteModal = ({
     onClose();
 
     if (isSuccess) {
-      router.back();
+      router.replace(`/`);
     }
   };
 
