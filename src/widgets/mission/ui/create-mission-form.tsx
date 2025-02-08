@@ -110,7 +110,8 @@ const CreateMissionForm = () => {
               <FormControl>
                 <Input
                   onChange={(e) => {
-                    onChange(e.target.files && e.target.files[0]);
+                    if (!e.target.files?.[0]) return;
+                    onChange(e.target.files?.[0]);
                     setImageHandler(e);
                   }}
                   accept="image/*"
