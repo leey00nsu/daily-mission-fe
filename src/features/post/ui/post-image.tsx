@@ -9,7 +9,7 @@ interface PostImageProps {
 
 const PostImage = ({ imageSrc, className }: PostImageProps) => {
   return (
-    <div className={cn('relative shrink-0', className)}>
+    <div className={cn('relative h-80 w-full shrink-0', className)}>
       <FadeInImage
         fallbackComponent={<LuImagePlus className="h-1/2 w-1/2" />}
         src={imageSrc}
@@ -17,7 +17,7 @@ const PostImage = ({ imageSrc, className }: PostImageProps) => {
         fill
         unoptimized
         className={cn(
-          'flex h-80 w-full items-center justify-center rounded-2xl object-cover',
+          'flex items-center justify-center rounded-2xl object-cover',
           className,
         )}
       />
