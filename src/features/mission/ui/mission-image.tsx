@@ -17,7 +17,7 @@ const MissionImage = ({ imageSrc, className }: MissionImageProps) => {
         fill
         unoptimized
         className={cn(
-          'flex items-center justify-center rounded-2xl object-cover',
+          'flex h-80 items-center justify-center rounded-2xl object-cover',
           className,
         )}
       />
