@@ -58,9 +58,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   if (isMissonLoading || isPostsLoading) return <MissionInfoSkeleton />;
 
   if (isMissionError || !mission) {
-    router.push('/');
-
-    return null;
+    return router.push('/');
   }
 
   const {
@@ -114,19 +112,6 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
         containerClassName="relative h-80 w-full overflow-hidden rounded-2xl"
         images={[imageUrl]}
       />
-      {/* 
-      <Tabs
-        defaultValue="title"
-        className="sticky top-[4rem] z-10 flex h-14 w-full items-center justify-center bg-background"
-      >
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="title">제목</TabsTrigger>
-          <TabsTrigger value="rule">인증 빈도</TabsTrigger>
-          <TabsTrigger value="period">미션 기간</TabsTrigger>
-          <TabsTrigger value="participant">참여자</TabsTrigger>
-          <TabsTrigger value="post">포스트</TabsTrigger>
-        </TabsList>
-      </Tabs> */}
 
       <div className="flex w-full items-center gap-2">
         <Avatar
