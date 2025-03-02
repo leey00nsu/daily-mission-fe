@@ -8,6 +8,8 @@ type FadeInImageProps = ImageProps &
     fallbackMs?: number;
   };
 
+const DefaultFallbackComponent = <div className="h-full w-full bg-gray-200" />;
+
 const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
   (
     { src, alt, className, fallbackComponent, fallbackMs = 1000, ...props },
@@ -32,6 +34,10 @@ const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
 
       return () => clearTimeout(timer);
     }, [fallbackMs, fallbackComponent, isLoaded]);
+
+    if (!src) {
+      return DefaultFallbackComponent;
+    }
 
     if (showFallback && fallbackComponent) {
       return (

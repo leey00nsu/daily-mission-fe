@@ -58,7 +58,9 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   if (isMissonLoading || isPostsLoading) return <MissionInfoSkeleton />;
 
   if (isMissionError || !mission) {
-    return router.push('/');
+    router.push('/');
+
+    return null;
   }
 
   const {
