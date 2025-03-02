@@ -35,7 +35,7 @@ const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
       return () => clearTimeout(timer);
     }, [fallbackMs, fallbackComponent, isLoaded]);
 
-    if (!src) {
+    if (!src && !fallbackComponent) {
       return DefaultFallbackComponent;
     }
 
