@@ -30,11 +30,12 @@ import {
 export const queryKeys = {
   all: ['post'],
   post: (id: number) => ['post', id],
-  paginatedMissionPosts: (page: number, size: number) => [
+  paginatedMissionPosts: (page: number, size: number, missionId: number) => [
     'post',
     'paginatedMissionPosts',
     page,
     size,
+    missionId,
   ],
   paginatedUserPosts: (page: number, size: number) => [
     'post',
@@ -52,7 +53,7 @@ export const queryOptions = {
   }),
   paginatedMissionPosts: (missionId: number, page: number, size: number) => ({
     initialPageParam: page,
-    queryKey: queryKeys.paginatedMissionPosts(page, size),
+    queryKey: queryKeys.paginatedMissionPosts(page, size, missionId),
     queryFn: ({ pageParam = page }) =>
       getPaginatedMissionPosts({
         missionId,
