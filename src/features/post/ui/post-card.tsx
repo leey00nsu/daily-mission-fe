@@ -40,7 +40,7 @@ const PostCard = ({
     title,
     content,
     imageUrl,
-    likes,
+    likeCount,
     liked,
   } = post;
 
@@ -148,7 +148,7 @@ const PostCard = ({
           >
             <div className="flex items-center justify-center gap-1">
               <LuThumbsUp />
-              <span>{likes}</span>
+              <span>{likeCount}</span>
             </div>
           </Button>
         </div>

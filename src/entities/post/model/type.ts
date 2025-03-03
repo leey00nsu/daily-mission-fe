@@ -12,7 +12,7 @@ export interface Post {
   imageUrl: string;
   createdDate: string;
   modifiedDate: string;
-  likes: number;
+  likeCount: number;
   liked: boolean;
 }
 
