@@ -24,16 +24,26 @@ const defaultNavigationOption: NavigationProps = {
 };
 
 const PageContainer = ({
-  headerOption = defaultHeaderOption,
-  navigationOption = defaultNavigationOption,
+  headerOption,
+  navigationOption,
   className,
   children,
   showScrollButton,
 }: PageContainerProps) => {
+  navigationOption = {
+    ...defaultNavigationOption,
+    ...navigationOption,
+  };
+
+  headerOption = {
+    ...defaultHeaderOption,
+    ...headerOption,
+  };
+
   return (
     <div className="flex min-h-screen w-full min-w-80 items-center justify-center">
       <div className="relative flex min-h-screen w-full max-w-2xl flex-col items-center border-x border-slate-200">
-        <Header headerOption={headerOption} />
+        {headerOption?.visible && <Header headerOption={headerOption} />}
         <main
           className={cn(
             navigationOption?.visible && 'mb-16',
@@ -46,7 +56,9 @@ const PageContainer = ({
         {showScrollButton && (
           <ScrollTopButton navigationOption={navigationOption} />
         )}
-        <Navigation navigationOption={navigationOption} />
+        {navigationOption?.visible && (
+          <Navigation navigationOption={navigationOption} />
+        )}
       </div>
       <Toaster />
     </div>
