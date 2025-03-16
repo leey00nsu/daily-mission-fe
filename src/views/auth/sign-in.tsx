@@ -4,6 +4,9 @@ import Landing from '@/widgets/auth/ui/landing';
 export default function SignIn() {
   return (
     <PageContainer
+      headerOption={{
+        visible: false,
+      }}
       navigationOption={{
         visible: false,
       }}
