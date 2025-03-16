@@ -14,7 +14,7 @@ import {
   UseMutationOptions,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 
 export const queryKeys = {
@@ -48,16 +48,17 @@ export const queryOptions = {
 
 export const useNotification = () => {
   const queryClient = useQueryClient();
-  const eventSourceInstance = createEventSource();
+  const eventSourceRef = useRef<EventSource | null>(null);
 
-  useEffect(() => {
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        eventSourceInstance?.close();
-      }
-    });
+  // SSE 연결 함수
+  const connectSSE = () => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+    }
 
-    eventSourceInstance?.addEventListener('message', (event) => {
+    eventSourceRef.current = createEventSource();
+
+    eventSourceRef.current.addEventListener('message', (event) => {
       const data = JSON.parse(event.data);
 
       toast(data.content, {
@@ -74,10 +75,29 @@ export const useNotification = () => {
       });
     });
 
-    return () => {
-      eventSourceInstance?.close();
+    eventSourceRef.current.onerror = () => {
+      setTimeout(connectSSE, 3000); // 3초 후 재연결
     };
-  }, []);
+  };
+
+  useEffect(() => {
+    connectSSE();
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        eventSourceRef.current?.close();
+      } else {
+        connectSSE(); // 다시 연결
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      eventSourceRef.current?.close();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [queryClient]);
 };
 
 export const useGetUserNotifications = ({
