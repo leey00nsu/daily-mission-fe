@@ -51,6 +51,12 @@ export const useNotification = () => {
   const eventSourceInstance = createEventSource();
 
   useEffect(() => {
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        eventSourceInstance?.close();
+      }
+    });
+
     eventSourceInstance?.addEventListener('message', (event) => {
       const data = JSON.parse(event.data);
 
