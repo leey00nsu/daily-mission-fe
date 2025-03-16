@@ -41,8 +41,8 @@ const PageContainer = ({
   };
 
   return (
-    <div className="flex min-h-screen w-full min-w-80 items-center justify-center">
-      <div className="relative flex min-h-screen w-full max-w-2xl flex-col items-center border-x border-slate-200">
+    <div className="flex min-h-dvh w-full min-w-80 items-center justify-center">
+      <div className="relative flex min-h-dvh w-full max-w-2xl flex-col items-center border-x border-slate-200">
         {headerOption?.visible && <Header headerOption={headerOption} />}
         <main
           className={cn(
