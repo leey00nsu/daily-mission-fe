@@ -19,6 +19,7 @@ import {
 } from '@/entities/post/model/type';
 
 import {
+  InfiniteData,
   UseMutationOptions,
   UseQueryOptions,
   useInfiniteQuery,
@@ -158,14 +159,81 @@ export const useDeletePost = (
 };
 
 export const useToggleLikePost = (
-  props?: UseMutationOptions<void, Error, ToggleLikeRequest, unknown>,
+  props?: UseMutationOptions<
+    void,
+    Error,
+    ToggleLikeRequest,
+    {
+      previousPosts: InfiniteData<GetPaginatedPostsResponse>[];
+    }
+  >,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: toggleLikePost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    onMutate: async ({ postId }) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.all });
+
+      // 현재 캐시된 데이터 백업
+      const previousPosts = queryClient
+        .getQueriesData<InfiniteData<GetPaginatedPostsResponse>>({
+          queryKey: queryKeys.all,
+        })
+        .map(([, data]) => data)
+        .filter(
+          (data): data is InfiniteData<GetPaginatedPostsResponse> =>
+            data != null,
+        );
+
+      // 포스트 목록에 대해 좋아요 토글 optimistic update
+      const updatedPosts = previousPosts.map((posts) => ({
+        ...posts,
+        pages: posts.pages.map((page) => ({
+          ...page,
+          data: page.data.map((post) => {
+            if (post.id === postId) {
+              return {
+                ...post,
+                liked: !post.liked,
+                likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
+              };
+            }
+            return post;
+          }),
+        })),
+      }));
+
+      // 업데이트된 데이터를 캐시에 적용
+      updatedPosts.forEach((posts, index) => {
+        const queryKey = queryClient
+          .getQueriesData<
+            InfiniteData<GetPaginatedPostsResponse>
+          >({ queryKey: queryKeys.all })
+          .find(([, data]) => data === previousPosts[index])?.[0];
+
+        if (queryKey) {
+          queryClient.setQueryData(queryKey, posts);
+        }
+      });
+
+      return { previousPosts };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousPosts) {
+        // 에러 발생 시 이전 상태로 복원
+        context.previousPosts.forEach((posts) => {
+          const queryKey = queryClient
+            .getQueriesData<
+              InfiniteData<GetPaginatedPostsResponse>
+            >({ queryKey: queryKeys.all })
+            .find(([, data]) => data === posts)?.[0];
+
+          if (queryKey) {
+            queryClient.setQueryData(queryKey, posts);
+          }
+        });
+      }
     },
     ...props,
   });
