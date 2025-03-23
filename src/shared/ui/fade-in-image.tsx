@@ -12,19 +12,26 @@ const DefaultFallbackComponent = <div className="h-full w-full bg-gray-200" />;
 
 const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
   (
-    { src, alt, className, fallbackComponent, fallbackMs = 1000, ...props },
+    {
+      src,
+      alt,
+      className,
+      fallbackComponent = DefaultFallbackComponent,
+      fallbackMs = 1000,
+      ...props
+    },
     ref,
   ) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [showFallback, setShowFallback] = useState(false);
+    const [showFallback, setShowFallback] = useState(!src);
 
     useEffect(() => {
       setIsLoaded(false);
-      setShowFallback(false);
+      setShowFallback(!src);
     }, [src]);
 
     useEffect(() => {
-      if (!fallbackComponent) return;
+      if (!src) return;
 
       const timer = setTimeout(() => {
         if (!isLoaded) {
@@ -33,13 +40,9 @@ const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
       }, fallbackMs);
 
       return () => clearTimeout(timer);
-    }, [fallbackMs, fallbackComponent, isLoaded]);
+    }, [fallbackMs, src, isLoaded]);
 
-    if (!src && !fallbackComponent) {
-      return DefaultFallbackComponent;
-    }
-
-    if (showFallback && fallbackComponent) {
+    if (showFallback) {
       return (
         <div
           className={cn(
@@ -70,5 +73,7 @@ const FadeInImage = forwardRef<HTMLImageElement, FadeInImageProps>(
     );
   },
 );
+
+FadeInImage.displayName = 'FadeInImage';
 
 export default FadeInImage;
