@@ -122,7 +122,7 @@ export interface GetMissionRequest {
 }
 export type GetMissionResponse = Mission;
 
-export type MissionType = 'all' | 'hot' | 'new';
+export type MissionType = 'all' | 'hot' | 'new' | 'end';
 export type MissionSort = 'asc' | 'desc';
 
 export interface GetPaginationMissionsRequest {
