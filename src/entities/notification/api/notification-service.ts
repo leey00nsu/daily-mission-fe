@@ -7,10 +7,6 @@ import {
 import { GlobalResponse } from '@/shared/model/type';
 
 export const createEventSource = () => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-
   return new EventSource(
     `${process.env.NEXT_PUBLIC_API_HOST}/notify/subscribe`,
     {

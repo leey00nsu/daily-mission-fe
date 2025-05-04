@@ -7,9 +7,10 @@ import {
   CreatePostRequest,
   CreatePostSchema,
 } from '@/entities/post/model/type';
-import PostImage from '@/features/mission/ui/mission-image';
 import PostCreateModal from '@/features/post/ui/post-create-modal';
+import PostImage from '@/features/post/ui/post-image';
 import Badge from '@/shared/ui/badge';
+import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
   Form,
@@ -26,7 +27,6 @@ import { overlay } from 'overlay-kit';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdAddPhotoAlternate } from 'react-icons/md';
-import CreateConfirmModal from '@/shared/ui/create-confirm-modal';
 
 const CreatePostForm = () => {
   const { id: missionId } = useParams<{ id: string }>();
@@ -94,7 +94,8 @@ const CreatePostForm = () => {
               <FormControl>
                 <Input
                   onChange={(e) => {
-                    onChange(e.target.files && e.target.files[0]);
+                    if (!e.target.files?.[0]) return;
+                    onChange(e.target.files?.[0]);
                     setImageHandler(e);
                   }}
                   accept="image/*"

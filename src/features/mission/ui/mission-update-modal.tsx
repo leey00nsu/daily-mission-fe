@@ -26,8 +26,14 @@ const MissionUpdateModal = ({
 }: MissionUpdateModalProps) => {
   const router = useRouter();
 
-  const { data: updateMissionResult, mutate: updateMission } =
-    useUpdateMission();
+  const {
+    data: updateMissionResult,
+    mutate: updateMission,
+    isPending,
+    isSuccess,
+    isError,
+    error,
+  } = useUpdateMission();
 
   useEffect(() => {
     updateMission(formData);
@@ -37,7 +43,7 @@ const MissionUpdateModal = ({
     onClose();
 
     if (updateMissionResult) {
-      router.push(`/mission/${formData.id}`);
+      router.replace(`/mission/${formData.id}`);
     }
   };
 
@@ -47,12 +53,12 @@ const MissionUpdateModal = ({
         <DialogHeader>
           <DialogTitle>미션 수정</DialogTitle>
         </DialogHeader>
-        {!updateMissionResult && (
+        {isPending && (
           <div className="flex items-center justify-center">
             <Spinner />
           </div>
         )}
-        {updateMissionResult && (
+        {isSuccess && (
           <div className="flex flex-col gap-2">
             <p>미션 수정이 완료되었습니다.</p>
             <Card>
@@ -61,6 +67,15 @@ const MissionUpdateModal = ({
                 <CardTitle>{updateMissionResult.credential}</CardTitle>
               </CardHeader>
             </Card>
+
+            <DialogClose asChild>
+              <Button type="button">확인</Button>
+            </DialogClose>
+          </div>
+        )}
+        {isError && (
+          <div className="flex flex-col gap-2">
+            <p>{error.message}</p>
 
             <DialogClose asChild>
               <Button type="button">확인</Button>

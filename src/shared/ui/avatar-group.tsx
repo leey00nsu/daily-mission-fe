@@ -1,7 +1,6 @@
 import { Participant } from '@/entities/user/model/type';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import { Avatar } from '@/shared/ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { LuUser } from 'react-icons/lu';
 
 interface AvatarGroupProps {
   avatars: Pick<Participant, 'imageUrl' | 'nickname'>[];
@@ -14,12 +13,11 @@ const AvatarGroup = ({ avatars, maxAvatars = 3 }: AvatarGroupProps) => {
       {avatars.slice(0, maxAvatars).map((avatar, index) => (
         <Popover key={index}>
           <PopoverTrigger>
-            <Avatar className="border-2 border-white">
-              <AvatarImage src={avatar.imageUrl} />
-              <AvatarFallback>
-                <LuUser className="h-1/2 w-1/2" />
-              </AvatarFallback>
-            </Avatar>
+            <Avatar
+              className="h-10 w-10"
+              imageUrl={avatar.imageUrl}
+              nickname={avatar.nickname}
+            />
           </PopoverTrigger>
           <PopoverContent>
             <p>{avatar.nickname}</p>

@@ -1,5 +1,5 @@
 import Badge from '@/shared/ui/badge';
-import Image from 'next/image';
+import FadeInImage from '@/shared/ui/fade-in-image';
 import { useRef } from 'react';
 import { LuZoomIn } from 'react-icons/lu';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
@@ -33,7 +33,7 @@ export function ImageViewer({ images, containerClassName }: ImageViewerProps) {
         <PhotoProvider pullClosable maskClosable>
           {images.map((item, index) => (
             <PhotoView key={index} src={item}>
-              <Image
+              <FadeInImage
                 fill
                 ref={imageRef}
                 alt={`image ${index}`}

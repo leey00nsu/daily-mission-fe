@@ -13,7 +13,6 @@ import MissionDeleteModal from '@/features/mission/ui/mission-delete-modal';
 import MissionImage from '@/features/mission/ui/mission-image';
 import MissionUpdateModal from '@/features/mission/ui/mission-update-modal';
 import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
-import Badge from '@/shared/ui/badge';
 import DeleteConfirmModal from '@/shared/ui/delete-confirm-modal';
 import FloatingButtonGroup from '@/shared/ui/floating-button-group';
 import {
@@ -30,9 +29,9 @@ import UpdateConfirmModal from '@/shared/ui/update-confirm-modal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
-import { MdAddPhotoAlternate } from 'react-icons/md';
 
 const UpdateMissionForm = () => {
   const { id: missionId } = useParams<{ id: string }>();
@@ -48,6 +47,14 @@ const UpdateMissionForm = () => {
       credential: mission?.credential ?? '',
     },
   });
+
+  const isFormDirty =
+    form.formState.dirtyFields.hint || form.formState.dirtyFields.credential;
+
+  useEffect(() => {
+    form.setValue('hint', mission?.hint ?? '');
+    form.setValue('credential', mission?.credential ?? '');
+  }, [mission]);
 
   const onSubmit = async (data: UpdateMissionRequest) => {
     const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
@@ -100,14 +107,7 @@ const UpdateMissionForm = () => {
       >
         <FormItem className="flex w-full flex-col items-center justify-center">
           <FormLabel htmlFor="mission-image" className="w-full">
-            <Badge
-              variant="outline"
-              content={<MdAddPhotoAlternate />}
-              position="bottomRight"
-              className="bottom-1 right-3"
-            >
-              <MissionImage imageSrc={mission?.imageUrl ?? ''} />
-            </Badge>
+            <MissionImage imageSrc={mission?.imageUrl ?? ''} />
           </FormLabel>
         </FormItem>
 
@@ -195,9 +195,9 @@ const UpdateMissionForm = () => {
 
         <div className="w-full">
           <div className="flex items-center gap-2">
-            <Input readOnly type="date" value={mission?.startDate} />
+            <Input disabled readOnly type="date" value={mission?.startDate} />
             <LuChevronRight className="h-8 w-8" />
-            <Input readOnly type="date" value={mission?.endDate} />
+            <Input disabled readOnly type="date" value={mission?.endDate} />
           </div>
         </div>
 
@@ -221,7 +221,9 @@ const UpdateMissionForm = () => {
         </FormItem>
 
         <FloatingButtonGroup>
-          <Button className="w-full">미션 수정</Button>
+          <Button className="w-full" disabled={!isFormDirty}>
+            미션 수정
+          </Button>
           <Button
             type="button"
             onClick={deleteMissionHandler}

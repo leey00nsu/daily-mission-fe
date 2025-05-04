@@ -81,7 +81,7 @@ export const queryOptions = {
 export const useCreateMission = (
   props?: UseMutationOptions<
     CreateMissionResponse,
-    unknown,
+    Error,
     CreateMissionRequest,
     unknown
   >,
@@ -102,7 +102,7 @@ export const useCreateMission = (
 export const useUpdateMission = (
   props?: UseMutationOptions<
     UpdateMissionResponse,
-    unknown,
+    Error,
     UpdateMissionRequest,
     unknown
   >,
@@ -144,8 +144,15 @@ export const useGetMissions = ({
 export const useJoinMission = (
   props?: UseMutationOptions<void, Error, JoinMissionRequest, unknown>,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: joinMission,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.all,
+      });
+    },
     ...props,
   });
 };

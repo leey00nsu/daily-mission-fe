@@ -4,6 +4,7 @@ import {
   LuBookOpen,
   LuLogOut,
   LuMessageSquare,
+  LuShieldAlert,
   LuUserCog,
 } from 'react-icons/lu';
 
@@ -32,6 +33,12 @@ const ProfileMenu = () => {
         leftIcon={<LuLogOut />}
         title="로그아웃"
         href="/sign-out"
+      />
+      <Separator />
+      <NavigationButton
+        leftIcon={<LuShieldAlert />}
+        title="개인정보처리방침"
+        href="/privacy-policy"
       />
     </div>
   );

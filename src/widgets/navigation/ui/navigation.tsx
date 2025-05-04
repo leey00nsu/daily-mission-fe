@@ -14,7 +14,7 @@ const Navigation = ({
   if (!navigationOption.visible) return null;
 
   return (
-    <nav className="fixed bottom-0 z-10 flex h-16 w-full max-w-2xl items-center justify-around border-x border-t border-t-slate-200 bg-background p-4">
+    <nav className="fixed bottom-0 z-10 flex h-16 w-full min-w-80 max-w-2xl items-center justify-around border-x border-t border-t-slate-200 bg-background p-4">
       <Button asChild variant="ghost" className="h-10 w-10 p-2">
         <Link href="/">
           <LuHouse className="h-full w-full" />

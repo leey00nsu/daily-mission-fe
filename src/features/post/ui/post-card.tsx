@@ -1,10 +1,12 @@
 import { Post } from '@/entities/post/model/type';
 import { formatDate } from '@/shared/lib/format';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import { Avatar } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/shared/ui/card';
 import Link from 'next/link';
 
+import { useToggleLikePost } from '@/features/post/api/use-post-service';
 import PostDeleteModal from '@/features/post/ui/post-delete-modal';
+import { Button } from '@/shared/ui/button';
 import DeleteConfirmModal from '@/shared/ui/delete-confirm-modal';
 import {
   DropdownMenu,
@@ -14,7 +16,7 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { ImageViewer } from '@/shared/ui/image-viewer';
 import { overlay } from 'overlay-kit';
-import { LuArrowRightLeft, LuEllipsis, LuUser } from 'react-icons/lu';
+import { LuArrowRightLeft, LuEllipsis, LuThumbsUp } from 'react-icons/lu';
 
 interface PostCardProps {
   post: Post;
@@ -38,9 +40,13 @@ const PostCard = ({
     title,
     content,
     imageUrl,
+    likeCount,
+    liked,
   } = post;
 
   const isOwner = !nickname || nickname === username;
+
+  const { mutate: toggleLikePost } = useToggleLikePost();
 
   const openDeleteModal = async () => {
     const result = await overlay.openAsync<boolean>(({ isOpen, close }) => {
@@ -62,6 +68,10 @@ const PostCard = ({
     });
   };
 
+  const handleToggleLike = () => {
+    toggleLikePost({ postId: post.id });
+  };
+
   return (
     <Card className="border-0 shadow-none">
       {showMissionTitle && (
@@ -77,19 +87,16 @@ const PostCard = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 overflow-hidden">
             {viewMode === 'default' && (
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={userImageUrl} />
-                <AvatarFallback>
-                  <LuUser className="h-1/2 w-1/2" />
-                </AvatarFallback>
-              </Avatar>
+              <Avatar
+                className="h-16 w-16"
+                imageUrl={userImageUrl}
+                nickname={nickname}
+              />
             )}
 
             <div className="w-full overflow-hidden">
-              <h3 className="truncate text-2xl font-semibold">{title}</h3>
-              {viewMode === 'default' && (
-                <h3 className="truncate">{nickname}</h3>
-              )}
+              <h3 className="text-2xl font-semibold">{title}</h3>
+              {viewMode === 'default' && <h3>{nickname}</h3>}
               <p>{formatDate(createdDate)}</p>
             </div>
           </div>
@@ -97,8 +104,10 @@ const PostCard = ({
           <div className="min-w-6">
             {isOwner && (
               <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <LuEllipsis className="h-6 w-6" />
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    <LuEllipsis className="h-6 w-6" />
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <Link href={`/post/edit/${post.id}`}>
@@ -118,11 +127,31 @@ const PostCard = ({
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <ImageViewer
-          containerClassName="relative aspect-square max-h-60 min-h-10 w-full grow overflow-hidden rounded-2xl"
+          containerClassName="relative aspect-square max-h-80 min-h-10 w-full grow overflow-hidden rounded-2xl"
           images={[imageUrl]}
         />
 
         <p>{content}</p>
+
+        <div className="flex gap-2">
+          {/* <Button variant="ghost" className="p-2">
+            <div className="flex items-center justify-center gap-1">
+              <LuHeart />
+              <span>0</span>
+            </div>
+          </Button> */}
+
+          <Button
+            onClick={handleToggleLike}
+            variant={liked ? 'default' : 'ghost'}
+            className="p-2"
+          >
+            <div className="flex items-center justify-center gap-1">
+              <LuThumbsUp />
+              <span>{likeCount}</span>
+            </div>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

@@ -18,13 +18,13 @@ const ScrollTopButton = ({ navigationOption }: ScrollTopButtonProps) => {
     <div
       className={cn(
         navigationOption.visible ? 'bottom-20' : 'bottom-8',
-        'fixed z-20 flex w-full max-w-2xl justify-end p-2',
+        'pointer-events-none fixed flex w-full max-w-2xl justify-end p-2',
       )}
     >
       <Button
         variant="outline"
         type="button"
-        className="h-12 w-12 rounded-full p-3"
+        className="pointer-events-auto z-20 h-12 w-12 rounded-full p-3"
         onClick={scrollTopHandler}
       >
         <LuChevronUp className="h-full w-full" />

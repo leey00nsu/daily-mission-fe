@@ -1,15 +1,7 @@
 import { CreateMissionRequest } from '@/entities/mission/model/type';
 import { useCreateMission } from '@/features/mission/api/use-mission-service';
-import { Button } from '@/shared/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
-import { Spinner } from '@/shared/ui/spinner';
+import CommonModal from '@/shared/ui/common-modal';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -26,8 +18,14 @@ const MissionCreateModal = ({
 }: MissionCreateModalProps) => {
   const router = useRouter();
 
-  const { data: createMissionResult, mutate: createMission } =
-    useCreateMission();
+  const {
+    data: createMissionResult,
+    mutate: createMission,
+    isPending,
+    isSuccess,
+    isError,
+    error,
+  } = useCreateMission();
 
   useEffect(() => {
     createMission(formData);
@@ -36,39 +34,34 @@ const MissionCreateModal = ({
   const closeHandler = () => {
     onClose();
 
-    if (createMissionResult) {
-      router.push('/');
+    if (isSuccess) {
+      router.replace('/');
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={closeHandler}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>미션 생성</DialogTitle>
-        </DialogHeader>
-        {!createMissionResult && (
-          <div className="flex items-center justify-center">
-            <Spinner />
-          </div>
-        )}
-        {createMissionResult && (
-          <div className="flex flex-col gap-2">
-            <p>미션 생성이 완료되었습니다.</p>
-            <Card>
-              <CardHeader>
-                <CardDescription>미션 참여 코드</CardDescription>
-                <CardTitle>{createMissionResult.credential}</CardTitle>
-              </CardHeader>
-            </Card>
-
-            <DialogClose asChild>
-              <Button type="button">확인</Button>
-            </DialogClose>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
+    <CommonModal
+      isOpen={isOpen}
+      onClose={closeHandler}
+      modalOption={{
+        title: '미션 생성',
+        successMessage: '미션 생성이 완료되었습니다.',
+        successComponent: (
+          <Card>
+            <CardHeader>
+              <CardDescription>미션 참여 코드</CardDescription>
+              <CardTitle>{createMissionResult?.credential}</CardTitle>
+            </CardHeader>
+          </Card>
+        ),
+      }}
+      apiStatus={{
+        isPending,
+        isSuccess,
+        isError,
+        error,
+      }}
+    />
   );
 };
 

@@ -36,14 +36,6 @@ const MissionListTab = () => {
     window.scrollTo(0, 0);
   };
 
-  // start mock data
-  // const missionPages = {
-  //   pages: formatPaginatedData(MOCK_ALL_MISSON_LIST_1),
-  // };
-
-  // const isMissionsFetching = false;
-  // end mock data
-
   return (
     <Tabs
       onValueChange={handleTabChange}
@@ -51,22 +43,19 @@ const MissionListTab = () => {
       className="relative h-full w-full"
     >
       <div className="sticky top-0 z-10 flex h-14 items-center justify-center bg-background">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="all">전체</TabsTrigger>
           <TabsTrigger value="hot">인기 미션</TabsTrigger>
           <TabsTrigger value="new">새로운 미션</TabsTrigger>
+          <TabsTrigger value="end">종료된 미션</TabsTrigger>
         </TabsList>
       </div>
 
-      <TabsContent value="all">
-        <MissionList missionPages={missionPages?.pages} />
-      </TabsContent>
-      <TabsContent value="hot">
-        <MissionList missionPages={missionPages?.pages} />
-      </TabsContent>
-      <TabsContent value="new">
-        <MissionList missionPages={missionPages?.pages} />
-      </TabsContent>
+      {(['all', 'hot', 'new', 'end'] as MissionType[]).map((type) => (
+        <TabsContent key={type} value={type}>
+          <MissionList missionPages={missionPages?.pages} />
+        </TabsContent>
+      ))}
 
       {isMissionsFetching && <MissionListSkeleton />}
       <div ref={ref} className="h-1" />

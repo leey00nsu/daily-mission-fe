@@ -6,6 +6,7 @@ import {
   GetPostResponse,
   GetPostsRequest,
   Post,
+  ToggleLikeRequest,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
 import { getPresignedUrl, uploadImage } from '@/shared/api/shared-service';
@@ -171,6 +172,26 @@ export const deletePost = async (request: DeletePostRequest): Promise<void> => {
 
   if (!response.ok) {
     throw new Error('포스트를 삭제하는데 실패했습니다.');
+  }
+
+  const data: GlobalResponse<void> = await response.json();
+
+  return data.data;
+};
+
+export const toggleLikePost = async (
+  request: ToggleLikeRequest,
+): Promise<void> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/like/${request.postId}`,
+    {
+      method: 'POST',
+      credentials: 'include',
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('포스트 좋아요 처리에 실패했습니다.');
   }
 
   const data: GlobalResponse<void> = await response.json();

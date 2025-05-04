@@ -41,7 +41,7 @@ const JoinMissionModal = ({
     onClose();
 
     if (isSuccess) {
-      router.push('/');
+      router.replace(`/mission/${formData.missionId}`);
     }
   };
 

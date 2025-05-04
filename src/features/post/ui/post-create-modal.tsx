@@ -1,14 +1,6 @@
 import { CreatePostRequest } from '@/entities/post/model/type';
 import { useCreatePost } from '@/features/post/api/use-post-service';
-import { Button } from '@/shared/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
-import { Spinner } from '@/shared/ui/spinner';
+import CommonModal from '@/shared/ui/common-modal';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -41,41 +33,25 @@ const PostCreateModal = ({
     onClose();
 
     if (isSuccess || isError) {
-      router.push(`/mission/${formData.missionId}`);
+      router.replace(`/mission/${formData.missionId}`);
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={closeHandler}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>포스트 작성</DialogTitle>
-        </DialogHeader>
-        {isPending && (
-          <div className="flex items-center justify-center">
-            <Spinner />
-          </div>
-        )}
-        {isSuccess && (
-          <div className="flex flex-col gap-2">
-            <p>포스트 작성이 완료되었습니다.</p>
-
-            <DialogClose asChild>
-              <Button type="button">확인</Button>
-            </DialogClose>
-          </div>
-        )}
-        {isError && (
-          <div className="flex flex-col gap-2">
-            <p>{error.message}</p>
-
-            <DialogClose asChild>
-              <Button type="button">확인</Button>
-            </DialogClose>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
+    <CommonModal
+      isOpen={isOpen}
+      onClose={closeHandler}
+      modalOption={{
+        title: '포스트 작성',
+        successMessage: '포스트 작성이 완료되었습니다.',
+      }}
+      apiStatus={{
+        isPending,
+        isSuccess,
+        isError,
+        error,
+      }}
+    />
   );
 };
 

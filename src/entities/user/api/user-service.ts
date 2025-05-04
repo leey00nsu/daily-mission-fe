@@ -44,11 +44,11 @@ export const updateProfile = async (
     },
   );
 
-  if (!response.ok) {
-    throw new Error('프로필을 수정하는데 실패했습니다.');
-  }
-
   const data: GlobalResponse<UpdateProfileResponse> = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.errors.message || '프로필을 수정하는데 실패했습니다.');
+  }
 
   return data.data;
 };
@@ -61,13 +61,13 @@ export const getProfile = async (): Promise<User> => {
     },
   );
 
+  const data: GlobalResponse<User> = await response.json();
+
   if (!response.ok) {
     SignOut();
 
-    throw new Error('프로필을 불러오는데 실패했습니다.');
+    throw new Error(data.errors.message || '프로필을 불러오는데 실패했습니다.');
   }
-
-  const data: GlobalResponse<User> = await response.json();
 
   return data.data;
 };

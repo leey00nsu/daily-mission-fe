@@ -1,12 +1,18 @@
-import Logo from '@/shared/ui/logo';
 import PageContainer from '@/shared/ui/page-container';
-import SocialLoginGroup from '@/widgets/auth/ui/social-login-group';
+import Landing from '@/widgets/auth/ui/landing';
 
 export default function SignIn() {
   return (
-    <PageContainer className="justify-center">
-      <Logo size="large" className="mb-6" />
-      <SocialLoginGroup />
+    <PageContainer
+      headerOption={{
+        visible: false,
+      }}
+      navigationOption={{
+        visible: false,
+      }}
+      className="justify-center"
+    >
+      <Landing />
     </PageContainer>
   );
 }

@@ -4,6 +4,7 @@ import {
   getPaginatedMissionPosts,
   getPaginatedUserPosts,
   getPost,
+  toggleLikePost,
   updatePost,
 } from '@/entities/post/api/post-service';
 import {
@@ -13,10 +14,12 @@ import {
   GetPostRequest,
   GetPostResponse,
   GetPostsRequest,
+  ToggleLikeRequest,
   UpdatePostRequest,
 } from '@/entities/post/model/type';
 
 import {
+  InfiniteData,
   UseMutationOptions,
   UseQueryOptions,
   useInfiniteQuery,
@@ -28,11 +31,12 @@ import {
 export const queryKeys = {
   all: ['post'],
   post: (id: number) => ['post', id],
-  paginatedMissionPosts: (page: number, size: number) => [
+  paginatedMissionPosts: (page: number, size: number, missionId: number) => [
     'post',
     'paginatedMissionPosts',
     page,
     size,
+    missionId,
   ],
   paginatedUserPosts: (page: number, size: number) => [
     'post',
@@ -50,7 +54,7 @@ export const queryOptions = {
   }),
   paginatedMissionPosts: (missionId: number, page: number, size: number) => ({
     initialPageParam: page,
-    queryKey: queryKeys.paginatedMissionPosts(page, size),
+    queryKey: queryKeys.paginatedMissionPosts(page, size, missionId),
     queryFn: ({ pageParam = page }) =>
       getPaginatedMissionPosts({
         missionId,
@@ -149,6 +153,87 @@ export const useDeletePost = (
     mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.all });
+    },
+    ...props,
+  });
+};
+
+export const useToggleLikePost = (
+  props?: UseMutationOptions<
+    void,
+    Error,
+    ToggleLikeRequest,
+    {
+      previousPosts: InfiniteData<GetPaginatedPostsResponse>[];
+    }
+  >,
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: toggleLikePost,
+    onMutate: async ({ postId }) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.all });
+
+      // 현재 캐시된 데이터 백업
+      const previousPosts = queryClient
+        .getQueriesData<InfiniteData<GetPaginatedPostsResponse>>({
+          queryKey: queryKeys.all,
+        })
+        .map(([, data]) => data)
+        .filter(
+          (data): data is InfiniteData<GetPaginatedPostsResponse> =>
+            data != null,
+        );
+
+      // 포스트 목록에 대해 좋아요 토글 optimistic update
+      const updatedPosts = previousPosts.map((posts) => ({
+        ...posts,
+        pages: posts.pages.map((page) => ({
+          ...page,
+          data: page.data.map((post) => {
+            if (post.id === postId) {
+              return {
+                ...post,
+                liked: !post.liked,
+                likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
+              };
+            }
+            return post;
+          }),
+        })),
+      }));
+
+      // 업데이트된 데이터를 캐시에 적용
+      updatedPosts.forEach((posts, index) => {
+        const queryKey = queryClient
+          .getQueriesData<
+            InfiniteData<GetPaginatedPostsResponse>
+          >({ queryKey: queryKeys.all })
+          .find(([, data]) => data === previousPosts[index])?.[0];
+
+        if (queryKey) {
+          queryClient.setQueryData(queryKey, posts);
+        }
+      });
+
+      return { previousPosts };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousPosts) {
+        // 에러 발생 시 이전 상태로 복원
+        context.previousPosts.forEach((posts) => {
+          const queryKey = queryClient
+            .getQueriesData<
+              InfiniteData<GetPaginatedPostsResponse>
+            >({ queryKey: queryKeys.all })
+            .find(([, data]) => data === posts)?.[0];
+
+          if (queryKey) {
+            queryClient.setQueryData(queryKey, posts);
+          }
+        });
+      }
     },
     ...props,
   });

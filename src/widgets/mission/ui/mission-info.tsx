@@ -7,6 +7,7 @@ import WeekCheckboxGroup from '@/features/mission/ui/week-checkbox-group';
 import { useGetMissionPosts } from '@/features/post/api/use-post-service';
 import PostList from '@/features/post/ui/post-list';
 import PostListSkeleton from '@/features/post/ui/post-list-skeleton';
+import { Avatar } from '@/shared/ui/avatar';
 import AvatarGroup from '@/shared/ui/avatar-group';
 import { Button } from '@/shared/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -102,17 +103,26 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
   };
 
   const participantText = getParticipantText(nickname, participantCount);
-  // const postsCount = postPages?.pages.reduce(
-  //   (acc, page) => acc + page.data.length,
-  //   0,
-  // );
+  const postsCount = postPages?.pages.reduce(
+    (acc, page) => acc + page.data.length,
+    0,
+  );
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-4">
       <ImageViewer
-        containerClassName="relative h-64 w-full overflow-hidden rounded-2xl"
+        containerClassName="relative h-80 w-full overflow-hidden rounded-2xl"
         images={[imageUrl]}
       />
+
+      <div className="flex w-full items-center gap-2">
+        <Avatar
+          className="h-8 w-8"
+          imageUrl={participantDto[0].imageUrl}
+          nickname="Owner"
+        />
+        <p className="text-sm">{nickname}</p>
+      </div>
 
       <div className="w-full">
         <h3 className="text-2xl font-medium">{title}</h3>
@@ -170,7 +180,7 @@ const MissionInfo = ({ pageId }: MissionInfoProps) => {
           {/* <span className="text-sm text-muted-foreground">{postsCount}개</span> */}
         </div>
         <PostList postPages={postPages?.pages} username={user.nickname} />
-        {!isPostsLoading && !postPages?.pages?.length && (
+        {!isPostsLoading && !postsCount && (
           <div className="flex h-40 items-center justify-center">
             <p>등록된 포스트가 없습니다.</p>
           </div>
